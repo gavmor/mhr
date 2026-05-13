@@ -192,3 +192,166 @@ textarea.editable-input {
     color: white;
     font-weight: bold;
 }
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    @page {
+        margin: 0.5in;
+    }
+
+    /* Reset to light, ink-friendly mode */
+    body {
+        background-color: white !important;
+        color: black !important;
+        padding: 0 !important;
+    }
+
+    /* Hide ALL interactive UI controls */
+    button,
+    input[type="file"],
+    .upload-overlay {
+        display: none !important;
+    }
+
+    /* Text inputs/textareas: show content as plain text, no borders */
+    input[type="text"],
+    input[type="number"],
+    textarea {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: black !important;
+        cursor: default !important;
+        outline: none !important;
+        pointer-events: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        resize: none !important;
+        overflow: visible !important;
+        min-height: 0 !important;
+    }
+
+    /* Keep number inputs (XP, PP) subtly bordered so they look like filled-in fields */
+    input[type="number"] {
+        border: 1px solid #ccc !important;
+        padding: 2px 4px !important;
+        text-align: center !important;
+    }
+
+    /* Select dropdowns: show selected value as plain text */
+    select {
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        background: transparent !important;
+        border: none !important;
+        color: black !important;
+        cursor: default !important;
+        pointer-events: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Main container */
+    .datafile-container {
+        background-color: white !important;
+        border: 2px solid #333 !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+    }
+
+    /* Section headers */
+    .section-header {
+        background: #e5e7eb !important;
+        color: black !important;
+        border-bottom: 2px solid #999 !important;
+    }
+    .section-header input {
+        color: black !important;
+    }
+
+    /* Side labels */
+    .side-label {
+        color: #333 !important;
+    }
+
+    /* Die icons: preserve colors but strip interactivity */
+    .die-icon {
+        cursor: default !important;
+        transform: none !important;
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+    }
+
+    /* Stress boxes */
+    .stress-box {
+        cursor: default !important;
+        background-color: #e5e7eb !important;
+        border-color: #999 !important;
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+    }
+    .stress-box.active {
+        background-color: #dc2626 !important;
+        border-color: #dc2626 !important;
+    }
+
+    /* Portrait area */
+    .image-upload-wrapper {
+        cursor: default !important;
+    }
+
+    /* Override all dark backgrounds to white */
+    [class*="bg-gray-900"],
+    [class*="bg-gray-800"],
+    [class*="bg-[#0a1128]"],
+    [class*="bg-[#111827]"],
+    [class*="bg-[#0f172a]"] {
+        background-color: white !important;
+    }
+
+    /* Override dark borders to light */
+    [class*="border-blue-900"],
+    [class*="border-gray-700"],
+    [class*="border-gray-800"] {
+        border-color: #ccc !important;
+    }
+
+    /* Light text to black */
+    .text-white,
+    .text-gray-300,
+    .text-gray-400 {
+        color: black !important;
+    }
+
+    /* Hero name stays uppercase and bold but black */
+    input.oswald-font.text-5xl,
+    input.oswald-font.text-6xl {
+        color: black !important;
+    }
+
+    /* Strip all transitions, animations, hover effects */
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+    *:hover {
+        opacity: 1 !important;
+    }
+
+    /* Images */
+    img {
+        max-width: 100% !important;
+        page-break-inside: avoid !important;
+    }
+
+    /* Page break control */
+    .power-set,
+    .milestone {
+        page-break-inside: avoid !important;
+    }
+
+    /* Hide the button container at the bottom (all buttons already hidden) */
+    .datafile-container > div:last-of-type {
+        display: none !important;
+    }
+}
