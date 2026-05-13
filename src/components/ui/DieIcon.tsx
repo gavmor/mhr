@@ -1,0 +1,27 @@
+import React from 'react';
+
+const diceTypes = ['4', '6', '8', '10', '12'];
+
+interface DieIconProps {
+    value: string;
+    onChange?: (val: string) => void;
+    className?: string;
+}
+
+export default function DieIcon({ value, onChange, className = '' }: DieIconProps) {
+    const cycleDie = () => {
+        let currentIndex = diceTypes.indexOf(value);
+        if (currentIndex === -1) currentIndex = 2; // Default to '8'
+        const nextIndex = (currentIndex + 1) % diceTypes.length;
+        if (onChange) onChange(diceTypes[nextIndex]);
+    };
+
+    return (
+        <div 
+            className={`die-icon die-d${value} ${className}`} 
+            onClick={cycleDie}
+        >
+            {value}
+        </div>
+    );
+}
