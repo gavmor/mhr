@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel Heroic Roleplaying Data File</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #0b0f19;
+            /* Very dark blue/black */
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 10px;
+        }
+
+        h1,
+        h2,
+        h3,
+        .oswald-font {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .datafile-container {
+            max-w-screen-lg;
+            margin: 0 auto;
+            background-color: #111827;
+            border: 2px solid #1e3a8a;
+            box-shadow: 0 0 15px rgba(30, 58, 138, 0.5);
+            max-width: 1000px;
+        }
+
+        .editable-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px dashed transparent;
+            color: inherit;
+            width: 100%;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .editable-input:hover {
+            border-bottom: 1px dashed #4b5563;
+        }
+
+        .editable-input:focus {
+            outline: none;
+            border-bottom: 1px solid #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        textarea.editable-input {
+            resize: none;
+            overflow: hidden;
+            display: block;
+            padding: 0;
+            margin: 0;
+            line-height: inherit;
+            min-height: 1.5em;
+        }
+
+        .die-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            position: relative;
+            background-color: #475569;
+        }
+
+        .die-icon:active {
+            transform: scale(0.9);
+        }
+
+        .die-d4 {
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            padding-top: 10px;
+            background-color: #dc2626;
+        }
+
+        .die-d6 {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            background-color: #ea580c;
+        }
+
+        .die-d8 {
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            background-color: #ca8a04;
+        }
+
+        .die-d10 {
+            clip-path: polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%);
+            background-color: #16a34a;
+        }
+
+        .die-d12 {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background-color: #2563eb;
+        }
+
+        .side-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #9ca3af;
+            padding: 0 5px;
+        }
+
+        .section-header {
+            background: linear-gradient(90deg, #1e3a8a 0%, transparent 100%);
+            padding: 5px 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stress-box {
+            width: 25px;
+            height: 25px;
+            background-color: #1f2937;
+            border: 2px solid #4b5563;
+            display: inline-block;
+            cursor: pointer;
+            margin: 0 2px;
+            transition: background-color 0.2s;
+        }
+
+        .stress-box.active {
+            background-color: #ef4444;
+            border-color: #ef4444;
+        }
+
+        /* Specific shapes for stress track mimicking dice */
+        .sb-d4 {
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .sb-d6 {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        .sb-d8 {
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .sb-d10 {
+            clip-path: polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%);
+        }
+
+        .sb-d12 {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background-color: #1f2937;
+            border-radius: 50%;
+        }
+
+        /* Using circle for d12 representation on track */
+
+        .sb-d12.active {
+            background-color: #ef4444;
+        }
+
+        .image-upload-wrapper {
+            position: relative;
+            cursor: pointer;
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .image-upload-wrapper:hover .upload-overlay {
+            opacity: 1;
+        }
+
+        .upload-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="datafile-container mx-auto" id="app-container">
+        <!-- Header Section -->
+        <div class="p-6 border-b-2 border-blue-900 bg-gray-900">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-4">
+                <div class="w-full md:w-2/3">
+                    <input type="text"
+                        class="editable-input oswald-font text-5xl md:text-6xl font-black text-white uppercase tracking-wider mb-1"
+                        placeholder="HERO NAME" value="HERO NAME">
+                    <div class="flex items-center text-gray-400 text-lg">
+                        <input type="text" class="editable-input w-auto flex-grow" placeholder="Real Name"
+                            value="Real Name">
+                        <span class="mx-2">[</span>
+                        <select
+                            class="bg-transparent border-none outline-none text-gray-400 appearance-none cursor-pointer">
+                            <option value="secret" class="bg-gray-800">secret</option>
+                            <option value="public" class="bg-gray-800">public</option>
+                        </select>
+                        <span class="mx-2">]</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4 h-full">
+                <!-- Portrait -->
+                <div class="w-full md:w-1/3 border-2 border-gray-700 bg-gray-800 relative">
+                    <label class="image-upload-wrapper block">
+                        <input type="file" id="portrait-upload" accept="image/*" class="hidden">
+                        <img id="portrait-img"
+                            src="https://placehold.co/400x300/1f2937/9ca3af?text=Click+to+Upload+Image"
+                            alt="Character Portrait" class="w-full h-full object-cover min-h-[200px]">
+                        <div class="upload-overlay">Upload Portrait</div>
+                    </label>
+                </div>
+
+                <!-- Affiliations & Distinctions -->
+                <div class="w-full md:w-2/3 flex flex-col sm:flex-row gap-4 border border-gray-700 bg-gray-800">
+
+                    <!-- Affiliations -->
+                    <div class="w-full sm:w-1/2 p-4 flex">
+                        <div class="side-label">Affiliations</div>
+                        <div class="flex flex-col justify-around w-full pl-4 space-y-2">
+                            <div class="flex items-center">
+                                <div class="die-icon die-d8" onclick="cycleDie(this)">8</div>
+                                <span class="oswald-font text-xl font-bold ml-4 tracking-widest text-white">SOLO</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="die-icon die-d6" onclick="cycleDie(this)">6</div>
+                                <span class="oswald-font text-xl font-bold ml-4 tracking-widest text-white">BUDDY</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="die-icon die-d10" onclick="cycleDie(this)">10</div>
+                                <span class="oswald-font text-xl font-bold ml-4 tracking-widest text-white">TEAM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Distinctions -->
+                    <div class="w-full sm:w-1/2 p-4 flex border-l border-gray-700">
+                        <div class="side-label">Distinctions</div>
+                        <div class="flex flex-col justify-around w-full pl-2 space-y-4">
+                            <textarea rows="1"
+                                class="editable-input oswald-font text-xl font-bold text-white uppercase leading-tight"
+                                placeholder="Distinction 1">DISTINCTION 1</textarea>
+                            <textarea rows="1"
+                                class="editable-input oswald-font text-xl font-bold text-white uppercase leading-tight"
+                                placeholder="Distinction 2">DISTINCTION 2</textarea>
+                            <textarea rows="1"
+                                class="editable-input oswald-font text-xl font-bold text-white uppercase leading-tight"
+                                placeholder="Distinction 3">DISTINCTION 3</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="flex flex-wrap md:flex-nowrap justify-end items-center gap-6 mt-4">
+                <div class="flex items-center gap-2">
+                    <span class="oswald-font font-bold text-xl text-white">XP</span>
+                    <input type="number"
+                        class="w-16 bg-white text-black font-bold text-center border-2 border-gray-400 focus:outline-none focus:border-blue-500"
+                        value="0">
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="oswald-font font-bold text-xl text-white">PP</span>
+                    <input type="number"
+                        class="w-16 bg-white text-black font-bold text-center border-2 border-gray-400 focus:outline-none focus:border-blue-500"
+                        value="1">
+                </div>
+
+                <!-- Stress/Trauma Tracks -->
+                <div class="flex bg-gray-800 border border-gray-700 p-2">
+                    <div class="side-label" style="font-size: 0.7rem;">Stress/Trauma</div>
+                    <div class="flex flex-col gap-2 pl-2">
+                        <!-- Physical -->
+                        <div class="flex items-center gap-2" id="stress-p">
+                            <span class="oswald-font font-bold text-white w-4">P</span>
+                            <div class="stress-box sb-d4" onclick="toggleStress(this, 'p', 1)"></div>
+                            <div class="stress-box sb-d6" onclick="toggleStress(this, 'p', 2)"></div>
+                            <div class="stress-box sb-d8" onclick="toggleStress(this, 'p', 3)"></div>
+                            <div class="stress-box sb-d10" onclick="toggleStress(this, 'p', 4)"></div>
+                            <div class="stress-box sb-d12" style="border-radius:50%;"
+                                onclick="toggleStress(this, 'p', 5)"></div>
+                        </div>
+                        <!-- Mental -->
+                        <div class="flex items-center gap-2" id="stress-m">
+                            <span class="oswald-font font-bold text-white w-4">M</span>
+                            <div class="stress-box sb-d4" onclick="toggleStress(this, 'm', 1)"></div>
+                            <div class="stress-box sb-d6" onclick="toggleStress(this, 'm', 2)"></div>
+                            <div class="stress-box sb-d8" onclick="toggleStress(this, 'm', 3)"></div>
+                            <div class="stress-box sb-d10" onclick="toggleStress(this, 'm', 4)"></div>
+                            <div class="stress-box sb-d12" style="border-radius:50%;"
+                                onclick="toggleStress(this, 'm', 5)"></div>
+                        </div>
+                        <!-- Emotional -->
+                        <div class="flex items-center gap-2" id="stress-e">
+                            <span class="oswald-font font-bold text-white w-4">E</span>
+                            <div class="stress-box sb-d4" onclick="toggleStress(this, 'e', 1)"></div>
+                            <div class="stress-box sb-d6" onclick="toggleStress(this, 'e', 2)"></div>
+                            <div class="stress-box sb-d8" onclick="toggleStress(this, 'e', 3)"></div>
+                            <div class="stress-box sb-d10" onclick="toggleStress(this, 'e', 4)"></div>
+                            <div class="stress-box sb-d12" style="border-radius:50%;"
+                                onclick="toggleStress(this, 'e', 5)"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Power Sets Container -->
+        <div class="flex">
+            <div class="side-label bg-gray-900 border-r border-gray-800 pt-10">Power Sets</div>
+            <div class="flex-grow bg-[#0a1128] p-4 space-y-6" id="power-sets-container">
+
+                <!-- Initial Power Set -->
+                <div class="power-set relative group" id="ps1">
+                    <button
+                        class="absolute -left-2 -top-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 rounded-full w-6 h-6 flex items-center justify-center z-10"
+                        onclick="removeElement(this.parentElement)" title="Remove Power Set">✕</button>
+                    <div class="section-header oswald-font uppercase tracking-wider">
+                        <input type="text" class="editable-input" value="NEW POWER SET" placeholder="POWER SET NAME">
+                    </div>
+
+                    <!-- Powers List -->
+                    <div class="powers-list flex flex-wrap gap-4 pl-4 mb-4" id="ps1-powers">
+                        <!-- Powers will be injected here -->
+                    </div>
+                    <button class="text-sm text-blue-400 hover:text-blue-300 ml-4 mb-4"
+                        onclick="addPower('ps1-powers')">+ Add Power</button>
+
+                    <!-- SFX/Limits List -->
+                    <div class="sfx-limit-list space-y-2 pl-4" id="ps1-sfx">
+                        <!-- SFX will be injected here -->
+                    </div>
+                    <button class="text-sm text-blue-400 hover:text-blue-300 ml-4 mt-2" onclick="addSFX('ps1-sfx')">+
+                        Add SFX/Limit</button>
+                </div>
+
+                <!-- Add Power Set Button Anchor -->
+                <div id="add-powerset-btn-container" class="text-center mt-6">
+                    <button
+                        class="px-4 py-2 border border-blue-600 text-blue-400 hover:bg-blue-900 hover:text-white transition-colors rounded uppercase oswald-font tracking-widest font-bold"
+                        onclick="addPowerSet()">+ Add Power Set</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Specs Container -->
+        <div class="flex border-t-2 border-blue-900">
+            <div class="side-label bg-gray-900 border-r border-gray-800 pt-4">Specs</div>
+            <div class="flex-grow bg-[#111827] p-4 flex flex-wrap gap-x-8 gap-y-4 justify-center items-center relative"
+                id="specialties-list">
+                <!-- Specialties injected here -->
+                <button class="absolute right-4 top-4 text-sm text-blue-400 hover:text-blue-300"
+                    onclick="addSpecialty()">+ Add Spec</button>
+            </div>
+        </div>
+
+        <!-- Milestones Container -->
+        <div class="flex border-t-2 border-blue-900">
+            <div class="side-label bg-gray-900 border-r border-gray-800 pt-10">Milestones</div>
+            <div class="flex-grow bg-[#0a1128] p-6" id="milestones-container">
+                <!-- Milestones injected here -->
+
+                <!-- Add Milestone Anchor -->
+                <div id="add-milestone-btn-container" class="text-center mt-6">
+                    <button
+                        class="px-4 py-2 border border-blue-600 text-blue-400 hover:bg-blue-900 hover:text-white transition-colors rounded uppercase oswald-font tracking-widest font-bold"
+                        onclick="addMilestone()">+ Add Milestone</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="bg-gray-900 p-4 border-t border-gray-700 flex justify-end gap-4">
+            <button class="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded font-bold"
+                onclick="openJsonModal()">Import/Export JSON</button>
+            <button class="px-4 py-2 bg-green-700 hover:bg-green-600 text-white rounded font-bold"
+                onclick="window.print()">Print / Save PDF</button>
+        </div>
+    </div>
+
+    <!-- JSON Import/Export Modal -->
+    <div id="json-modal" class="fixed inset-0 bg-black bg-opacity-75 hidden flex items-center justify-center z-50 p-4">
+        <div
+            class="bg-gray-800 border border-blue-500 p-6 rounded-lg max-w-2xl w-full shadow-2xl flex flex-col max-h-[90vh]">
+            <h2 class="oswald-font text-2xl text-white mb-4 flex-shrink-0">JSON Import/Export</h2>
+            <p class="text-gray-300 mb-4 text-sm flex-shrink-0">Copy this data to save your character, or paste a
+                previously saved JSON file here to load it. (Portraits are saved as base64 strings!)</p>
+            <textarea id="json-data-textarea"
+                class="w-full flex-grow bg-gray-900 text-green-400 p-4 font-mono text-sm border border-gray-600 rounded focus:outline-none focus:border-blue-500 mb-4 overflow-y-auto resize-none min-h-[150px]"></textarea>
+            <div class="flex justify-end gap-4 flex-shrink-0">
+                <button class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded"
+                    onclick="closeJsonModal()">Cancel</button>
+                <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold"
+                    onclick="importData()">Load Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast"
+        class="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded shadow-lg transition-opacity duration-300 opacity-0 pointer-events-none z-50">
+        Notification
+    </div>
+
+    <script>
+        const diceTypes = ['4', '6', '8', '10', '12'];
+
+        function cycleDie(element) {
+            let currentClass = Array.from(element.classList).find(c => c.startsWith('die-d'));
+            let currentVal = currentClass ? currentClass.replace('die-d', '') : '8';
+            let currentIndex = diceTypes.indexOf(currentVal);
+            if (currentIndex === -1) currentIndex = 2; // Default to index 2 ('8') if not found
+            let nextIndex = (currentIndex + 1) % diceTypes.length;
+            let nextVal = diceTypes[nextIndex];
+
+            if (currentClass) element.classList.remove(currentClass);
+            element.classList.add(`die-d${nextVal}`);
+            element.innerText = nextVal;
+        }
+
+        function getDieValue(element) {
+            if (!element) return '8';
+            const cls = Array.from(element.classList).find(c => c.startsWith('die-d'));
+            return cls ? cls.replace('die-d', '') : '8';
+        }
+
+        function setDieValue(element, type) {
+            if (!element) return;
+            // Strip any letters in case "d8" was accidentally saved in older JSON exports
+            let cleanType = String(type).replace(/\D/g, '');
+            if (!diceTypes.includes(cleanType)) cleanType = '8';
+
+            const currentClass = Array.from(element.classList).find(c => c.startsWith('die-d'));
+            if (currentClass) element.classList.remove(currentClass);
+            element.classList.add(`die-d${cleanType}`);
+            element.innerText = cleanType;
+        }
+
+        function removeElement(element) {
+            element.remove();
+        }
+
+        function autoResize(el) {
+            el.style.height = 'auto'; // Reset height
+            el.style.height = el.scrollHeight + 'px'; // Set to actual scroll content height
+        }
+
+        document.addEventListener('input', function (event) {
+            if (event.target.tagName.toLowerCase() === 'textarea' && event.target.id !== 'json-data-textarea') {
+                autoResize(event.target);
+            }
+        });
+
+        // Helper to resize all textareas manually (e.g. after load or add)
+        function resizeAllTextareas() {
+            document.querySelectorAll('textarea:not(#json-data-textarea)').forEach(autoResize);
+        }
+
+        function createPowerHTML() {
+            return `
+                <div class="flex items-center group relative bg-[#111827] rounded p-1 pr-3 border border-gray-700">
+                    <div class="die-icon die-d8" onclick="cycleDie(this)">8</div>
+                    <input type="text" class="editable-input oswald-font text-lg font-bold text-white uppercase ml-2 w-32" value="NEW POWER" placeholder="Power Name">
+                    <button class="absolute -right-2 -top-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 rounded-full w-5 h-5 flex items-center justify-center text-xs" onclick="removeElement(this.parentElement)">✕</button>
+                </div>
+            `;
+        }
+
+        function createSFXHTML() {
+            return `
+                <div class="flex group relative pl-4 items-start mb-2">
+                    <select class="bg-transparent text-white oswald-font font-bold outline-none mr-2 appearance-none cursor-pointer mt-1 text-lg">
+                        <option value="SFX:" class="bg-gray-800">SFX:</option>
+                        <option value="Limit:" class="bg-gray-800">Limit:</option>
+                    </select>
+                    <input type="text" class="editable-input font-bold text-white italic w-32 mr-2 mt-1 pt-1" value="Name." placeholder="Name.">
+                    <textarea class="editable-input flex-grow text-gray-300 mt-1 pt-1" placeholder="Description of the effect.">Description of the effect.</textarea>
+                    <button class="ml-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity mt-1 pt-1" onclick="removeElement(this.parentElement)">✕</button>
+                </div>
+            `;
+        }
+
+        function createSpecialtyHTML() {
+            return `
+                <div class="flex items-center group relative">
+                    <div class="die-icon die-d8" onclick="cycleDie(this)">8</div>
+                    <input type="text" class="editable-input oswald-font text-lg font-bold text-white uppercase ml-2 w-40" value="NEW SPECIALTY" placeholder="Specialty">
+                    <button class="absolute -right-4 top-1 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs" onclick="removeElement(this.parentElement)">✕</button>
+                </div>
+            `;
+        }
+
+        function createMilestoneHTML() {
+            return `
+                <div class="milestone mb-6 group relative border border-gray-800 p-4 rounded bg-[#0f172a]">
+                    <button class="absolute right-2 top-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 rounded-full w-6 h-6 flex items-center justify-center" onclick="removeElement(this.parentElement)" title="Remove Milestone">✕</button>
+                    <input type="text" class="editable-input oswald-font text-2xl font-black text-white uppercase tracking-wider mb-4 w-full" value="MILESTONE NAME" placeholder="MILESTONE NAME">
+                    <div class="space-y-3 pl-4">
+                        <div class="flex items-start">
+                            <span class="oswald-font font-bold text-white w-12 flex-shrink-0 mt-1">1 XP</span>
+                            <textarea class="editable-input text-sm text-gray-300 w-full mt-1" placeholder="Trigger 1">when you do a minor thing.</textarea>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="oswald-font font-bold text-white w-12 flex-shrink-0 mt-1">3 XP</span>
+                            <textarea class="editable-input text-sm text-gray-300 w-full mt-1" placeholder="Trigger 2">when you do a major thing.</textarea>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="oswald-font font-bold text-white w-12 flex-shrink-0 mt-1">10 XP</span>
+                            <textarea class="editable-input text-sm text-gray-300 w-full mt-1" placeholder="Trigger 3">when you make a character defining choice.</textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createPowerSetHTML(id) {
+            return `
+                <div class="power-set relative group mt-6 border-t border-gray-800 pt-6" id="${id}">
+                    <button class="absolute -left-2 top-4 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 rounded-full w-6 h-6 flex items-center justify-center z-10" onclick="removeElement(this.parentElement)" title="Remove Power Set">✕</button>
+                    <div class="section-header oswald-font uppercase tracking-wider">
+                        <input type="text" class="editable-input" value="NEW POWER SET" placeholder="POWER SET NAME">
+                    </div>
+
+                    <div class="powers-list flex flex-wrap gap-4 pl-4 mb-4" id="${id}-powers"></div>
+                    <button class="text-sm text-blue-400 hover:text-blue-300 ml-4 mb-4" onclick="addPower('${id}-powers')">+ Add Power</button>
+
+                    <div class="sfx-limit-list space-y-2 pl-4" id="${id}-sfx"></div>
+                    <button class="text-sm text-blue-400 hover:text-blue-300 ml-4 mt-2" onclick="addSFX('${id}-sfx')">+ Add SFX/Limit</button>
+                </div>
+            `;
+        }
+
+        function addPower(containerId) {
+            const container = document.getElementById(containerId);
+            container.insertAdjacentHTML('beforeend', createPowerHTML());
+        }
+
+        function addSFX(containerId) {
+            const container = document.getElementById(containerId);
+            container.insertAdjacentHTML('beforeend', createSFXHTML());
+            resizeAllTextareas();
+        }
+
+        function addSpecialty() {
+            const container = document.getElementById('specialties-list');
+            const addBtn = container.querySelector('button');
+            if (addBtn) {
+                addBtn.insertAdjacentHTML('beforebegin', createSpecialtyHTML());
+            } else {
+                container.insertAdjacentHTML('beforeend', createSpecialtyHTML());
+            }
+        }
+
+        function addMilestone() {
+            const btnContainer = document.getElementById('add-milestone-btn-container');
+            btnContainer.insertAdjacentHTML('beforebegin', createMilestoneHTML());
+            resizeAllTextareas();
+        }
+
+        let powerSetCount = 1;
+        function addPowerSet() {
+            powerSetCount++;
+            const newId = `ps${powerSetCount}`;
+            const btnContainer = document.getElementById('add-powerset-btn-container');
+            btnContainer.insertAdjacentHTML('beforebegin', createPowerSetHTML(newId));
+        }
+
+        function toggleStress(element, trackId, level) {
+            const track = document.getElementById(`stress-${trackId}`);
+            const boxes = track.querySelectorAll('.stress-box');
+
+            // If clicking the currently highest active box, clear everything (reset)
+            if (element.classList.contains('active') && (level === boxes.length || !boxes[level].classList.contains('active'))) {
+                boxes.forEach(b => b.classList.remove('active'));
+                return;
+            }
+
+            // Fill up to the clicked box
+            boxes.forEach((b, index) => {
+                if (index < level) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        }
+
+        // Image Upload Logic (Converting to Base64 for JSON serialization)
+        const portraitUpload = document.getElementById('portrait-upload');
+        const portraitImg = document.getElementById('portrait-img');
+
+        portraitUpload.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    portraitImg.src = e.target.result; // Set to base64 string
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded shadow-lg transition-opacity duration-300 z-50 ${isError ? 'bg-red-600' : 'bg-green-600'}`;
+            toast.classList.remove('opacity-0');
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 3000);
+        }
+
+        function openJsonModal() {
+            // Generate JSON on open
+            const data = {
+                heroName: document.querySelector('input[placeholder="HERO NAME"]').value,
+                realName: document.querySelector('input[placeholder="Real Name"]').value,
+                identityStatus: document.querySelector('select').value,
+                portrait: document.getElementById('portrait-img').src.includes('placehold.co') ? null : document.getElementById('portrait-img').src,
+                affiliations: Array.from(document.querySelectorAll('.side-label + .flex .die-icon')).map(getDieValue),
+                distinctions: Array.from(document.querySelectorAll('textarea[placeholder^="Distinction"]')).map(el => el.value),
+                xp: document.querySelectorAll('input[type="number"]')[0].value,
+                pp: document.querySelectorAll('input[type="number"]')[1].value,
+                stress: {
+                    p: document.querySelectorAll('#stress-p .stress-box.active').length,
+                    m: document.querySelectorAll('#stress-m .stress-box.active').length,
+                    e: document.querySelectorAll('#stress-e .stress-box.active').length
+                },
+                powerSets: Array.from(document.querySelectorAll('.power-set')).map(ps => ({
+                    name: ps.querySelector('.section-header input').value,
+                    powers: Array.from(ps.querySelectorAll('.powers-list > div')).map(p => ({
+                        die: getDieValue(p.querySelector('.die-icon')),
+                        name: p.querySelector('input[placeholder="Power Name"]').value
+                    })),
+                    sfx: Array.from(ps.querySelectorAll('.sfx-limit-list > div')).map(sfx => ({
+                        type: sfx.querySelector('select').value,
+                        name: sfx.querySelector('input[placeholder="Name."]').value,
+                        desc: sfx.querySelector('textarea').value
+                    }))
+                })),
+                specialties: Array.from(document.querySelectorAll('#specialties-list > div.flex')).map(sp => ({
+                    die: getDieValue(sp.querySelector('.die-icon')),
+                    name: sp.querySelector('input[placeholder="Specialty"]').value
+                })),
+                milestones: Array.from(document.querySelectorAll('.milestone')).map(m => {
+                    const textareas = m.querySelectorAll('textarea');
+                    return {
+                        name: m.querySelector('input').value,
+                        xp1: textareas[0].value,
+                        xp3: textareas[1].value,
+                        xp10: textareas[2].value
+                    };
+                })
+            };
+            document.getElementById('json-data-textarea').value = JSON.stringify(data, null, 4);
+            document.getElementById('json-modal').classList.remove('hidden');
+        }
+
+        function closeJsonModal() {
+            document.getElementById('json-modal').classList.add('hidden');
+        }
+
+        function importData() {
+            try {
+                const jsonText = document.getElementById('json-data-textarea').value;
+                const data = JSON.parse(jsonText);
+
+                // Header info
+                if (data.heroName) document.querySelector('input[placeholder="HERO NAME"]').value = data.heroName;
+                if (data.realName) document.querySelector('input[placeholder="Real Name"]').value = data.realName;
+                if (data.identityStatus) document.querySelector('select').value = data.identityStatus;
+
+                if (data.portrait) {
+                    document.getElementById('portrait-img').src = data.portrait;
+                } else {
+                    document.getElementById('portrait-img').src = "https://placehold.co/400x300/1f2937/9ca3af?text=Click+to+Upload+Image";
+                }
+
+                // Affiliations
+                const affDice = document.querySelectorAll('.side-label + .flex .die-icon');
+                if (data.affiliations && data.affiliations.length === 3) {
+                    data.affiliations.forEach((val, i) => setDieValue(affDice[i], val));
+                }
+
+                // Distinctions
+                const distInputs = document.querySelectorAll('textarea[placeholder^="Distinction"]');
+                if (data.distinctions && data.distinctions.length === 3) {
+                    data.distinctions.forEach((val, i) => distInputs[i].value = val);
+                }
+
+                // XP / PP
+                if (data.xp) document.querySelectorAll('input[type="number"]')[0].value = data.xp;
+                if (data.pp) document.querySelectorAll('input[type="number"]')[1].value = data.pp;
+
+                // Stress
+                if (data.stress) {
+                    ['p', 'm', 'e'].forEach(track => {
+                        const boxes = document.querySelectorAll(`#stress-${track} .stress-box`);
+                        boxes.forEach(b => b.classList.remove('active')); // clear
+                        if (data.stress[track] > 0) {
+                            toggleStress(boxes[data.stress[track] - 1], track, data.stress[track]);
+                        }
+                    });
+                }
+
+                // Clear existing dynamic elements
+                document.querySelectorAll('.power-set').forEach(removeElement);
+                document.querySelectorAll('#specialties-list > div.flex').forEach(removeElement);
+                document.querySelectorAll('.milestone').forEach(removeElement);
+
+                // Rebuild Power Sets
+                if (data.powerSets) {
+                    powerSetCount = 0;
+                    data.powerSets.forEach((psData, i) => {
+                        powerSetCount++;
+                        const id = `ps${powerSetCount}`;
+                        const btnContainer = document.getElementById('add-powerset-btn-container');
+                        btnContainer.insertAdjacentHTML('beforebegin', createPowerSetHTML(id));
+
+                        const psEl = document.getElementById(id);
+                        psEl.querySelector('.section-header input').value = psData.name;
+
+                        // Powers
+                        const pList = psEl.querySelector('.powers-list');
+                        psData.powers.forEach(pData => {
+                            pList.insertAdjacentHTML('beforeend', createPowerHTML());
+                            const pEl = pList.lastElementChild;
+                            setDieValue(pEl.querySelector('.die-icon'), pData.die);
+                            pEl.querySelector('input').value = pData.name;
+                        });
+
+                        // SFX
+                        const sfxList = psEl.querySelector('.sfx-limit-list');
+                        psData.sfx.forEach(sfxData => {
+                            sfxList.insertAdjacentHTML('beforeend', createSFXHTML());
+                            const sfxEl = sfxList.lastElementChild;
+                            sfxEl.querySelector('select').value = sfxData.type;
+                            sfxEl.querySelector('input').value = sfxData.name;
+                            sfxEl.querySelector('textarea').value = sfxData.desc;
+                        });
+                    });
+                }
+
+                // Rebuild Specialties
+                if (data.specialties) {
+                    const specList = document.getElementById('specialties-list');
+                    const addBtn = specList.querySelector('button');
+                    data.specialties.forEach(spData => {
+                        let spEl;
+                        if (addBtn) {
+                            addBtn.insertAdjacentHTML('beforebegin', createSpecialtyHTML());
+                            spEl = addBtn.previousElementSibling;
+                        } else {
+                            specList.insertAdjacentHTML('beforeend', createSpecialtyHTML());
+                            spEl = specList.lastElementChild;
+                        }
+                        setDieValue(spEl.querySelector('.die-icon'), spData.die);
+                        spEl.querySelector('input[placeholder="Specialty"]').value = spData.name;
+                    });
+                }
+
+                // Rebuild Milestones
+                if (data.milestones) {
+                    const mBtn = document.getElementById('add-milestone-btn-container');
+                    data.milestones.forEach(mData => {
+                        mBtn.insertAdjacentHTML('beforebegin', createMilestoneHTML());
+                        const mEls = document.querySelectorAll('.milestone');
+                        const mEl = mEls[mEls.length - 1];
+                        mEl.querySelector('input').value = mData.name;
+                        const textareas = mEl.querySelectorAll('textarea');
+                        textareas[0].value = mData.xp1;
+                        textareas[1].value = mData.xp3;
+                        textareas[2].value = mData.xp10;
+                    });
+                }
+
+                closeJsonModal();
+                showToast('Hero data imported successfully!');
+
+                // Resize textareas to fit imported data
+                setTimeout(resizeAllTextareas, 50);
+
+            } catch (error) {
+                console.error("Import error: ", error);
+                showToast('Failed to parse JSON. Please check the format.', true);
+            }
+        }
+
+        // Pre-populate some initial structure so it's not totally empty on first load
+        window.onload = () => {
+            addPower('ps1-powers');
+            addSFX('ps1-sfx');
+            addSFX('ps1-sfx');
+            addSpecialty();
+            addSpecialty();
+            addMilestone();
+            setTimeout(resizeAllTextareas, 100);
+        };
+
+    </script>
+</body>
+
+</html>
