@@ -6,8 +6,8 @@
 - [x] Task: Conductor - User Manual Verification 'Research and Setup' (Protocol in workflow.md)
 
 ## Phase 2: Implementation
-- [ ] Task: Implement `localStorage` utility functions
-    - [ ] Create a dedicated hook or utility for getting/setting data.
+- [x] Task: Implement `localStorage` utility functions [86bb7e5]
+    - [x] Create a dedicated hook or utility for getting/setting data.
 - [ ] Task: Integrate persistence into `App.tsx`
     - [ ] Use `useEffect` to load data on mount.
     - [ ] Use `useEffect` to save data on state changes (with debouncing).
