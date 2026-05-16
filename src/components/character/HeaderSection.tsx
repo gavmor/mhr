@@ -61,6 +61,16 @@ export default function HeaderSection({
         }
     };
 
+    const handleHinderClick = (idx: number) => {
+        if (onTraitClick) {
+            // Add d4 labeled with "Hinder"
+            onTraitClick('dist', 4, `${data.distinctions[idx]} (Hinder)`);
+            
+            // Automatically add 1 PP
+            updateData({ pp: data.pp + 1 });
+        }
+    };
+
     return (
         <div className="p-6 border-b-4 border-black bg-white relative">
             <div className="absolute top-4 right-6 z-20">
@@ -148,15 +158,24 @@ export default function HeaderSection({
                         <div className="side-label border-r-2 border-black/10 pr-1">Distinctions</div>
                         <div className="flex flex-col justify-around w-full pl-2 space-y-4">
                             {[0, 1, 2].map((idx) => (
-                                <EditableTextarea
-                                    key={idx}
-                                    className="font-comic-label text-xl font-bold text-black uppercase leading-tight"
-                                    placeholder={`Distinction ${idx + 1}`}
-                                    value={data.distinctions[idx]}
-                                    onChange={(val) => updateDistinction(idx, val)}
-                                    isReadOnly={isPlayMode}
-                                    onTraitClick={() => handleDistClick(idx)}
-                                />
+                                <div key={idx} className="flex flex-col">
+                                    <EditableTextarea
+                                        className="font-comic-label text-xl font-bold text-black uppercase leading-tight"
+                                        placeholder={`Distinction ${idx + 1}`}
+                                        value={data.distinctions[idx]}
+                                        onChange={(val) => updateDistinction(idx, val)}
+                                        isReadOnly={isPlayMode}
+                                        onTraitClick={() => handleDistClick(idx)}
+                                    />
+                                    {isPlayMode && (
+                                        <p 
+                                            className="font-comic-label text-[0.65rem] leading-tight mt-1 opacity-80 text-black cursor-pointer hover:underline uppercase font-bold"
+                                            onClick={() => handleHinderClick(idx)}
+                                        >
+                                            HINDER d4 (+1 PP)
+                                        </p>
+                                    )}
+                                </div>
                             ))}
                         </div>
                     </div>
