@@ -3,6 +3,7 @@ import { CATEGORIES, DIE_SEQUENCE } from './constants';
 import { InteractiveDie } from './InteractiveDie';
 import { PoolDie } from '../../App';
 import { ComicButton } from '../ui/ComicButton';
+import { generateRollCommand } from '../../lib/cortexPal';
 
 interface AssemblerProps {
     pool: Record<string, PoolDie[]>;
@@ -13,6 +14,13 @@ const generateId = () => Math.random().toString(36).substr(2, 9);
 
 export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
     const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+
+    const triggerToast = (message: string) => {
+        setToastMessage(message);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 1500);
+    };
 
     // Handler: Add a d6 to the category
     const handleAddDie = (categoryId: string) => {
@@ -55,8 +63,7 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
         if (navigator.vibrate) navigator.vibrate([20, 50, 20]);
 
         // Show a quick visual confirmation
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 1500);
+        triggerToast('Die removed');
     };
 
     // Clear the entire pool
@@ -65,6 +72,22 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
         CATEGORIES.forEach(cat => initialPool[cat.id] = []);
         setPool(initialPool);
         if (navigator.vibrate) navigator.vibrate(50);
+        triggerToast('Pool cleared');
+    };
+
+    const handleCopyCommand = () => {
+        const command = generateRollCommand(pool);
+        if (!command) {
+            triggerToast('Pool is empty');
+            return;
+        }
+
+        navigator.clipboard.writeText(command).then(() => {
+            triggerToast('Command copied!');
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            triggerToast('Failed to copy');
+        });
     };
 
     return (
@@ -135,11 +158,19 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
 
                 {/* Toast Notification */}
                 <div className={`fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded-full font-bold transition-opacity duration-300 pointer-events-none z-50 ${showToast ? 'opacity-100' : 'opacity-0'}`}>
-                    Die removed
+                    {toastMessage}
                 </div>
 
                 {/* Clear Button fixed to bottom */}
-                <div className="sticky bottom-0 w-full p-4 bg-white/90 backdrop-blur border-t-4 border-black flex justify-center z-40 mt-4">
+                <div className="sticky bottom-0 w-full p-4 bg-white/90 backdrop-blur border-t-4 border-black flex flex-wrap justify-center gap-4 z-40 mt-4">
+                    <ComicButton
+                        onClick={handleCopyCommand}
+                        variant="blue"
+                        size="lg"
+                        className="px-8 rounded-sm"
+                    >
+                        COPY COMMAND
+                    </ComicButton>
                     <ComicButton
                         onClick={handleClearPool}
                         variant="red"

@@ -109,4 +109,33 @@ describe('Assembler', () => {
         
         expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
+
+    it('copies the roll command to clipboard', async () => {
+        vi.useRealTimers();
+        const pool = {
+            affil: [{ id: '1', value: 8, label: 'Solo' }],
+            dist: [], ps1: [], ps2: [], spec: [], 
+            stress: [], comp: [], asset: [], push: [], sfx: []
+        };
+        const setPool = vi.fn();
+        
+        // Mock clipboard
+        const writeTextMock = vi.fn().mockResolvedValue(undefined);
+        Object.assign(navigator, {
+            clipboard: {
+                writeText: writeTextMock,
+            },
+        });
+
+        render(<Assembler pool={pool} setPool={setPool} />);
+        
+        const copyButton = screen.getByText('COPY COMMAND');
+        fireEvent.click(copyButton);
+
+        expect(writeTextMock).toHaveBeenCalledWith('/roll dice:d8 Solo');
+        
+        // Should show success toast
+        expect(await screen.findByText('Command copied!')).toBeInTheDocument();
+        vi.useFakeTimers();
+    });
 });
