@@ -1,4 +1,5 @@
 import React from 'react';
+import { Die } from './Dice';
 
 const diceTypes = ['4', '6', '8', '10', '12'];
 
@@ -18,10 +19,10 @@ export default function DieIcon({ value, onChange, className = '' }: DieIconProp
 
     return (
         <div 
-            className={`die-icon die-d${value} ${className}`} 
+            className={`die-icon die-d${value} cursor-pointer select-none transition-transform duration-100 active:scale-90 ${className}`} 
             onClick={cycleDie}
         >
-            {value}
+            <Die type={value} />
         </div>
     );
 }

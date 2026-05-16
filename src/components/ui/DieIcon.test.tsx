@@ -5,8 +5,8 @@ import DieIcon from './DieIcon';
 describe('DieIcon', () => {
     it('renders correctly with given value', () => {
         render(<DieIcon value="8" onChange={vi.fn()} />);
-        expect(screen.getByText('8')).toBeInTheDocument();
-        expect(screen.getByText('8')).toHaveClass('die-d8');
+        expect(screen.getByText('d8')).toBeInTheDocument();
+        expect(screen.getByText('d8').closest('.die-icon')).toHaveClass('die-d8');
     });
 
     it('defaults to d8 if value is empty or invalid when cycling', () => {
@@ -24,24 +24,24 @@ describe('DieIcon', () => {
 
     it('renders different die types', () => {
         const { rerender } = render(<DieIcon value="4" onChange={vi.fn()} />);
-        expect(screen.getByText('4')).toBeInTheDocument();
-        expect(screen.getByText('4')).toHaveClass('die-d4');
+        expect(screen.getByText('d4')).toBeInTheDocument();
+        expect(screen.getByText('d4').closest('.die-icon')).toHaveClass('die-d4');
 
         rerender(<DieIcon value="6" onChange={vi.fn()} />);
-        expect(screen.getByText('6')).toBeInTheDocument();
+        expect(screen.getByText('d6')).toBeInTheDocument();
 
         rerender(<DieIcon value="10" onChange={vi.fn()} />);
-        expect(screen.getByText('10')).toBeInTheDocument();
+        expect(screen.getByText('d10')).toBeInTheDocument();
 
         rerender(<DieIcon value="12" onChange={vi.fn()} />);
-        expect(screen.getByText('12')).toBeInTheDocument();
+        expect(screen.getByText('d12')).toBeInTheDocument();
     });
 
     it('calls onChange when clicked', () => {
         const onChange = vi.fn();
         render(<DieIcon value="8" onChange={onChange} />);
         
-        fireEvent.click(screen.getByText('8'));
+        fireEvent.click(screen.getByText('d8').closest('.die-icon') as HTMLElement);
         expect(onChange).toHaveBeenCalledTimes(1);
     });
 });

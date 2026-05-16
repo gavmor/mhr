@@ -101,44 +101,6 @@
     line-height: inherit;
   }
 
-  .die-icon {
-    @apply inline-flex items-center justify-center w-10 h-10 font-bold text-white cursor-pointer select-none transition-transform duration-100 relative bg-muted;
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.1rem;
-    text-shadow: 1px 1px 0 #000;
-  }
-
-  .die-icon:active {
-    @apply scale-90;
-  }
-
-  .die-d4 {
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    @apply pt-2.5 bg-die-d4;
-  }
-
-  .die-d6 {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    @apply bg-die-d6;
-  }
-
-  .die-d8 {
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    @apply bg-die-d8 text-black;
-    text-shadow: none;
-  }
-
-  .die-d10 {
-    clip-path: polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%);
-    @apply bg-die-d10 text-black;
-    text-shadow: none;
-  }
-
-  .die-d12 {
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    @apply bg-die-d12;
-  }
-
   .side-label {
     @apply text-center font-black text-lg text-black px-[5px] uppercase;
     writing-mode: vertical-rl;
@@ -150,36 +112,6 @@
 
   .section-header {
     @apply py-[5px] px-[15px] text-[1.5rem] font-bold text-black mb-[10px] flex justify-between items-center border-b-4 border-black;
-  }
-
-  .stress-box {
-    @apply w-[25px] h-[25px] bg-white border-2 border-black inline-block cursor-pointer mx-[2px] transition-colors duration-200;
-  }
-
-  .stress-box.active {
-    @apply bg-destructive;
-  }
-
-  /* Specific shapes for stress track mimicking dice */
-  .sb-d4 {
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  }
-
-  .sb-d6 {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-
-  .sb-d8 {
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  }
-
-  .sb-d10 {
-    clip-path: polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%);
-  }
-
-  .sb-d12 {
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    @apply rounded-full;
   }
 
   .image-upload-wrapper {

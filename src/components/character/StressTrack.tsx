@@ -1,4 +1,5 @@
 import React from 'react';
+import { Die } from '../ui/Dice';
 
 interface StressTrackProps {
     prefix: string;
@@ -8,7 +9,7 @@ interface StressTrackProps {
 
 export default function StressTrack({ prefix, level, onChange }: StressTrackProps) {
     const boxes = [1, 2, 3, 4, 5];
-    const shapes = ['sb-d4', 'sb-d6', 'sb-d8', 'sb-d10', 'sb-d12'];
+    const diceTypes = [4, 6, 8, 10, 12];
 
     const toggleStress = (clickedLevel: number) => {
         if (level === clickedLevel) {
@@ -24,10 +25,16 @@ export default function StressTrack({ prefix, level, onChange }: StressTrackProp
             {boxes.map((boxLevel, i) => (
                 <div 
                     key={boxLevel}
-                    className={`stress-box ${shapes[i]} ${boxLevel <= level ? 'active' : ''}`}
+                    className={`stress-box ${boxLevel <= level ? 'active' : ''} cursor-pointer transition-transform duration-100 active:scale-90`}
                     onClick={() => toggleStress(boxLevel)}
-                    style={shapes[i] === 'sb-d12' ? { borderRadius: '50%' } : {}}
-                ></div>
+                >
+                    <Die 
+                        type={diceTypes[i]} 
+                        fill={boxLevel <= level ? '#ef4444' : '#ffffff'} 
+                        size="w-8 h-8"
+                        showLabel={false}
+                    />
+                </div>
             ))}
         </div>
     );
