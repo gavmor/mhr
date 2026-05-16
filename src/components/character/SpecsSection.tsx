@@ -44,9 +44,9 @@ export default function SpecsSection({ specialties, onChange }: SpecsSectionProp
                 ))}
                 
                 <button 
-                    className="absolute right-4 top-4 text-sm text-black font-comic-label font-bold hover:underline" 
+                    className="absolute right-4 top-4 btn-comic btn-comic-white text-xs py-1 px-3" 
                     onClick={addSpecialty}
-                >+ Add Spec</button>
+                >+ ADD SPEC</button>
             </div>
         </div>
     );

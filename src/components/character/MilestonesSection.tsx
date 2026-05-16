@@ -82,7 +82,7 @@ export default function MilestonesSection({ milestones, onChange }: MilestonesSe
 
                 <div className="text-center mt-6">
                     <button 
-                        className="px-6 py-2 bg-white text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active hover:bg-gray-100 transition-all font-comic-title text-xl tracking-widest"
+                        className="btn-comic btn-comic-white btn-comic-md"
                         onClick={addMilestone}
                     >+ ADD MILESTONE</button>
                 </div>

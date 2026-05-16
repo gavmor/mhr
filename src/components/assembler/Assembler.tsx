@@ -128,7 +128,7 @@ export const Assembler: React.FC = () => {
                 <div className="sticky bottom-0 w-full p-4 bg-white/90 backdrop-blur border-t-4 border-black flex justify-center z-40 mt-4">
                     <button
                         onClick={handleClearPool}
-                        className="bg-red-500 hover:bg-red-600 text-white font-comic-title text-2xl py-2 px-8 rounded-sm border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] active:shadow-[2px_2px_0_0_rgba(0,0,0,1)] active:translate-y-1 transition-all"
+                        className="btn-comic btn-comic-red btn-comic-lg px-8 rounded-sm"
                     >
                         CLEAR POOL
                     </button>

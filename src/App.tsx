@@ -6,6 +6,7 @@ import MilestonesSection from './components/character/MilestonesSection';
 import JsonModal from './components/JsonModal';
 import { Assembler } from './components/assembler/Assembler';
 import { loadCharacterData, saveCharacterData, clearCharacterData } from './lib/persistence';
+import { cn } from './lib/utils';
 
 export interface Power {
     id: string;
@@ -135,13 +136,19 @@ function App() {
 
             <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 lg:hidden">
                 <button
-                    className={`px-6 py-2 font-comic-title text-2xl tracking-widest border-4 border-black transition-all ${activeTab === 'character' ? 'bg-comic-red text-white shadow-comic-active translate-y-1 translate-x-1' : 'bg-white text-black shadow-comic hover:bg-gray-100'}`}
+                    className={cn(
+                        "btn-comic btn-comic-lg",
+                        activeTab === 'character' ? "btn-comic-red" : "btn-comic-white"
+                    )}
                     onClick={() => setActiveTab('character')}
                 >
                     DATAFILE
                 </button>
                 <button
-                    className={`px-6 py-2 font-comic-title text-2xl tracking-widest border-4 border-black transition-all ${activeTab === 'assembler' ? 'bg-comic-red text-white shadow-comic-active translate-y-1 translate-x-1' : 'bg-white text-black shadow-comic hover:bg-gray-100'}`}
+                    className={cn(
+                        "btn-comic btn-comic-lg",
+                        activeTab === 'assembler' ? "btn-comic-red" : "btn-comic-white"
+                    )}
                     onClick={() => setActiveTab('assembler')}
                 >
                     DICE POOL ASSEMBLER
@@ -158,15 +165,15 @@ function App() {
 
                         <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
                             <button 
-                                className="px-6 py-2 bg-red-600 hover:bg-red-500 text-white border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
+                                className="btn-comic btn-comic-red btn-comic-md"
                                 onClick={handleReset}
                             >RESET DATA</button>
                             <button 
-                                className="px-6 py-2 bg-comic-blue hover:bg-blue-300 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
+                                className="btn-comic btn-comic-blue btn-comic-md"
                                 onClick={() => setIsJsonModalOpen(true)}
                             >IMPORT / EXPORT</button>
                             <button 
-                                className="px-6 py-2 bg-comic-green hover:bg-green-400 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
+                                className="btn-comic btn-comic-green btn-comic-md"
                                 onClick={() => window.print()}
                             >PRINT PDF</button>
                         </div>

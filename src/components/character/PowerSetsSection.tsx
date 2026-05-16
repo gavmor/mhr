@@ -73,9 +73,9 @@ export default function PowerSetsSection({ powerSets, onChange }: PowerSetsSecti
                             ))}
                         </div>
                         <button 
-                            className="text-sm text-black font-bold font-comic-label hover:underline mb-4" 
+                            className="btn-comic btn-comic-white text-xs py-1 px-3 mb-4" 
                             onClick={() => updatePowerSet(ps.id, { ...ps, powers: [...ps.powers, { id: generateId(), die: '8', name: "NEW POWER" }] })}
-                        >+ Add Power</button>
+                        >+ ADD POWER</button>
 
                         {/* SFX/Limits List */}
                         <div className="sfx-limit-list space-y-2 mt-2">
@@ -110,15 +110,15 @@ export default function PowerSetsSection({ powerSets, onChange }: PowerSetsSecti
                             ))}
                         </div>
                         <button 
-                            className="text-sm text-black font-bold font-comic-label hover:underline mt-2" 
+                            className="btn-comic btn-comic-white text-xs py-1 px-3 mt-2" 
                             onClick={() => updatePowerSet(ps.id, { ...ps, sfx: [...ps.sfx, { id: generateId(), type: 'SFX:', name: 'Name.', desc: 'Description of the effect.' }] })}
-                        >+ Add SFX/Limit</button>
+                        >+ ADD SFX/LIMIT</button>
                     </div>
                 ))}
 
                 <div className="text-center mt-6">
                     <button 
-                        className="px-6 py-2 bg-white text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active hover:bg-gray-100 transition-all font-comic-title text-xl tracking-widest"
+                        className="btn-comic btn-comic-white btn-comic-md"
                         onClick={addPowerSet}
                     >+ ADD POWER SET</button>
                 </div>
