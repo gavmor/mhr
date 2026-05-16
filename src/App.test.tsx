@@ -33,8 +33,8 @@ describe('App persistence integration', () => {
         render(<App />);
 
         expect(persistence.loadCharacterData).toHaveBeenCalled();
-        // Since input is in HeaderSection, we check for value
-        expect(screen.getByDisplayValue('Persisted Hero')).toBeInTheDocument();
+        // Check for text content since it's in view mode
+        expect(screen.getByText('Persisted Hero')).toBeInTheDocument();
     });
 
     it('saves data to localStorage when data changes', async () => {
@@ -42,9 +42,16 @@ describe('App persistence integration', () => {
         (persistence.loadCharacterData as any).mockReturnValue(null);
         render(<App />);
 
+        // Click to enter edit mode
+        const heroNameView = screen.getByText('HERO NAME');
+        fireEvent.click(heroNameView);
+
         const heroNameInput = screen.getByDisplayValue('HERO NAME');
         
         fireEvent.change(heroNameInput, { target: { value: 'New Hero Name' } });
+
+        // Blur to save
+        fireEvent.blur(heroNameInput);
 
         // saveCharacterData should not be called yet due to debounce
         expect(persistence.saveCharacterData).not.toHaveBeenCalled();
@@ -64,18 +71,18 @@ describe('App persistence integration', () => {
     it('resets data when RESET DATA button is clicked', async () => {
         const modifiedState = {
             ...defaultState,
-            heroName: "Modified Hero"
+            heroName: "Modified Hero",
+            pp: 5
         };
         (persistence.loadCharacterData as any).mockReturnValue(modifiedState);
         
         render(<App />);
         
-        // Find reset button - it doesn't exist yet, so this should fail
         const resetButton = screen.getByText('RESET DATA');
         
         fireEvent.click(resetButton);
         
         expect(persistence.clearCharacterData).toHaveBeenCalled();
-        expect(screen.getByDisplayValue('HERO NAME')).toBeInTheDocument();
+        expect(screen.getByText('HERO NAME')).toBeInTheDocument();
     });
 });
