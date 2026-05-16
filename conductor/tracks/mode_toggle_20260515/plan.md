@@ -5,9 +5,9 @@
     - [x] Initialize shadcn-ui using `npx shadcn@latest init`.
     - [x] Install required components: `Switch`, `Badge`.
     - [x] Install `react-easy-edit`.
-- [~] Task: Define Mode State and Storage Utility
-    - [ ] Write tests for mode persistence in `persistence.test.ts`.
-    - [ ] Implement `getMode` / `saveMode` in `src/lib/persistence.ts`.
+- [x] Task: Define Mode State and Storage Utility [df1c642]
+    - [x] Write tests for mode persistence in `persistence.test.ts`.
+    - [x] Implement `getMode` / `saveMode` in `src/lib/persistence.ts`.
 - [ ] Task: Conductor - User Manual Verification 'Foundation & Library Setup' (Protocol in workflow.md)
 
 ## Phase 2: Refactor for Easy-Edit & Read-Only
