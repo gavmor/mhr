@@ -9,7 +9,7 @@ import { BASE_CATEGORIES, TRAIT_CATEGORIES, Category } from './components/assemb
 import { loadCharacterData, saveCharacterData, clearCharacterData, loadMode, saveMode } from './lib/persistence';
 import { cn } from './lib/utils';
 import { ComicButton } from './components/ui/ComicButton';
-import { generateXPCommand } from './lib/cortexPal';
+import { generateXPCommand, generatePPCommand } from './lib/cortexPal';
 
 export interface Power {
     id: string;
@@ -104,6 +104,11 @@ export const defaultState: CharacterData = {
     ]
 };
 
+interface ToastAction {
+    label: string;
+    onClick: () => void;
+}
+
 function App() {
     const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
     const [appMode, setAppMode] = useState<'edit' | 'play'>(() => loadMode());
@@ -114,12 +119,23 @@ function App() {
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({});
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [toastAction, setToastAction] = useState<ToastAction | null>(null);
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
 
-    const triggerToast = (message: string) => {
+    const triggerToast = (message: string, action?: ToastAction) => {
         setToastMessage(message);
+        setToastAction(action || null);
         setShowToast(true);
-        setTimeout(() => setShowToast(false), 2000);
+        // If there's an action, we might want a longer timeout or manual close
+        const duration = action ? 5000 : 2000;
+        
+        // Clear previous timeout if any
+        if ((window as any).toastTimeout) clearTimeout((window as any).toastTimeout);
+        
+        (window as any).toastTimeout = setTimeout(() => {
+            setShowToast(false);
+            setToastAction(null);
+        }, duration);
     };
 
     // Compute dynamic categories based on character power sets
@@ -177,19 +193,37 @@ function App() {
     };
 
     const handleMilestoneClick = (amount: number) => {
-        // a) Increase XP field
-        updateData({ xp: data.xp + amount });
-
-        // b) Copy command to clipboard
         const command = generateXPCommand(data.heroName, amount);
-        if (command) {
-            navigator.clipboard.writeText(command).then(() => {
-                triggerToast(`XP added! Command copied: ${command}`);
-            }).catch(err => {
-                console.error('Failed to copy XP command: ', err);
-                triggerToast('Failed to copy command');
-            });
-        }
+        triggerToast(`Earned ${amount} XP!`, {
+            label: "APPLY & COPY",
+            onClick: () => {
+                updateData({ xp: data.xp + amount });
+                if (command) {
+                    navigator.clipboard.writeText(command).catch(err => console.error(err));
+                    triggerToast(`XP applied and command copied!`);
+                }
+            }
+        });
+    };
+
+    const handleHinderClick = (distIdx: number) => {
+        const distName = data.distinctions[distIdx];
+        const command = generatePPCommand(data.heroName, 1);
+        
+        triggerToast(`Hinder with ${distName}?`, {
+            label: "APPLY & COPY",
+            onClick: () => {
+                // Add d4 to pool
+                addDieToPool('dist', 4, `${distName} (Hinder)`);
+                // Add 1 PP
+                updateData({ pp: data.pp + 1 });
+                // Copy command
+                if (command) {
+                    navigator.clipboard.writeText(command).catch(err => console.error(err));
+                    triggerToast(`PP applied and command copied!`);
+                }
+            }
+        });
     };
 
     const isPlayMode = appMode === 'play';
@@ -230,6 +264,7 @@ function App() {
                             appMode={appMode}
                             setAppMode={setAppMode}
                             onTraitClick={addDieToPool}
+                            onHinderClick={handleHinderClick}
                         />
                         <PowerSetsSection 
                             powerSets={data.powerSets} 
@@ -300,8 +335,26 @@ function App() {
             </div>
 
             {/* Global Toast Notification */}
-            <div className={`fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full font-bold transition-all duration-300 pointer-events-none z-[100] shadow-2xl border-2 border-white/20 text-center min-w-[300px] ${showToast ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                {toastMessage}
+            <div className={cn(
+                "fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full font-bold transition-all duration-300 z-[100] shadow-2xl border-2 border-white/20 text-center min-w-[300px] flex items-center justify-between gap-4",
+                showToast ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+            )}>
+                <span>{toastMessage}</span>
+                {toastAction && (
+                    <ComicButton 
+                        size="xs" 
+                        variant="green" 
+                        className="pointer-events-auto shadow-none active:translate-y-0 active:translate-x-0"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toastAction.onClick();
+                            setShowToast(false);
+                            setToastAction(null);
+                        }}
+                    >
+                        {toastAction.label}
+                    </ComicButton>
+                )}
             </div>
         </div>
     );

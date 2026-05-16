@@ -33,3 +33,14 @@ export function generateXPCommand(who: string, amount: number): string {
     if (!who || !amount) return '';
     return `/xp add who:${who} number:${amount}`;
 }
+
+/**
+ * Generates a CortexPal2000 /pp add command.
+ * @param who The name of the hero (usually data.heroName).
+ * @param amount The amount of PP to add.
+ * @returns A formatted /pp add command string.
+ */
+export function generatePPCommand(who: string, amount: number): string {
+    if (!who || !amount) return '';
+    return `/pp add who:${who} number:${amount}`;
+}

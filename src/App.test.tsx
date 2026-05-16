@@ -1,4 +1,4 @@
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import App, { defaultState } from './App';
 import * as persistence from './lib/persistence';
@@ -18,22 +18,16 @@ describe('App persistence integration', () => {
 
     it('loads data from localStorage on mount', () => {
         const mockData = {
+            ...defaultState,
             heroName: "Persisted Hero",
             realName: "Persisted Real Name",
-            pp: 10,
-            affiliations: ['8', '6', '10'],
-            distinctions: ["D1", "D2", "D3"],
-            stress: { p: 0, m: 0, e: 0 },
-            powerSets: [],
-            specialties: [],
-            milestones: []
+            pp: 10
         };
         (persistence.loadCharacterData as any).mockReturnValue(mockData);
 
         render(<App />);
 
         expect(persistence.loadCharacterData).toHaveBeenCalled();
-        // Check for text content since it's in view mode
         expect(screen.getByText('Persisted Hero')).toBeInTheDocument();
     });
 
@@ -42,21 +36,15 @@ describe('App persistence integration', () => {
         (persistence.loadCharacterData as any).mockReturnValue(null);
         render(<App />);
 
-        // Click to enter edit mode
         const heroNameView = screen.getByText('HERO NAME');
         fireEvent.click(heroNameView);
 
         const heroNameInput = screen.getByDisplayValue('HERO NAME');
-        
         fireEvent.change(heroNameInput, { target: { value: 'New Hero Name' } });
-
-        // Blur to save
         fireEvent.blur(heroNameInput);
 
-        // saveCharacterData should not be called yet due to debounce
         expect(persistence.saveCharacterData).not.toHaveBeenCalled();
 
-        // Advance timers by 1s
         act(() => {
             vi.advanceTimersByTime(1000);
         });
@@ -79,7 +67,6 @@ describe('App persistence integration', () => {
         render(<App />);
         
         const resetButton = screen.getByText('RESET DATA');
-        
         fireEvent.click(resetButton);
         
         expect(persistence.clearCharacterData).toHaveBeenCalled();
@@ -92,8 +79,8 @@ describe('App game interactions', () => {
         vi.clearAllMocks();
     });
 
-    it('increments XP and copies command when milestone is clicked in play mode', async () => {
-        // Setup mock character with a milestone
+    it('shows toast and only increments XP after clicking APPLY & COPY', async () => {
+        vi.useFakeTimers();
         const mockData = {
             ...defaultState,
             heroName: "XP Hero",
@@ -109,7 +96,6 @@ describe('App game interactions', () => {
         (persistence.loadCharacterData as any).mockReturnValue(mockData);
         (persistence.loadMode as any).mockReturnValue('play');
 
-        // Mock clipboard
         const writeTextMock = vi.fn().mockResolvedValue(undefined);
         Object.assign(navigator, {
             clipboard: {
@@ -119,15 +105,67 @@ describe('App game interactions', () => {
 
         render(<App />);
 
-        // Find the 3 XP label
+        // Click milestone trigger
         const xp3Trigger = screen.getByText('3 XP');
         fireEvent.click(xp3Trigger);
 
-        // a) XP should increase from 10 to 13
-        // The XP input is an input field
-        expect(screen.getByDisplayValue('13')).toBeInTheDocument();
+        // XP should NOT have increased yet
+        expect(screen.queryByDisplayValue('13')).not.toBeInTheDocument();
+        expect(screen.getByDisplayValue('10')).toBeInTheDocument();
 
-        // b) Clipboard should contain the add xp command
+        // Toast should be visible with action button
+        const applyBtn = screen.getByText('APPLY & COPY');
+        
+        // Click apply
+        await act(async () => {
+            fireEvent.click(applyBtn);
+        });
+
+        // XP should now be increased
+        expect(screen.getByDisplayValue('13')).toBeInTheDocument();
         expect(writeTextMock).toHaveBeenCalledWith('/xp add who:XP Hero number:3');
+        
+        vi.useRealTimers();
+    });
+
+    it('shows toast and only increments PP/adds die after hinder click and APPLY & COPY', async () => {
+        vi.useFakeTimers();
+        const mockData = {
+            ...defaultState,
+            heroName: "Hinder Hero",
+            pp: 1,
+            distinctions: ["Dist 1", "Dist 2", "Dist 3"]
+        };
+        (persistence.loadCharacterData as any).mockReturnValue(mockData);
+        (persistence.loadMode as any).mockReturnValue('play');
+
+        const writeTextMock = vi.fn().mockResolvedValue(undefined);
+        Object.assign(navigator, {
+            clipboard: {
+                writeText: writeTextMock,
+            },
+        });
+
+        render(<App />);
+
+        // Find hinder label
+        const hinderTrigger = screen.getAllByText('HINDER (+1 PP)')[0];
+        fireEvent.click(hinderTrigger);
+
+        // PP should NOT have increased yet
+        expect(screen.getByDisplayValue('1')).toBeInTheDocument();
+
+        // Toast should be visible
+        const applyBtn = screen.getByText('APPLY & COPY');
+        
+        await act(async () => {
+            fireEvent.click(applyBtn);
+        });
+
+        // PP should now be increased
+        expect(screen.getByDisplayValue('2')).toBeInTheDocument();
+        expect(writeTextMock).toHaveBeenCalledWith('/pp add who:Hinder Hero number:1');
+        
+        vi.useRealTimers();
     });
 });

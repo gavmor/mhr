@@ -14,6 +14,7 @@ interface HeaderSectionProps {
     appMode: 'edit' | 'play';
     setAppMode: (mode: 'edit' | 'play') => void;
     onTraitClick?: (categoryId: string, value: number, label: string) => void;
+    onHinderClick?: (distIdx: number) => void;
 }
 
 export default function HeaderSection({ 
@@ -22,7 +23,8 @@ export default function HeaderSection({
     isPlayMode = false, 
     appMode, 
     setAppMode,
-    onTraitClick
+    onTraitClick,
+    onHinderClick
 }: HeaderSectionProps) {
     const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -63,12 +65,8 @@ export default function HeaderSection({
     };
 
     const handleHinderClick = (idx: number) => {
-        if (onTraitClick) {
-            // Add d4 labeled with "Hinder"
-            onTraitClick('dist', 4, `${data.distinctions[idx]} (Hinder)`);
-            
-            // Automatically add 1 PP
-            updateData({ pp: data.pp + 1 });
+        if (onHinderClick) {
+            onHinderClick(idx);
         }
     };
 
