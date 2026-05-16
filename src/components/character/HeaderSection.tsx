@@ -72,7 +72,7 @@ export default function HeaderSection({
 
     return (
         <div className="p-6 border-b-4 border-black bg-white relative">
-            <div className="absolute top-4 right-6 z-20">
+            <div className="absolute top-4 right-6 z-20 no-print">
                 <ModeSelector mode={appMode} onChange={setAppMode} />
             </div>
 

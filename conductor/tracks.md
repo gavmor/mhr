@@ -14,6 +14,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: "Print PDF" styles are horrible, include web UI chrome, bunch of junk; need to look way, way nicer and cleaner.**
+- [~] **Track: "Print PDF" styles are horrible, include web UI chrome, bunch of junk; need to look way, way nicer and cleaner.**
   *Link: [./tracks/print_styles_20260515/](./tracks/print_styles_20260515/)*
 

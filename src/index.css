@@ -191,6 +191,12 @@
     animation: popIn 0.2s ease-out forwards;
   }
 
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+  }
+
   /* react-easy-edit styles */
   .mhr-edit-view {
     @apply border-b border-dashed border-transparent cursor-text transition-all duration-200;

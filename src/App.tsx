@@ -244,13 +244,13 @@ function App() {
     return (
         <div className="min-h-screen pb-10 bg-white">
             {/* Titlebar */}
-            <div className="bg-black py-3 px-6 flex justify-center md:justify-start items-baseline gap-3 border-b-4 border-red-600 shadow-md">
+            <div className="bg-black py-3 px-6 flex justify-center md:justify-start items-baseline gap-3 border-b-4 border-red-600 shadow-md no-print">
                 <span className="font-comic-label font-black text-white text-4xl tracking-tighter">MARVEL</span>
                 <span className="font-comic-label font-black text-white text-2xl tracking-tighter">HEROIC</span>
                 <span className="font-comic-label font-black text-white text-sm tracking-widest pb-1">ROLEPLAYING</span>
             </div>
 
-            <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 lg:hidden">
+            <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 lg:hidden no-print">
                 <ComicButton
                     variant={activeTab === 'character' ? 'red' : 'white'}
                     size="lg"
@@ -298,7 +298,7 @@ function App() {
                             onMilestoneClick={handleMilestoneClick}
                         />
 
-                        <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
+                        <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4 no-print">
                             <ComicButton 
                                 variant="red" 
                                 size="md"
@@ -342,14 +342,14 @@ function App() {
                     </div>
                 </div>
                 
-                <div className={`w-full lg:w-[450px] lg:block lg:flex-shrink-0 ${activeTab === 'assembler' ? 'block' : 'hidden'}`}>
+                <div className={`w-full lg:w-[450px] lg:block lg:flex-shrink-0 no-print ${activeTab === 'assembler' ? 'block' : 'hidden'}`}>
                     <Assembler pool={pool} setPool={setPool} categories={categories} onToast={triggerToast} />
                 </div>
             </div>
 
             {/* Global Toast Notification */}
             <div className={cn(
-                "fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full font-bold transition-all duration-300 z-[100] shadow-2xl border-2 border-white/20 text-center min-w-[300px] flex items-center justify-between gap-4",
+                "fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full font-bold transition-all duration-300 z-[100] shadow-2xl border-2 border-white/20 text-center min-w-[300px] flex items-center justify-between gap-4 no-print",
                 showToast ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
             )}>
                 <span>{toastMessage}</span>
