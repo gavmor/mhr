@@ -32,6 +32,6 @@
 - [x] Task: Assembler Integration [10f51e3]
     - [x] Update `Assembler` state to support dice with custom labels/names.
     - [x] Implement the logic to catch trait clicks and add the corresponding labeled die to the pool.
-- [~] Task: Visual Polish
-    - [ ] Add `cursor-pointer` and hover highlights to all clickable traits in Play Mode.
+- [x] Task: Visual Polish [dfa2977]
+    - [x] Add `cursor-pointer` and hover highlights to all clickable traits in Play Mode.
 - [ ] Task: Conductor - User Manual Verification 'Integration & Polish' (Protocol in workflow.md)
