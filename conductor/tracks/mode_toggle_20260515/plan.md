@@ -1,11 +1,11 @@
 # Plan: Edit vs Play Mode Toggle
 
 ## Phase 1: Foundation & Library Setup
-- [ ] Task: Install and Configure Shadcn & Utils
-    - [ ] Initialize shadcn-ui using `npx shadcn@latest init`.
-    - [ ] Install required components: `Switch`, `Badge`.
-    - [ ] Install `react-easy-edit`.
-- [ ] Task: Define Mode State and Storage Utility
+- [x] Task: Install and Configure Shadcn & Utils [c6b0e6e]
+    - [x] Initialize shadcn-ui using `npx shadcn@latest init`.
+    - [x] Install required components: `Switch`, `Badge`.
+    - [x] Install `react-easy-edit`.
+- [~] Task: Define Mode State and Storage Utility
     - [ ] Write tests for mode persistence in `persistence.test.ts`.
     - [ ] Implement `getMode` / `saveMode` in `src/lib/persistence.ts`.
 - [ ] Task: Conductor - User Manual Verification 'Foundation & Library Setup' (Protocol in workflow.md)

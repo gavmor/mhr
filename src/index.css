@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @theme {
   --color-background: #ffffff;
@@ -10,7 +12,7 @@
   --color-border: #000000;
   --color-border-hover: #4b5563;
   --color-ring: #ef4444;
-  
+
   --color-primary: #ef4444;
   --color-primary-foreground: #ffffff;
 
@@ -22,6 +24,13 @@
 
   --color-muted: #e5e7eb;
   --color-muted-foreground: #4b5563;
+
+  /* Shadcn standard tokens mapped to comic colors */
+  --color-popover: #ffffff;
+  --color-popover-foreground: #000000;
+  --color-accent: #f3f4f6;
+  --color-accent-foreground: #000000;
+  --color-input: #e5e7eb;
 
   /* Comic specific */
   --color-comic-yellow: #fbf579;
@@ -40,14 +49,18 @@
   --color-die-d8: #22c55e;
   --color-die-d10: #eab308;
   --color-die-d12: #a855f7;
-  
+
   --shadow-comic: 4px 4px 0px 0px rgba(0, 0, 0, 1);
   --shadow-comic-active: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+
+  --radius-lg: 0.5rem;
+  --radius-md: calc(var(--radius-lg) - 2px);
+  --radius-sm: calc(var(--radius-lg) - 4px);
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground antialiased m-0 p-[10px];
+    @apply antialiased m-0 p-[10px] bg-background text-foreground;
     font-family: 'Inter', sans-serif;
   }
 
@@ -56,6 +69,10 @@
   h3,
   .oswald-font {
     font-family: 'Oswald', sans-serif;
+  }
+
+  * {
+    @apply border-border;
   }
 }
 
