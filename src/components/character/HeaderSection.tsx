@@ -1,5 +1,6 @@
 import React from 'react';
 import DieIcon from '../ui/DieIcon';
+import { D4 } from '../ui/Dice';
 import EditableTextarea from '../ui/EditableTextarea';
 import StressTrack from './StressTrack';
 import ModeSelector from './ModeSelector';
@@ -169,9 +170,10 @@ export default function HeaderSection({
                                     />
                                     {isPlayMode && (
                                         <p 
-                                            className="font-comic-label text-[0.65rem] leading-tight mt-1 opacity-80 text-black cursor-pointer hover:underline uppercase font-bold"
+                                            className="font-comic-label text-[0.65rem] leading-tight mt-1 opacity-80 text-black cursor-pointer hover:underline uppercase font-bold flex items-center gap-1"
                                             onClick={() => handleHinderClick(idx)}
                                         >
+                                            <D4 size="w-3 h-3" showLabel={false} />
                                             HINDER d4 (+1 PP)
                                         </p>
                                     )}
