@@ -2,6 +2,7 @@ import React from 'react';
 import DieIcon from '../ui/DieIcon';
 import EditableTextarea from '../ui/EditableTextarea';
 import StressTrack from './StressTrack';
+import ModeSelector from './ModeSelector';
 import { CharacterData } from '../../App';
 import { cn } from '@/lib/utils';
 
@@ -9,9 +10,11 @@ interface HeaderSectionProps {
     data: CharacterData;
     updateData: (updates: Partial<CharacterData>) => void;
     isPlayMode?: boolean;
+    appMode: 'edit' | 'play';
+    setAppMode: (mode: 'edit' | 'play') => void;
 }
 
-export default function HeaderSection({ data, updateData, isPlayMode = false }: HeaderSectionProps) {
+export default function HeaderSection({ data, updateData, isPlayMode = false, appMode, setAppMode }: HeaderSectionProps) {
     const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -38,7 +41,11 @@ export default function HeaderSection({ data, updateData, isPlayMode = false }: 
     };
 
     return (
-        <div className="p-6 border-b-4 border-black bg-white">
+        <div className="p-6 border-b-4 border-black bg-white relative">
+            <div className="absolute top-4 right-6 z-20">
+                <ModeSelector mode={appMode} onChange={setAppMode} />
+            </div>
+
             <div className="flex flex-col md:flex-row justify-between items-end mb-4">
                 <div className="w-full md:w-2/3">
                     <EditableTextarea 
@@ -59,10 +66,10 @@ export default function HeaderSection({ data, updateData, isPlayMode = false }: 
                         />
                         <span className="mx-2">[</span>
                         {isPlayMode ? (
-                            <span className="text-black">{data.identityStatus}</span>
+                            <span className="text-black uppercase">{data.identityStatus}</span>
                         ) : (
                             <select
-                                className="bg-transparent border-none outline-none text-black appearance-none cursor-pointer"
+                                className="bg-transparent border-none outline-none text-black appearance-none cursor-pointer uppercase"
                                 value={data.identityStatus}
                                 onChange={(e) => updateData({ identityStatus: e.target.value })}
                             >

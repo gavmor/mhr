@@ -167,7 +167,13 @@ function App() {
             <div className="flex flex-col lg:flex-row gap-8 items-start justify-center max-w-[1500px] mx-auto px-4 lg:mt-8">
                 <div className={`w-full lg:w-auto lg:flex-grow lg:block max-w-[1000px] ${activeTab === 'character' ? 'block' : 'hidden'}`}>
                     <div className="datafile-container mx-auto mb-10 w-full max-w-full">
-                        <HeaderSection data={data} updateData={updateData} isPlayMode={isPlayMode} />
+                        <HeaderSection 
+                            data={data} 
+                            updateData={updateData} 
+                            isPlayMode={isPlayMode} 
+                            appMode={appMode}
+                            setAppMode={setAppMode}
+                        />
                         <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} isPlayMode={isPlayMode} />
                         <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} isPlayMode={isPlayMode} />
                         <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} isPlayMode={isPlayMode} />

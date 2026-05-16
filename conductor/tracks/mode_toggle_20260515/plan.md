@@ -20,7 +20,7 @@
 - [x] Task: Conductor - User Manual Verification 'Refactor & Read-Only' (Protocol in workflow.md)
 
 ## Phase 3: Play-Mode Interactions
-- [ ] Task: Implement the Global Toggle with Shadcn
+- [~] Task: Implement the Global Toggle with Shadcn
     - [ ] Create a `ModeSelector` component using Shadcn Switch and Badges.
     - [ ] Place it in the top-right of the datafile and hook up to global state.
 - [ ] Task: Enable Trait Clicking
