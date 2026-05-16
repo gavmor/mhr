@@ -1,8 +1,8 @@
 # Plan: Enhanced Print PDF Styles
 
 ## Phase 1: Basic Print Infrastructure
-- [~] Task: Identify and tag elements for print exclusion
-    - [ ] Locate titlebar, navigation, toggles, and action buttons.
+- [x] Task: Identify and tag elements for print exclusion [28cc723]
+    - [x] Locate titlebar, navigation, toggles, and action buttons.
 - [ ] Task: Implement `@media print` base overrides in `src/index.css`
     - [ ] Hide identified UI elements using `display: none`.
     - [ ] Ensure the main application container allows full-page printing without scrollbars.
