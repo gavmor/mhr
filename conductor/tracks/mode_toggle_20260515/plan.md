@@ -10,14 +10,14 @@
     - [x] Implement `getMode` / `saveMode` in `src/lib/persistence.ts`.
 - [x] Task: Conductor - User Manual Verification 'Foundation & Library Setup' (Protocol in workflow.md)
 
-## Phase 2: Refactor for Easy-Edit & Read-Only
+## Phase 2: Refactor for Easy-Edit & Read-Only [checkpoint: c59c1b2]
 - [x] Task: Refactor EditableTextarea with `react-easy-edit` [custom]
     - [x] Update `EditableTextarea` to use `react-easy-edit` for inline editing.
     - [x] Implement the `isReadOnly` toggle within the new component structure.
 - [x] Task: Apply Mode to All Inputs [9ebf628]
     - [x] Update `App.tsx` and character sections to pass `isPlayMode` down to all editable fields.
     - [x] Update global CSS in `index.css` to hide dashed borders when not in edit mode.
-- [ ] Task: Conductor - User Manual Verification 'Refactor & Read-Only' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Refactor & Read-Only' (Protocol in workflow.md)
 
 ## Phase 3: Play-Mode Interactions
 - [ ] Task: Implement the Global Toggle with Shadcn
