@@ -195,6 +195,26 @@
     .no-print {
       display: none !important;
     }
+
+    body {
+      background-color: white !important;
+      color: black !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .min-h-screen {
+      min-height: auto !important;
+    }
+
+    .pb-10 {
+      padding-bottom: 0 !important;
+    }
+
+    @page {
+      size: auto;
+      margin: 10mm;
+    }
   }
 
   /* react-easy-edit styles */
