@@ -1,7 +1,7 @@
 # Plan: Edit vs Play Mode Toggle
 
 ## Phase 1: Foundation & Library Setup
-- [x] Task: Install and Configure Shadcn & Utils [c6b0e6e]
+- [x] Task: Install and Configure Shadcn & Utils [f7e190a]
     - [x] Initialize shadcn-ui using `npx shadcn@latest init`.
     - [x] Install required components: `Switch`, `Badge`.
     - [x] Install `react-easy-edit`.

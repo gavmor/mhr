@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { saveCharacterData, loadCharacterData, clearCharacterData } from './persistence';
+import { saveCharacterData, loadCharacterData, clearCharacterData, saveMode, loadMode } from './persistence';
 import { CharacterData } from '../App';
 
 const mockData: Partial<CharacterData> = {
@@ -74,5 +74,18 @@ describe('persistence utility', () => {
         expect(consoleSpy).toHaveBeenCalled();
         
         vi.restoreAllMocks();
+    });
+
+    it('saves and loads application mode', () => {
+        saveMode('play');
+        expect(localStorage.getItem('mhr_app_mode')).toBe('play');
+        expect(loadMode()).toBe('play');
+
+        saveMode('edit');
+        expect(loadMode()).toBe('edit');
+    });
+
+    it('defaults to edit mode if none is stored', () => {
+        expect(loadMode()).toBe('edit');
     });
 });
