@@ -1,17 +1,20 @@
 import React from 'react';
 import { Die } from '../ui/Dice';
+import { cn } from '@/lib/utils';
 
 interface StressTrackProps {
     prefix: string;
     level: number;
     onChange: (level: number) => void;
+    isReadOnly?: boolean;
 }
 
-export default function StressTrack({ prefix, level, onChange }: StressTrackProps) {
+export default function StressTrack({ prefix, level, onChange, isReadOnly = false }: StressTrackProps) {
     const boxes = [1, 2, 3, 4, 5];
     const diceTypes = [4, 6, 8, 10, 12];
 
     const toggleStress = (clickedLevel: number) => {
+        if (isReadOnly) return;
         if (level === clickedLevel) {
             onChange(0); // clear if clicking the current max level
         } else {
@@ -25,7 +28,11 @@ export default function StressTrack({ prefix, level, onChange }: StressTrackProp
             {boxes.map((boxLevel, i) => (
                 <div 
                     key={boxLevel}
-                    className={`stress-box ${boxLevel <= level ? 'active' : ''} cursor-pointer transition-transform duration-100 active:scale-90`}
+                    className={cn(
+                        "stress-box",
+                        boxLevel <= level ? 'active' : '',
+                        !isReadOnly && "cursor-pointer transition-transform duration-100 active:scale-90"
+                    )}
                     onClick={() => toggleStress(boxLevel)}
                 >
                     <Die 

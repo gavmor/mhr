@@ -208,4 +208,27 @@
   .btn-comic-md {
     @apply text-xl;
   }
+
+  /* react-easy-edit styles */
+  .mhr-edit-view {
+    @apply border-b border-dashed border-transparent cursor-text transition-all duration-200;
+  }
+
+  .mhr-edit-view:hover {
+    @apply border-border-hover;
+  }
+
+  .mhr-edit-edit-container {
+    @apply w-full;
+  }
+
+  .mhr-edit-input, 
+  .mhr-edit-textarea {
+    @apply bg-transparent border-none border-b border-solid border-primary bg-black/5 outline-none w-full p-0 m-0;
+    font-family: inherit;
+  }
+
+  .mhr-edit-textarea {
+    @apply block;
+  }
 }

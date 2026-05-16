@@ -6,7 +6,9 @@ import * as persistence from './lib/persistence';
 vi.mock('./lib/persistence', () => ({
     loadCharacterData: vi.fn(),
     saveCharacterData: vi.fn(),
-    clearCharacterData: vi.fn()
+    clearCharacterData: vi.fn(),
+    loadMode: vi.fn(() => 'edit'),
+    saveMode: vi.fn()
 }));
 
 describe('App persistence integration', () => {

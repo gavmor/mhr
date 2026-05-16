@@ -11,10 +11,10 @@
 - [x] Task: Conductor - User Manual Verification 'Foundation & Library Setup' (Protocol in workflow.md)
 
 ## Phase 2: Refactor for Easy-Edit & Read-Only
-- [ ] Task: Refactor EditableTextarea with `react-easy-edit`
-    - [ ] Update `EditableTextarea` to use `react-easy-edit` for inline editing.
-    - [ ] Implement the `isReadOnly` toggle within the new component structure.
-- [ ] Task: Apply Mode to All Inputs
+- [x] Task: Refactor EditableTextarea with `react-easy-edit` [custom]
+    - [x] Update `EditableTextarea` to use `react-easy-edit` for inline editing.
+    - [x] Implement the `isReadOnly` toggle within the new component structure.
+- [~] Task: Apply Mode to All Inputs
     - [ ] Update `App.tsx` and character sections to pass `isPlayMode` down to all editable fields.
     - [ ] Update global CSS in `index.css` to hide dashed borders when not in edit mode.
 - [ ] Task: Conductor - User Manual Verification 'Refactor & Read-Only' (Protocol in workflow.md)

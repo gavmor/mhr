@@ -5,7 +5,7 @@ import SpecsSection from './components/character/SpecsSection';
 import MilestonesSection from './components/character/MilestonesSection';
 import JsonModal from './components/JsonModal';
 import { Assembler } from './components/assembler/Assembler';
-import { loadCharacterData, saveCharacterData, clearCharacterData } from './lib/persistence';
+import { loadCharacterData, saveCharacterData, clearCharacterData, loadMode, saveMode } from './lib/persistence';
 import { cn } from './lib/utils';
 
 export interface Power {
@@ -97,16 +97,23 @@ export const defaultState: CharacterData = {
 
 function App() {
     const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
+    const [appMode, setAppMode] = useState<'edit' | 'play'>('edit');
     const [data, setData] = useState<CharacterData>(defaultState);
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
 
-    // Load data on mount
+    // Load data and mode on mount
     useEffect(() => {
         const persistedData = loadCharacterData();
         if (persistedData) {
             setData(persistedData);
         }
+        setAppMode(loadMode());
     }, []);
+
+    // Save mode on change
+    useEffect(() => {
+        saveMode(appMode);
+    }, [appMode]);
 
     // Save data on change (debounced)
     useEffect(() => {
@@ -124,6 +131,8 @@ function App() {
         clearCharacterData();
         setData(defaultState);
     };
+
+    const isPlayMode = appMode === 'play';
 
     return (
         <div className="min-h-screen pb-10 bg-white">
@@ -158,10 +167,10 @@ function App() {
             <div className="flex flex-col lg:flex-row gap-8 items-start justify-center max-w-[1500px] mx-auto px-4 lg:mt-8">
                 <div className={`w-full lg:w-auto lg:flex-grow lg:block max-w-[1000px] ${activeTab === 'character' ? 'block' : 'hidden'}`}>
                     <div className="datafile-container mx-auto mb-10 w-full max-w-full">
-                        <HeaderSection data={data} updateData={updateData} />
-                        <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} />
-                        <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} />
-                        <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} />
+                        <HeaderSection data={data} updateData={updateData} isPlayMode={isPlayMode} />
+                        <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} isPlayMode={isPlayMode} />
+                        <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} isPlayMode={isPlayMode} />
+                        <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} isPlayMode={isPlayMode} />
 
                         <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
                             <button 
