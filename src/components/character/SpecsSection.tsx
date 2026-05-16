@@ -28,7 +28,7 @@ export default function SpecsSection({ specialties, onChange }: SpecsSectionProp
             <div className="flex-grow comic-panel bg-comic-yellow p-4 m-0 border-0 flex flex-wrap gap-x-8 gap-y-4 justify-center items-center relative min-h-[100px] shadow-none border-b-0 border-t-0 border-l-0 border-r-0">
                 {specialties.map((sp: Specialty) => (
                     <div key={sp.id} className="flex items-center group relative">
-                        <DieIcon value={sp.die} onChange={(val: string) => updateSpecialty(sp.id, { die: val })} className="shadow-[2px_2px_0_0_#000]" />
+                        <DieIcon value={sp.die} onChange={(val: string) => updateSpecialty(sp.id, { die: val })} />
                         <input 
                             type="text" 
                             className="editable-input font-comic-label text-lg font-bold text-black uppercase ml-2 w-40" 

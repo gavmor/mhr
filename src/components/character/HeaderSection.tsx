@@ -90,7 +90,7 @@ export default function HeaderSection({ data, updateData }: HeaderSectionProps) 
                         <div className="flex flex-col justify-around w-full pl-4 space-y-2">
                             {['SOLO', 'BUDDY', 'TEAM'].map((label, idx) => (
                                 <div key={label} className="flex items-center">
-                                    <DieIcon value={data.affiliations[idx]} onChange={(val) => updateAffiliation(idx, val)} className="shadow-[2px_2px_0_0_#000]" />
+                                    <DieIcon value={data.affiliations[idx]} onChange={(val) => updateAffiliation(idx, val)} />
                                     <span className="font-comic-label text-xl font-bold ml-4 tracking-widest text-black">{label}</span>
                                 </div>
                             ))}

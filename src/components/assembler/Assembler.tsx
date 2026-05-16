@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { CATEGORIES, DIE_SEQUENCE } from './constants';
 import { InteractiveDie } from './InteractiveDie';
-import './assembler.css';
 
 export const Assembler: React.FC = () => {
     // State: A dictionary holding an array of dice values (numbers) for each category ID

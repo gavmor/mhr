@@ -126,4 +126,39 @@
     @apply absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 text-white font-bold;
     background: rgba(0, 0, 0, 0.6);
   }
+
+  .stress-box {
+    @apply inline-flex items-center justify-center transition-colors duration-200;
+  }
+
+  /* Die container styling */
+  .assembler-die-container {
+    filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 1));
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+  }
+
+  .assembler-die-container:active {
+    @apply scale-90 -rotate-5;
+  }
+
+  /* Pop animation for new dice */
+  @keyframes popIn {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    80% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-pop {
+    animation: popIn 0.2s ease-out forwards;
+  }
 }

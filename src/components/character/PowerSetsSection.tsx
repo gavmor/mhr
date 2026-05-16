@@ -53,7 +53,7 @@ export default function PowerSetsSection({ powerSets, onChange }: PowerSetsSecti
                         {/* Powers List */}
                         <div className="powers-list flex flex-wrap gap-4 mb-4 mt-2">
                             {ps.powers.map((power: Power) => (
-                                <div key={power.id} className="flex items-center group relative bg-white comic-panel shadow-comic-active p-1 pr-3">
+                                <div key={power.id} className="flex items-center group relative p-1 pr-3">
                                     <DieIcon 
                                         value={power.die} 
                                         onChange={(val: string) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, die: val } : p) })} 

@@ -19,10 +19,10 @@ export default function DieIcon({ value, onChange, className = '' }: DieIconProp
 
     return (
         <div 
-            className={`die-icon die-d${value} cursor-pointer select-none transition-transform duration-100 active:scale-90 ${className}`} 
+            className={`cursor-pointer select-none transition-transform duration-100 active:scale-90 ${className}`} 
             onClick={cycleDie}
         >
-            <Die type={value} />
+            <Die type={value} size="w-10 h-10" />
         </div>
     );
 }
