@@ -5,6 +5,7 @@ import SpecsSection from './components/character/SpecsSection';
 import MilestonesSection from './components/character/MilestonesSection';
 import JsonModal from './components/JsonModal';
 import { Assembler } from './components/assembler/Assembler';
+import { BASE_CATEGORIES, TRAIT_CATEGORIES, Category } from './components/assembler/constants';
 import { loadCharacterData, saveCharacterData, clearCharacterData, loadMode, saveMode } from './lib/persistence';
 import { cn } from './lib/utils';
 import { ComicButton } from './components/ui/ComicButton';
@@ -112,18 +113,29 @@ function App() {
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({});
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
 
-    // Initialize pool keys on mount
+    // Compute dynamic categories based on character power sets
+    const categories: Category[] = [
+        ...BASE_CATEGORIES,
+        ...data.powerSets.map((ps, idx) => ({
+            id: `ps-${idx}`,
+            title: ps.name || `POWER SET ${idx + 1}`,
+            sub: '',
+            bg: idx % 2 === 0 ? '#f58a52' : '#fec594',
+            textColor: 'text-black'
+        })),
+        ...TRAIT_CATEGORIES
+    ];
+
+    // Ensure pool keys exist for all categories
     useEffect(() => {
-        import('./components/assembler/constants').then(({ CATEGORIES }) => {
-            setPool(prev => {
-                const newPool = { ...prev };
-                CATEGORIES.forEach(cat => {
-                    if (!newPool[cat.id]) newPool[cat.id] = [];
-                });
-                return newPool;
+        setPool(prev => {
+            const newPool = { ...prev };
+            categories.forEach(cat => {
+                if (!newPool[cat.id]) newPool[cat.id] = [];
             });
+            return newPool;
         });
-    }, []);
+    }, [data.powerSets.length]);
 
     // Save mode on change
     useEffect(() => {
@@ -257,7 +269,7 @@ function App() {
                 </div>
                 
                 <div className={`w-full lg:w-[450px] lg:block lg:flex-shrink-0 ${activeTab === 'assembler' ? 'block' : 'hidden'}`}>
-                    <Assembler pool={pool} setPool={setPool} />
+                    <Assembler pool={pool} setPool={setPool} categories={categories} />
                 </div>
             </div>
         </div>

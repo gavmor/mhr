@@ -3,13 +3,20 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Assembler } from './Assembler';
 import { PoolDie } from '../../App';
+import { BASE_CATEGORIES, TRAIT_CATEGORIES } from './constants';
+
+const mockCategories = [
+    ...BASE_CATEGORIES,
+    { id: 'ps-0', title: 'POWER SET 1', sub: '', bg: '#f58a52', textColor: 'text-black' },
+    ...TRAIT_CATEGORIES
+];
 
 const TestWrapper = () => {
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({
-        affil: [], dist: [], ps1: [], ps2: [], spec: [], 
+        affil: [], dist: [], 'ps-0': [], spec: [], 
         stress: [], comp: [], asset: [], push: [], sfx: []
     });
-    return <Assembler pool={pool} setPool={setPool} />;
+    return <Assembler pool={pool} setPool={setPool} categories={mockCategories} />;
 };
 
 describe('Assembler', () => {
@@ -101,11 +108,11 @@ describe('Assembler', () => {
     it('renders labeled dice correctly', () => {
         const poolWithLabels = {
             affil: [{ id: '1', value: 8, label: 'Buddy' }],
-            dist: [], ps1: [], ps2: [], spec: [], 
+            dist: [], 'ps-0': [], spec: [], 
             stress: [], comp: [], asset: [], push: [], sfx: []
         };
         const setPool = vi.fn();
-        render(<Assembler pool={poolWithLabels} setPool={setPool} />);
+        render(<Assembler pool={poolWithLabels} setPool={setPool} categories={mockCategories} />);
         
         expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
@@ -114,7 +121,7 @@ describe('Assembler', () => {
         vi.useRealTimers();
         const pool = {
             affil: [{ id: '1', value: 8, label: 'Solo' }],
-            dist: [], ps1: [], ps2: [], spec: [], 
+            dist: [], 'ps-0': [], spec: [], 
             stress: [], comp: [], asset: [], push: [], sfx: []
         };
         const setPool = vi.fn();
@@ -127,7 +134,7 @@ describe('Assembler', () => {
             },
         });
 
-        render(<Assembler pool={pool} setPool={setPool} />);
+        render(<Assembler pool={pool} setPool={setPool} categories={mockCategories} />);
         
         const copyButton = screen.getByText('COPY COMMAND');
         fireEvent.click(copyButton);

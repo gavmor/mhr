@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CATEGORIES, DIE_SEQUENCE } from './constants';
+import { DIE_SEQUENCE, Category } from './constants';
 import { InteractiveDie } from './InteractiveDie';
 import { PoolDie } from '../../App';
 import { ComicButton } from '../ui/ComicButton';
@@ -8,11 +8,12 @@ import { generateRollCommand } from '../../lib/cortexPal';
 interface AssemblerProps {
     pool: Record<string, PoolDie[]>;
     setPool: React.Dispatch<React.SetStateAction<Record<string, PoolDie[]>>>;
+    categories: Category[];
 }
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
+export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool, categories }) => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
 
@@ -69,7 +70,7 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
     // Clear the entire pool
     const handleClearPool = () => {
         const initialPool: Record<string, PoolDie[]> = {};
-        CATEGORIES.forEach(cat => initialPool[cat.id] = []);
+        categories.forEach(cat => initialPool[cat.id] = []);
         setPool(initialPool);
         if (navigator.vibrate) navigator.vibrate(50);
         triggerToast('Pool cleared');
@@ -101,10 +102,10 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
 
                 {/* Category List */}
                 <div className="w-full flex flex-col gap-3 pb-8">
-                    {CATEGORIES.map(cat => (
+                    {categories.map(cat => (
                         <div
                             key={cat.id}
-                            className="comic-panel w-full min-h-24 p-2 grid grid-cols-3 relative"
+                            className="comic-panel w-full min-h-24 p-2 grid grid-cols-3 relative overflow-hidden"
                             style={{ backgroundColor: cat.bg }}
                             onClick={() => handleAddDie(cat.id)}
                         >

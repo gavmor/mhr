@@ -39,8 +39,8 @@ export default function PowerSetsSection({
 
     const handlePowerClick = (power: Power, psIdx: number) => {
         if (onTraitClick) {
-            // Determine category ID based on power set index (ps1 or ps2)
-            const categoryId = psIdx === 0 ? 'ps1' : 'ps2';
+            // Determine category ID based on power set index (ps-0, ps-1, ps-2, etc)
+            const categoryId = `ps-${psIdx}`;
             onTraitClick(categoryId, parseInt(power.die), power.name);
         }
     };
