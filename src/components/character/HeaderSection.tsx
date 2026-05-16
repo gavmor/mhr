@@ -167,37 +167,29 @@ export default function HeaderSection({
             <div className="flex flex-wrap md:flex-nowrap justify-end items-center gap-6 mt-4">
                 <div className="flex items-center gap-2">
                     <span className="font-comic-label font-bold text-xl text-black">XP</span>
-                    {isPlayMode ? (
-                        <span className="w-16 bg-white text-black font-bold text-center border-4 border-black h-10 flex items-center justify-center shadow-comic">{data.xp}</span>
-                    ) : (
-                        <input 
-                            type="number"
-                            className="w-16 bg-white text-black font-bold text-center border-4 border-black focus:outline-none focus:border-red-500 shadow-comic h-10"
-                            value={data.xp}
-                            onChange={(e) => updateData({ xp: parseInt(e.target.value) || 0 })}
-                        />
-                    )}
+                    <input 
+                        type="number"
+                        className="w-16 bg-white text-black font-bold text-center border-4 border-black focus:outline-none focus:border-red-500 shadow-comic h-10"
+                        value={data.xp}
+                        onChange={(e) => updateData({ xp: parseInt(e.target.value) || 0 })}
+                    />
                 </div>
                 <div className="flex items-center gap-2">
                     <span className="font-comic-label font-bold text-xl text-black">PP</span>
-                    {isPlayMode ? (
-                        <span className="w-16 bg-white text-black font-bold text-center border-4 border-black h-10 flex items-center justify-center shadow-comic">{data.pp}</span>
-                    ) : (
-                        <input 
-                            type="number"
-                            className="w-16 bg-white text-black font-bold text-center border-4 border-black focus:outline-none focus:border-red-500 shadow-comic h-10"
-                            value={data.pp}
-                            onChange={(e) => updateData({ pp: parseInt(e.target.value) || 0 })}
-                        />
-                    )}
+                    <input 
+                        type="number"
+                        className="w-16 bg-white text-black font-bold text-center border-4 border-black focus:outline-none focus:border-red-500 shadow-comic h-10"
+                        value={data.pp}
+                        onChange={(e) => updateData({ pp: parseInt(e.target.value) || 0 })}
+                    />
                 </div>
 
                 <div className="flex comic-panel bg-comic-blue p-2">
                     <div className="side-label border-r-2 border-black/10 pr-1" style={{ fontSize: '0.7rem' }}>Stress</div>
                     <div className="flex flex-col gap-2 pl-2">
-                        <StressTrack prefix="P" level={data.stress.p} onChange={(val) => updateData({ stress: { ...data.stress, p: val } })} isReadOnly={isPlayMode} />
-                        <StressTrack prefix="M" level={data.stress.m} onChange={(val) => updateData({ stress: { ...data.stress, m: val } })} isReadOnly={isPlayMode} />
-                        <StressTrack prefix="E" level={data.stress.e} onChange={(val) => updateData({ stress: { ...data.stress, e: val } })} isReadOnly={isPlayMode} />
+                        <StressTrack prefix="P" level={data.stress.p} onChange={(val) => updateData({ stress: { ...data.stress, p: val } })} />
+                        <StressTrack prefix="M" level={data.stress.m} onChange={(val) => updateData({ stress: { ...data.stress, m: val } })} />
+                        <StressTrack prefix="E" level={data.stress.e} onChange={(val) => updateData({ stress: { ...data.stress, e: val } })} />
                     </div>
                 </div>
             </div>
