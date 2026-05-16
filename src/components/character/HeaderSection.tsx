@@ -36,7 +36,7 @@ export default function HeaderSection({ data, updateData }: HeaderSectionProps) 
     };
 
     return (
-        <div className="p-6 border-b-4 border-black bg-comic-yellow">
+        <div className="p-6 border-b-4 border-black bg-white">
             <div className="flex flex-col md:flex-row justify-between items-end mb-4">
                 <div className="w-full md:w-2/3">
                     <input 
@@ -61,8 +61,8 @@ export default function HeaderSection({ data, updateData }: HeaderSectionProps) 
                             value={data.identityStatus}
                             onChange={(e) => updateData({ identityStatus: e.target.value })}
                         >
-                            <option value="secret" className="bg-comic-yellow">secret</option>
-                            <option value="public" className="bg-comic-yellow">public</option>
+                            <option value="secret" className="bg-white">secret</option>
+                            <option value="public" className="bg-white">public</option>
                         </select>
                         <span className="mx-2">]</span>
                     </div>
@@ -84,8 +84,8 @@ export default function HeaderSection({ data, updateData }: HeaderSectionProps) 
                 </div>
 
                 {/* Affiliations & Distinctions */}
-                <div className="w-full md:w-2/3 flex flex-col sm:flex-row comic-panel bg-comic-green p-0 border-4 border-black">
-                    <div className="w-full sm:w-1/2 p-4 flex">
+                <div className="w-full md:w-2/3 flex flex-col sm:flex-row comic-panel p-0 border-4 border-black overflow-hidden bg-white">
+                    <div className="w-full sm:w-1/2 p-4 flex bg-comic-yellow">
                         <div className="side-label border-r-2 border-black/10 pr-1">Affiliations</div>
                         <div className="flex flex-col justify-around w-full pl-4 space-y-2">
                             {['SOLO', 'BUDDY', 'TEAM'].map((label, idx) => (
@@ -97,7 +97,7 @@ export default function HeaderSection({ data, updateData }: HeaderSectionProps) 
                         </div>
                     </div>
 
-                    <div className="w-full sm:w-1/2 p-4 flex border-l-4 border-black bg-comic-green">
+                    <div className="w-full sm:w-1/2 p-4 flex sm:border-l-4 border-t-4 sm:border-t-0 border-black bg-comic-green">
                         <div className="side-label border-r-2 border-black/10 pr-1">Distinctions</div>
                         <div className="flex flex-col justify-around w-full pl-2 space-y-4">
                             {[0, 1, 2].map((idx) => (
