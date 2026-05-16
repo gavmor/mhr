@@ -1,6 +1,6 @@
 # Plan: Edit vs Play Mode Toggle
 
-## Phase 1: Foundation & Library Setup
+## Phase 1: Foundation & Library Setup [checkpoint: 7ba256b]
 - [x] Task: Install and Configure Shadcn & Utils [f7e190a]
     - [x] Initialize shadcn-ui using `npx shadcn@latest init`.
     - [x] Install required components: `Switch`, `Badge`.
@@ -8,7 +8,7 @@
 - [x] Task: Define Mode State and Storage Utility [df1c642]
     - [x] Write tests for mode persistence in `persistence.test.ts`.
     - [x] Implement `getMode` / `saveMode` in `src/lib/persistence.ts`.
-- [ ] Task: Conductor - User Manual Verification 'Foundation & Library Setup' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Foundation & Library Setup' (Protocol in workflow.md)
 
 ## Phase 2: Refactor for Easy-Edit & Read-Only
 - [ ] Task: Refactor EditableTextarea with `react-easy-edit`
