@@ -3,6 +3,7 @@ import DieIcon from '../ui/DieIcon';
 import EditableTextarea from '../ui/EditableTextarea';
 import { PowerSet, Power, SFX } from '../../App';
 import { cn } from '@/lib/utils';
+import { ComicButton } from '../ui/ComicButton';
 
 interface PowerSetsSectionProps {
     powerSets: PowerSet[];
@@ -94,10 +95,12 @@ export default function PowerSetsSection({
                             ))}
                         </div>
                         {!isPlayMode && (
-                            <button 
-                                className="btn-comic btn-comic-white text-xs py-1 px-3 mb-4" 
+                            <ComicButton 
+                                variant="white" 
+                                size="xs"
+                                className="mb-4"
                                 onClick={() => updatePowerSet(ps.id, { ...ps, powers: [...ps.powers, { id: generateId(), die: '8', name: "NEW POWER" }] })}
-                            >+ ADD POWER</button>
+                            >+ ADD POWER</ComicButton>
                         )}
 
                         {/* SFX/Limits List */}
@@ -140,20 +143,23 @@ export default function PowerSetsSection({
                             ))}
                         </div>
                         {!isPlayMode && (
-                            <button 
-                                className="btn-comic btn-comic-white text-xs py-1 px-3 mt-2" 
+                            <ComicButton 
+                                variant="white" 
+                                size="xs"
+                                className="mt-2"
                                 onClick={() => updatePowerSet(ps.id, { ...ps, sfx: [...ps.sfx, { id: generateId(), type: 'SFX:', name: 'Name.', desc: 'Description of the effect.' }] })}
-                            >+ ADD SFX/LIMIT</button>
+                            >+ ADD SFX/LIMIT</ComicButton>
                         )}
                     </div>
                 ))}
 
                 {!isPlayMode && (
                     <div className="text-center mt-6">
-                        <button 
-                            className="btn-comic btn-comic-white btn-comic-md"
+                        <ComicButton 
+                            variant="white" 
+                            size="md"
                             onClick={addPowerSet}
-                        >+ ADD POWER SET</button>
+                        >+ ADD POWER SET</ComicButton>
                     </div>
                 )}
             </div>

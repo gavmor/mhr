@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CATEGORIES, DIE_SEQUENCE } from './constants';
 import { InteractiveDie } from './InteractiveDie';
 import { PoolDie } from '../../App';
+import { ComicButton } from '../ui/ComicButton';
 
 interface AssemblerProps {
     pool: Record<string, PoolDie[]>;
@@ -139,12 +140,14 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
 
                 {/* Clear Button fixed to bottom */}
                 <div className="sticky bottom-0 w-full p-4 bg-white/90 backdrop-blur border-t-4 border-black flex justify-center z-40 mt-4">
-                    <button
+                    <ComicButton
                         onClick={handleClearPool}
-                        className="btn-comic btn-comic-red btn-comic-lg px-8 rounded-sm"
+                        variant="red"
+                        size="lg"
+                        className="px-8 rounded-sm"
                     >
                         CLEAR POOL
-                    </button>
+                    </ComicButton>
                 </div>
 
             </div>

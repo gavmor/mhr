@@ -2,6 +2,7 @@ import React from 'react';
 import DieIcon from '../ui/DieIcon';
 import EditableTextarea from '../ui/EditableTextarea';
 import { Specialty } from '../../App';
+import { ComicButton } from '../ui/ComicButton';
 
 interface SpecsSectionProps {
     specialties: Specialty[];
@@ -66,10 +67,12 @@ export default function SpecsSection({
                 ))}
                 
                 {!isPlayMode && (
-                    <button 
-                        className="absolute right-4 top-4 btn-comic btn-comic-white text-xs py-1 px-3" 
+                    <ComicButton 
+                        variant="white" 
+                        size="xs"
+                        className="absolute right-4 top-4" 
                         onClick={addSpecialty}
-                    >+ ADD SPEC</button>
+                    >+ ADD SPEC</ComicButton>
                 )}
             </div>
         </div>

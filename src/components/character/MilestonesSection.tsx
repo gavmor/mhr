@@ -1,6 +1,7 @@
 import React from 'react';
 import EditableTextarea from '../ui/EditableTextarea';
 import { Milestone } from '../../App';
+import { ComicButton } from '../ui/ComicButton';
 
 interface MilestonesSectionProps {
     milestones: Milestone[];
@@ -88,10 +89,11 @@ export default function MilestonesSection({ milestones, onChange, isPlayMode = f
 
                 {!isPlayMode && (
                     <div className="text-center mt-6">
-                        <button 
-                            className="btn-comic btn-comic-white btn-comic-md"
+                        <ComicButton 
+                            variant="white" 
+                            size="md"
                             onClick={addMilestone}
-                        >+ ADD MILESTONE</button>
+                        >+ ADD MILESTONE</ComicButton>
                     </div>
                 )}
             </div>

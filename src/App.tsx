@@ -7,6 +7,7 @@ import JsonModal from './components/JsonModal';
 import { Assembler } from './components/assembler/Assembler';
 import { loadCharacterData, saveCharacterData, clearCharacterData, loadMode, saveMode } from './lib/persistence';
 import { cn } from './lib/utils';
+import { ComicButton } from './components/ui/ComicButton';
 
 export interface Power {
     id: string;
@@ -166,24 +167,20 @@ function App() {
             </div>
 
             <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 lg:hidden">
-                <button
-                    className={cn(
-                        "btn-comic btn-comic-lg",
-                        activeTab === 'character' ? "btn-comic-red" : "btn-comic-white"
-                    )}
+                <ComicButton
+                    variant={activeTab === 'character' ? 'red' : 'white'}
+                    size="lg"
                     onClick={() => setActiveTab('character')}
                 >
                     DATAFILE
-                </button>
-                <button
-                    className={cn(
-                        "btn-comic btn-comic-lg",
-                        activeTab === 'assembler' ? "btn-comic-red" : "btn-comic-white"
-                    )}
+                </ComicButton>
+                <ComicButton
+                    variant={activeTab === 'assembler' ? 'red' : 'white'}
+                    size="lg"
                     onClick={() => setActiveTab('assembler')}
                 >
                     DICE POOL ASSEMBLER
-                </button>
+                </ComicButton>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8 items-start justify-center max-w-[1500px] mx-auto px-4 lg:mt-8">
@@ -216,18 +213,21 @@ function App() {
                         />
 
                         <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
-                            <button 
-                                className="btn-comic btn-comic-red btn-comic-md"
+                            <ComicButton 
+                                variant="red" 
+                                size="md"
                                 onClick={handleReset}
-                            >RESET DATA</button>
-                            <button 
-                                className="btn-comic btn-comic-blue btn-comic-md"
+                            >RESET DATA</ComicButton>
+                            <ComicButton 
+                                variant="blue" 
+                                size="md"
                                 onClick={() => setIsJsonModalOpen(true)}
-                            >IMPORT / EXPORT</button>
-                            <button 
-                                className="btn-comic btn-comic-green btn-comic-md"
+                            >IMPORT / EXPORT</ComicButton>
+                            <ComicButton 
+                                variant="green" 
+                                size="md"
                                 onClick={() => window.print()}
-                            >PRINT PDF</button>
+                            >PRINT PDF</ComicButton>
                         </div>
 
                         <JsonModal 
