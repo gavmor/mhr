@@ -4,6 +4,7 @@
 - **Framework**: React 19 (Component-based UI architecture)
 - **Language**: TypeScript (Static typing for robust state management)
 - **Styling**: TailwindCSS v4 (Utility-first, CSS-first design system with custom theme tokens)
+- **UI Library**: Shadcn/ui (Radix UI primitives for accessible components)
 - **Icons**: Lucide React / Font Awesome (CDN)
 - **Typography**: Bangers & Oswald (Google Fonts)
 
