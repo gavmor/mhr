@@ -1,22 +1,23 @@
 # Plan: Edit vs Play Mode Toggle
 
-## Phase 1: Foundation & Shadcn Setup
-- [ ] Task: Install and Configure Shadcn UI
+## Phase 1: Foundation & Library Setup
+- [ ] Task: Install and Configure Shadcn & Utils
     - [ ] Initialize shadcn-ui using `npx shadcn@latest init`.
     - [ ] Install required components: `Switch`, `Badge`.
+    - [ ] Install `react-easy-edit`.
 - [ ] Task: Define Mode State and Storage Utility
     - [ ] Write tests for mode persistence in `persistence.test.ts`.
     - [ ] Implement `getMode` / `saveMode` in `src/lib/persistence.ts`.
-- [ ] Task: Conductor - User Manual Verification 'Foundation & Shadcn Setup' (Protocol in workflow.md)
+- [ ] Task: Conductor - User Manual Verification 'Foundation & Library Setup' (Protocol in workflow.md)
 
-## Phase 2: Read-Only Datafile
-- [ ] Task: Implement Input Locking
-    - [ ] Write tests for `EditableTextarea` read-only behavior in `EditableTextarea.test.tsx`.
-    - [ ] Update `EditableTextarea` to accept an `isReadOnly` prop and prevent interaction.
+## Phase 2: Refactor for Easy-Edit & Read-Only
+- [ ] Task: Refactor EditableTextarea with `react-easy-edit`
+    - [ ] Update `EditableTextarea` to use `react-easy-edit` for inline editing.
+    - [ ] Implement the `isReadOnly` toggle within the new component structure.
 - [ ] Task: Apply Mode to All Inputs
     - [ ] Update `App.tsx` and character sections to pass `isPlayMode` down to all editable fields.
     - [ ] Update global CSS in `index.css` to hide dashed borders when not in edit mode.
-- [ ] Task: Conductor - User Manual Verification 'Read-Only Datafile' (Protocol in workflow.md)
+- [ ] Task: Conductor - User Manual Verification 'Refactor & Read-Only' (Protocol in workflow.md)
 
 ## Phase 3: Play-Mode Interactions
 - [ ] Task: Implement the Global Toggle with Shadcn

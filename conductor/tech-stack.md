@@ -5,6 +5,7 @@
 - **Language**: TypeScript (Static typing for robust state management)
 - **Styling**: TailwindCSS v4 (Utility-first, CSS-first design system with custom theme tokens)
 - **UI Library**: Shadcn/ui (Radix UI primitives for accessible components)
+- **Component Utilities**: react-easy-edit (for seamless inline editing)
 - **Icons**: Lucide React / Font Awesome (CDN)
 - **Typography**: Bangers & Oswald (Google Fonts)
 

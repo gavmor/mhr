@@ -10,14 +10,13 @@ The goal is to implement a global "Edit" vs "Play" mode toggle for the Character
     - Die icons cycle values on click.
     - Standard UI feedback (dashed borders on hover).
 - **Play Mode**:
-    - **Input Locking**: All text inputs and textareas are disabled or set to `read-only`, preventing keyboard focus and accidental edits.
+    - **Input Locking**: Use `react-easy-edit` to manage inline editing. In Play Mode, these components will be set to read-only, preventing keyboard focus and accidental edits.
     - **Interactive Traits**: Clicking on any trait name or its associated die icon will **add** that die to the Dice Pool Assembler.
     - **Labeled Dice**: Dice added to the assembler in this mode should carry the label of the clicked trait (e.g., clicking the 'd8' next to 'Buddy' adds a 'd8' labeled 'Buddy' to the Affiliation pool).
     - **Visual Indicators**:
         - Cursor changes to `pointer` over all trait blocks.
         - Sublte hover highlight on trait blocks to indicate clickability.
-        - "Read-only" styling: Remove dashed borders from inputs to simplify the look.
-- **Persistence**: The current mode (Edit or Play) must be persisted in `localStorage`.
+        - "Read-only" styling: Use the styling hooks in `react-easy-edit` to remove dashed borders and simplify the look when not editing.- **Persistence**: The current mode (Edit or Play) must be persisted in `localStorage`.
 
 ## Non-Functional Requirements
 - **State Synchronization**: Ensure the "Play" mode state is accessible to all character sheet sub-sections and the Assembler.
