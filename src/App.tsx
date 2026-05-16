@@ -103,8 +103,11 @@ export const defaultState: CharacterData = {
 
 function App() {
     const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
-    const [appMode, setAppMode] = useState<'edit' | 'play'>('edit');
-    const [data, setData] = useState<CharacterData>(defaultState);
+    const [appMode, setAppMode] = useState<'edit' | 'play'>(() => loadMode());
+    const [data, setData] = useState<CharacterData>(() => {
+        const persisted = loadCharacterData();
+        return persisted || defaultState;
+    });
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({});
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
 
@@ -119,15 +122,6 @@ function App() {
                 return newPool;
             });
         });
-    }, []);
-
-    // Load data and mode on mount
-    useEffect(() => {
-        const persistedData = loadCharacterData();
-        if (persistedData) {
-            setData(persistedData);
-        }
-        setAppMode(loadMode());
     }, []);
 
     // Save mode on change
