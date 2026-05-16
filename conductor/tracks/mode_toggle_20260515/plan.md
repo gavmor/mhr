@@ -28,10 +28,10 @@
     - [x] Update `DieIcon` and trait name fields to trigger a new `onTraitClick` callback when in Play Mode.
 - [x] Task: Conductor - User Manual Verification 'Play-Mode Interactions' (Protocol in workflow.md)
 
-## Phase 4: Integration & Polish
+## Phase 4: Integration & Polish [checkpoint: 96787b3]
 - [x] Task: Assembler Integration [10f51e3]
     - [x] Update `Assembler` state to support dice with custom labels/names.
     - [x] Implement the logic to catch trait clicks and add the corresponding labeled die to the pool.
 - [x] Task: Visual Polish [dfa2977]
     - [x] Add `cursor-pointer` and hover highlights to all clickable traits in Play Mode.
-- [ ] Task: Conductor - User Manual Verification 'Integration & Polish' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Integration & Polish' (Protocol in workflow.md)
