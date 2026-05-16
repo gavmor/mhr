@@ -29,46 +29,48 @@ export default function MilestonesSection({ milestones, onChange }: MilestonesSe
     };
 
     return (
-        <div className="flex border-t-2 border-blue-900">
-            <div className="side-label bg-gray-900 border-r border-gray-800 pt-10">Milestones</div>
-            <div className="flex-grow bg-[#0a1128] p-6">
+        <div className="flex border-b-4 border-black">
+            <div className="side-label bg-white border-r-4 border-black pt-10 px-2 w-10 flex-shrink-0 flex items-center justify-center">Milestones</div>
+            <div className="flex-grow bg-white p-6">
                 {milestones.map((m: Milestone) => (
-                    <div key={m.id} className="milestone mb-6 group relative border border-gray-800 p-4 rounded bg-[#0f172a]">
+                    <div key={m.id} className="milestone mb-6 group relative comic-panel p-4 bg-white">
                         <button 
-                            className="absolute right-2 top-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 rounded-full w-6 h-6 flex items-center justify-center z-10"
+                            className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000]"
                             onClick={() => removeMilestone(m.id)}
                             title="Remove Milestone"
                         >✕</button>
-                        <input 
-                            type="text" 
-                            className="editable-input oswald-font text-2xl font-black text-white uppercase tracking-wider mb-4 w-full" 
-                            value={m.name}
-                            onChange={(e) => updateMilestone(m.id, { name: e.target.value })}
-                            placeholder="MILESTONE NAME" 
-                        />
-                        <div className="space-y-3 pl-4">
+                        <div className="border-b-4 border-black pb-2 mb-4">
+                            <input 
+                                type="text" 
+                                className="editable-input font-comic-title text-3xl font-black text-black tracking-wider w-full" 
+                                value={m.name}
+                                onChange={(e) => updateMilestone(m.id, { name: e.target.value })}
+                                placeholder="MILESTONE NAME" 
+                            />
+                        </div>
+                        <div className="space-y-4 pl-4">
                             <div className="flex items-start">
-                                <span className="oswald-font font-bold text-white w-12 flex-shrink-0 mt-1">1 XP</span>
+                                <span className="font-comic-label font-bold text-black text-xl w-16 flex-shrink-0">1 XP</span>
                                 <EditableTextarea 
-                                    className="text-sm text-gray-300 w-full mt-1" 
+                                    className="text-md text-black w-full" 
                                     placeholder="Trigger 1"
                                     value={m.xp1}
                                     onChange={(val: string) => updateMilestone(m.id, { xp1: val })}
                                 />
                             </div>
                             <div className="flex items-start">
-                                <span className="oswald-font font-bold text-white w-12 flex-shrink-0 mt-1">3 XP</span>
+                                <span className="font-comic-label font-bold text-black text-xl w-16 flex-shrink-0">3 XP</span>
                                 <EditableTextarea 
-                                    className="text-sm text-gray-300 w-full mt-1" 
+                                    className="text-md text-black w-full" 
                                     placeholder="Trigger 3"
                                     value={m.xp3}
                                     onChange={(val: string) => updateMilestone(m.id, { xp3: val })}
                                 />
                             </div>
                             <div className="flex items-start">
-                                <span className="oswald-font font-bold text-white w-12 flex-shrink-0 mt-1">10 XP</span>
+                                <span className="font-comic-label font-bold text-black text-xl w-16 flex-shrink-0">10 XP</span>
                                 <EditableTextarea 
-                                    className="text-sm text-gray-300 w-full mt-1" 
+                                    className="text-md text-black w-full" 
                                     placeholder="Trigger 10"
                                     value={m.xp10}
                                     onChange={(val: string) => updateMilestone(m.id, { xp10: val })}
@@ -80,9 +82,9 @@ export default function MilestonesSection({ milestones, onChange }: MilestonesSe
 
                 <div className="text-center mt-6">
                     <button 
-                        className="px-4 py-2 border border-blue-600 text-blue-400 hover:bg-blue-900 hover:text-white transition-colors rounded uppercase oswald-font tracking-widest font-bold"
+                        className="px-6 py-2 bg-white text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active hover:bg-gray-100 transition-all font-comic-title text-xl tracking-widest"
                         onClick={addMilestone}
-                    >+ Add Milestone</button>
+                    >+ ADD MILESTONE</button>
                 </div>
             </div>
         </div>

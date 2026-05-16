@@ -103,38 +103,38 @@ function App() {
     };
 
     return (
-        <div className="min-h-screen pb-10">
-            <div className="bg-gray-900 p-4 border-b border-gray-700 flex justify-center gap-4 mb-4">
+        <div className="min-h-screen pb-10 bg-white">
+            <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 max-w-[1000px] md:mx-auto">
                 <button
-                    className={`px-4 py-2 rounded font-bold transition-colors ${activeTab === 'character' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                    className={`px-6 py-2 font-comic-title text-2xl tracking-widest border-4 border-black transition-all ${activeTab === 'character' ? 'bg-comic-red text-white shadow-comic-active translate-y-1 translate-x-1' : 'bg-white text-black shadow-comic hover:bg-gray-100'}`}
                     onClick={() => setActiveTab('character')}
                 >
-                    Character Sheet
+                    DATAFILE
                 </button>
                 <button
-                    className={`px-4 py-2 rounded font-bold transition-colors ${activeTab === 'assembler' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                    className={`px-6 py-2 font-comic-title text-2xl tracking-widest border-4 border-black transition-all ${activeTab === 'assembler' ? 'bg-comic-red text-white shadow-comic-active translate-y-1 translate-x-1' : 'bg-white text-black shadow-comic hover:bg-gray-100'}`}
                     onClick={() => setActiveTab('assembler')}
                 >
-                    Dice Pool Assembler
+                    DICE POOL ASSEMBLER
                 </button>
             </div>
 
             {activeTab === 'character' ? (
-                <div className="datafile-container mx-auto">
+                <div className="datafile-container mx-auto mb-10">
                     <HeaderSection data={data} updateData={updateData} />
                     <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} />
                     <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} />
                     <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} />
 
-                    <div className="bg-gray-900 p-4 border-t border-gray-700 flex justify-end gap-4">
+                    <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
                         <button 
-                            className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded font-bold"
+                            className="px-6 py-2 bg-comic-blue hover:bg-blue-300 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
                             onClick={() => setIsJsonModalOpen(true)}
-                        >Import/Export JSON</button>
+                        >IMPORT / EXPORT</button>
                         <button 
-                            className="px-4 py-2 bg-green-700 hover:bg-green-600 text-white rounded font-bold"
+                            className="px-6 py-2 bg-comic-green hover:bg-green-400 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
                             onClick={() => window.print()}
-                        >Print / Save PDF</button>
+                        >PRINT PDF</button>
                     </div>
 
                     <JsonModal 

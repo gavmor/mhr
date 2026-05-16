@@ -10,7 +10,7 @@ interface InteractiveDieProps {
 }
 
 export const InteractiveDie: React.FC<InteractiveDieProps> = ({ type, categoryId, dieIndex, onCycle, onRemove }) => {
-    const pressTimer = useRef<number | null>(null);
+    const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const isLongPress = useRef(false);
     const isCancelled = useRef(false);
 

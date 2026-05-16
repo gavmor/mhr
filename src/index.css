@@ -1,36 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0b0f19;
-  --color-foreground: #e2e8f0;
+  --color-background: #ffffff;
+  --color-foreground: #000000;
 
-  --color-card: #111827;
-  --color-card-foreground: #e2e8f0;
+  --color-card: #ffffff;
+  --color-card-foreground: #000000;
 
-  --color-border: #1e3a8a;
+  --color-border: #000000;
   --color-border-hover: #4b5563;
-  --color-ring: #3b82f6;
+  --color-ring: #ef4444;
   
-  --color-primary: #3b82f6;
+  --color-primary: #ef4444;
   --color-primary-foreground: #ffffff;
 
-  --color-secondary: #1f2937;
-  --color-secondary-foreground: #e2e8f0;
+  --color-secondary: #f3f4f6;
+  --color-secondary-foreground: #000000;
 
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
 
-  --color-muted: #475569;
-  --color-muted-foreground: #9ca3af;
+  --color-muted: #e5e7eb;
+  --color-muted-foreground: #4b5563;
+
+  /* Comic specific */
+  --color-comic-yellow: #fbf579;
+  --color-comic-green: #3fc959;
+  --color-comic-orange: #f58a52;
+  --color-comic-orange-light: #fec594;
+  --color-comic-blue: #86bcf9;
+  --color-comic-purple: #9163cc;
+  --color-comic-red: #e5523d;
+  --color-comic-cyan: #bef4f5;
+  --color-comic-gray: #b5b9bb;
 
   /* Specific Die Colors */
-  --color-die-d4: #dc2626;
-  --color-die-d6: #ea580c;
-  --color-die-d8: #ca8a04;
-  --color-die-d10: #16a34a;
-  --color-die-d12: #2563eb;
+  --color-die-d4: #ef4444;
+  --color-die-d6: #3b82f6;
+  --color-die-d8: #22c55e;
+  --color-die-d10: #eab308;
+  --color-die-d12: #a855f7;
   
-  --shadow-datafile: 0 0 15px rgba(30, 58, 138, 0.5);
+  --shadow-comic: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-comic-active: 2px 2px 0px 0px rgba(0, 0, 0, 1);
 }
 
 @layer base {
@@ -48,8 +60,27 @@
 }
 
 @layer components {
+  .font-comic-title {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.05em;
+  }
+
+  .font-comic-label {
+    font-family: 'Oswald', sans-serif;
+    font-style: italic;
+    text-transform: uppercase;
+  }
+
+  .comic-panel {
+    @apply border-4 border-black shadow-comic transition-all duration-100;
+  }
+
+  .comic-panel:active {
+    @apply translate-x-[2px] translate-y-[2px] shadow-comic-active;
+  }
+
   .datafile-container {
-    @apply mx-auto bg-card border-2 border-border max-w-[1000px] shadow-datafile;
+    @apply mx-auto bg-card border-4 border-black max-w-[1000px] shadow-comic;
   }
 
   .editable-input {
@@ -62,7 +93,7 @@
   }
 
   .editable-input:focus {
-    @apply outline-none border-b border-solid border-primary bg-primary/10;
+    @apply outline-none border-b border-solid border-primary bg-black/5;
   }
 
   textarea.editable-input {
@@ -74,6 +105,7 @@
     @apply inline-flex items-center justify-center w-10 h-10 font-bold text-white cursor-pointer select-none transition-transform duration-100 relative bg-muted;
     font-family: 'Oswald', sans-serif;
     font-size: 1.1rem;
+    text-shadow: 1px 1px 0 #000;
   }
 
   .die-icon:active {
@@ -92,12 +124,14 @@
 
   .die-d8 {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    @apply bg-die-d8;
+    @apply bg-die-d8 text-black;
+    text-shadow: none;
   }
 
   .die-d10 {
     clip-path: polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%);
-    @apply bg-die-d10;
+    @apply bg-die-d10 text-black;
+    text-shadow: none;
   }
 
   .die-d12 {
@@ -106,25 +140,24 @@
   }
 
   .side-label {
-    @apply text-center font-bold text-[0.9rem] text-muted-foreground px-[5px];
+    @apply text-center font-black text-lg text-black px-[5px] uppercase;
     writing-mode: vertical-rl;
     text-orientation: mixed;
     transform: rotate(180deg);
     font-family: 'Oswald', sans-serif;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
   }
 
   .section-header {
-    @apply py-[5px] px-[15px] text-[1.5rem] font-bold text-white mb-[10px] flex justify-between items-center;
-    background: linear-gradient(90deg, var(--color-border) 0%, transparent 100%);
+    @apply py-[5px] px-[15px] text-[1.5rem] font-bold text-black mb-[10px] flex justify-between items-center border-b-4 border-black;
   }
 
   .stress-box {
-    @apply w-[25px] h-[25px] bg-secondary border-2 border-border-hover inline-block cursor-pointer mx-[2px] transition-colors duration-200;
+    @apply w-[25px] h-[25px] bg-white border-2 border-black inline-block cursor-pointer mx-[2px] transition-colors duration-200;
   }
 
   .stress-box.active {
-    @apply bg-destructive border-destructive;
+    @apply bg-destructive;
   }
 
   /* Specific shapes for stress track mimicking dice */
@@ -146,11 +179,7 @@
 
   .sb-d12 {
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    @apply bg-secondary rounded-full;
-  }
-
-  .sb-d12.active {
-    @apply bg-destructive border-destructive;
+    @apply rounded-full;
   }
 
   .image-upload-wrapper {

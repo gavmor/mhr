@@ -29,21 +29,21 @@ export default function PowerSetsSection({ powerSets, onChange }: PowerSetsSecti
     };
 
     return (
-        <div className="flex">
-            <div className="side-label bg-gray-900 border-r border-gray-800 pt-10">Power Sets</div>
-            <div className="flex-grow bg-[#0a1128] p-4 space-y-6">
+        <div className="flex border-b-4 border-black">
+            <div className="side-label bg-white border-r-4 border-black pt-10 px-2 w-10 flex-shrink-0 flex items-center justify-center">Power Sets</div>
+            <div className="flex-grow bg-white p-4 space-y-6">
                 {powerSets.map((ps: PowerSet, idx: number) => (
-                    <div key={ps.id} className={`power-set relative group ${idx > 0 ? 'mt-6 border-t border-gray-800 pt-6' : ''}`}>
+                    <div key={ps.id} className={`comic-panel p-4 relative group ${idx % 2 === 0 ? 'bg-comic-orange' : 'bg-comic-orange-light'}`}>
                         <button 
-                            className="absolute -left-2 top-4 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 rounded-full w-6 h-6 flex items-center justify-center z-10"
+                            className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000]"
                             onClick={() => removePowerSet(ps.id)}
                             title="Remove Power Set"
                         >✕</button>
                         
-                        <div className="section-header oswald-font uppercase tracking-wider">
+                        <div className="font-comic-label font-bold text-xl uppercase tracking-wider mb-2 border-b-2 border-black/20 pb-1">
                             <input 
                                 type="text" 
-                                className="editable-input" 
+                                className="editable-input text-black w-full" 
                                 value={ps.name} 
                                 onChange={(e) => updatePowerSet(ps.id, { ...ps, name: e.target.value })}
                                 placeholder="POWER SET NAME" 
@@ -51,66 +51,66 @@ export default function PowerSetsSection({ powerSets, onChange }: PowerSetsSecti
                         </div>
 
                         {/* Powers List */}
-                        <div className="powers-list flex flex-wrap gap-4 pl-4 mb-4">
+                        <div className="powers-list flex flex-wrap gap-4 mb-4 mt-2">
                             {ps.powers.map((power: Power) => (
-                                <div key={power.id} className="flex items-center group relative bg-[#111827] rounded p-1 pr-3 border border-gray-700">
+                                <div key={power.id} className="flex items-center group relative bg-white comic-panel shadow-comic-active p-1 pr-3">
                                     <DieIcon 
                                         value={power.die} 
                                         onChange={(val: string) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, die: val } : p) })} 
                                     />
                                     <input 
                                         type="text" 
-                                        className="editable-input oswald-font text-lg font-bold text-white uppercase ml-2 w-32" 
+                                        className="editable-input font-comic-label text-lg font-bold text-black uppercase ml-2 w-32" 
                                         value={power.name} 
                                         onChange={(e) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, name: e.target.value } : p) })}
                                         placeholder="Power Name" 
                                     />
                                     <button 
-                                        className="absolute -right-2 -top-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                        className="absolute -right-2 -top-2 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-6 h-6 flex items-center justify-center text-xs"
                                         onClick={() => updatePowerSet(ps.id, { ...ps, powers: ps.powers.filter((p: Power) => p.id !== power.id) })}
                                     >✕</button>
                                 </div>
                             ))}
                         </div>
                         <button 
-                            className="text-sm text-blue-400 hover:text-blue-300 ml-4 mb-4" 
+                            className="text-sm text-black font-bold font-comic-label hover:underline mb-4" 
                             onClick={() => updatePowerSet(ps.id, { ...ps, powers: [...ps.powers, { id: generateId(), die: '8', name: "NEW POWER" }] })}
                         >+ Add Power</button>
 
                         {/* SFX/Limits List */}
-                        <div className="sfx-limit-list space-y-2 pl-4">
+                        <div className="sfx-limit-list space-y-2 mt-2">
                             {ps.sfx.map((sfx: SFX) => (
-                                <div key={sfx.id} className="flex group relative pl-4 items-start mb-2">
+                                <div key={sfx.id} className="flex group relative items-start bg-white/50 p-2 border-2 border-black/10">
                                     <select 
-                                        className="bg-transparent text-white oswald-font font-bold outline-none mr-2 appearance-none cursor-pointer mt-1 text-lg"
+                                        className="bg-transparent text-black font-comic-label font-bold outline-none mr-2 appearance-none cursor-pointer mt-1 text-lg uppercase"
                                         value={sfx.type}
                                         onChange={(e) => updatePowerSet(ps.id, { ...ps, sfx: ps.sfx.map((s: SFX) => s.id === sfx.id ? { ...s, type: e.target.value } : s) })}
                                     >
-                                        <option value="SFX:" className="bg-gray-800">SFX:</option>
-                                        <option value="Limit:" className="bg-gray-800">Limit:</option>
+                                        <option value="SFX:" className="bg-comic-orange">SFX:</option>
+                                        <option value="Limit:" className="bg-comic-orange">Limit:</option>
                                     </select>
                                     <input 
                                         type="text" 
-                                        className="editable-input font-bold text-white italic w-32 mr-2 mt-1 pt-1" 
+                                        className="editable-input font-bold text-black italic w-32 mr-2 mt-1 pt-1" 
                                         value={sfx.name} 
                                         onChange={(e) => updatePowerSet(ps.id, { ...ps, sfx: ps.sfx.map((s: SFX) => s.id === sfx.id ? { ...s, name: e.target.value } : s) })}
                                         placeholder="Name." 
                                     />
                                     <EditableTextarea 
-                                        className="flex-grow text-gray-300 mt-1 pt-1" 
+                                        className="flex-grow text-black mt-1 pt-1" 
                                         placeholder="Description of the effect."
                                         value={sfx.desc}
                                         onChange={(val: string) => updatePowerSet(ps.id, { ...ps, sfx: ps.sfx.map((s: SFX) => s.id === sfx.id ? { ...s, desc: val } : s) })}
                                     />
                                     <button 
-                                        className="ml-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity mt-1 pt-1"
+                                        className="ml-2 text-red-600 opacity-0 group-hover:opacity-100 transition-opacity mt-1 pt-1 font-bold"
                                         onClick={() => updatePowerSet(ps.id, { ...ps, sfx: ps.sfx.filter((s: SFX) => s.id !== sfx.id) })}
                                     >✕</button>
                                 </div>
                             ))}
                         </div>
                         <button 
-                            className="text-sm text-blue-400 hover:text-blue-300 ml-4 mt-2" 
+                            className="text-sm text-black font-bold font-comic-label hover:underline mt-2" 
                             onClick={() => updatePowerSet(ps.id, { ...ps, sfx: [...ps.sfx, { id: generateId(), type: 'SFX:', name: 'Name.', desc: 'Description of the effect.' }] })}
                         >+ Add SFX/Limit</button>
                     </div>
@@ -118,9 +118,9 @@ export default function PowerSetsSection({ powerSets, onChange }: PowerSetsSecti
 
                 <div className="text-center mt-6">
                     <button 
-                        className="px-4 py-2 border border-blue-600 text-blue-400 hover:bg-blue-900 hover:text-white transition-colors rounded uppercase oswald-font tracking-widest font-bold"
+                        className="px-6 py-2 bg-white text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active hover:bg-gray-100 transition-all font-comic-title text-xl tracking-widest"
                         onClick={addPowerSet}
-                    >+ Add Power Set</button>
+                    >+ ADD POWER SET</button>
                 </div>
             </div>
         </div>
