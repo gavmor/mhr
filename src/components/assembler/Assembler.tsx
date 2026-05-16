@@ -66,20 +66,10 @@ export const Assembler: React.FC = () => {
     };
 
     return (
-        <div className="assembler-wrapper bg-white font-sans h-full w-full relative">
+        <div className="assembler-wrapper bg-white font-sans h-full w-full relative comic-panel">
             <div className="mx-auto p-4 flex flex-col items-center">
                 {/* Header resembling the reference image */}
-                <div className="text-center mb-6 w-full flex flex-col items-center">
-                    <div className="flex justify-center items-center gap-1 mb-1">
-                        <span className="font-comic-label font-black text-red-600 text-4xl tracking-tighter" style={{ textShadow: '1px 1px 0 #000' }}>MARVEL</span>
-                    </div>
-                    <div className="flex justify-center items-center mb-1">
-                        <span className="font-comic-label font-black text-red-600 text-2xl tracking-tighter" style={{ textShadow: '1px 1px 0 #000' }}>HEROIC</span>
-                    </div>
-                    <div className="flex justify-center items-center mb-4">
-                        <span className="font-comic-label font-black text-red-600 text-sm tracking-widest" style={{ textShadow: '1px 1px 0 #000' }}>ROLEPLAYING</span>
-                    </div>
-
+                <div className="text-center mb-6 w-full flex flex-col items-center border-b-4 border-black pb-4">
                     <h1 className="font-comic-title text-3xl text-black">DICE POOL</h1>
                     <h2 className="font-comic-title text-4xl text-black italic mt-[-5px]">ASSEMBLE!</h2>
                 </div>

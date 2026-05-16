@@ -104,6 +104,13 @@ function App() {
 
     return (
         <div className="min-h-screen pb-10 bg-white">
+            {/* Titlebar */}
+            <div className="bg-black py-3 px-6 flex justify-center md:justify-start items-baseline gap-3 border-b-4 border-red-600 shadow-md">
+                <span className="font-comic-label font-black text-white text-4xl tracking-tighter">MARVEL</span>
+                <span className="font-comic-label font-black text-white text-2xl tracking-tighter">HEROIC</span>
+                <span className="font-comic-label font-black text-white text-sm tracking-widest pb-1">ROLEPLAYING</span>
+            </div>
+
             <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 lg:hidden">
                 <button
                     className={`px-6 py-2 font-comic-title text-2xl tracking-widest border-4 border-black transition-all ${activeTab === 'character' ? 'bg-comic-red text-white shadow-comic-active translate-y-1 translate-x-1' : 'bg-white text-black shadow-comic hover:bg-gray-100'}`}
