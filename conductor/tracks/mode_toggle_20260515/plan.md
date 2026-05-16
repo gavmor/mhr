@@ -14,9 +14,9 @@
 - [x] Task: Refactor EditableTextarea with `react-easy-edit` [custom]
     - [x] Update `EditableTextarea` to use `react-easy-edit` for inline editing.
     - [x] Implement the `isReadOnly` toggle within the new component structure.
-- [~] Task: Apply Mode to All Inputs
-    - [ ] Update `App.tsx` and character sections to pass `isPlayMode` down to all editable fields.
-    - [ ] Update global CSS in `index.css` to hide dashed borders when not in edit mode.
+- [x] Task: Apply Mode to All Inputs [9ebf628]
+    - [x] Update `App.tsx` and character sections to pass `isPlayMode` down to all editable fields.
+    - [x] Update global CSS in `index.css` to hide dashed borders when not in edit mode.
 - [ ] Task: Conductor - User Manual Verification 'Refactor & Read-Only' (Protocol in workflow.md)
 
 ## Phase 3: Play-Mode Interactions
