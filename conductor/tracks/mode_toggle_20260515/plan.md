@@ -19,19 +19,19 @@
     - [x] Update global CSS in `index.css` to hide dashed borders when not in edit mode.
 - [x] Task: Conductor - User Manual Verification 'Refactor & Read-Only' (Protocol in workflow.md)
 
-## Phase 3: Play-Mode Interactions
+## Phase 3: Play-Mode Interactions [checkpoint: 395cd15]
 - [x] Task: Implement the Global Toggle with Shadcn [5443a3b]
     - [x] Create a `ModeSelector` component using Shadcn Switch and Badges.
     - [x] Place it in the top-right of the datafile and hook up to global state.
-- [~] Task: Enable Trait Clicking
-    - [ ] Write tests for trait clicking behavior in Play Mode.
-    - [ ] Update `DieIcon` and trait name fields to trigger a new `onTraitClick` callback when in Play Mode.
-- [ ] Task: Conductor - User Manual Verification 'Play-Mode Interactions' (Protocol in workflow.md)
+- [x] Task: Enable Trait Clicking [10f51e3]
+    - [x] Write tests for trait clicking behavior in Play Mode.
+    - [x] Update `DieIcon` and trait name fields to trigger a new `onTraitClick` callback when in Play Mode.
+- [x] Task: Conductor - User Manual Verification 'Play-Mode Interactions' (Protocol in workflow.md)
 
 ## Phase 4: Integration & Polish
-- [ ] Task: Assembler Integration
-    - [ ] Update `Assembler` state to support dice with custom labels/names.
-    - [ ] Implement the logic to catch trait clicks and add the corresponding labeled die to the pool.
-- [ ] Task: Visual Polish
+- [x] Task: Assembler Integration [10f51e3]
+    - [x] Update `Assembler` state to support dice with custom labels/names.
+    - [x] Implement the logic to catch trait clicks and add the corresponding labeled die to the pool.
+- [~] Task: Visual Polish
     - [ ] Add `cursor-pointer` and hover highlights to all clickable traits in Play Mode.
 - [ ] Task: Conductor - User Manual Verification 'Integration & Polish' (Protocol in workflow.md)
