@@ -64,7 +64,7 @@ export default function EditableTextarea({
         return (
             <div 
                 className={cn(
-                    "cursor-pointer hover:bg-black/5 transition-colors p-1 rounded",
+                    "playable-trait p-1 rounded",
                     className
                 )}
                 onClick={onTraitClick}

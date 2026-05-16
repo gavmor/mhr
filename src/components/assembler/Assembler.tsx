@@ -99,7 +99,13 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
                             {/* Dice Container - Right side (2 columns) with horizontal scrolling if needed */}
                             <div className="col-span-2 flex items-center gap-1 z-10 pl-2 overflow-x-auto overflow-y-visible pointer-events-none no-scrollbar flex-wrap">
                                 {(pool[cat.id] || []).map((die, index) => (
-                                    <div key={die.id} className="pointer-events-auto flex flex-col items-center justify-center min-w-[60px]">
+                                    <div 
+                                        key={die.id} 
+                                        className="pointer-events-auto flex flex-col items-center justify-center min-w-[60px]"
+                                        onClick={(e) => e.stopPropagation()}
+                                        onPointerDown={(e) => e.stopPropagation()}
+                                        onPointerUp={(e) => e.stopPropagation()}
+                                    >
                                         <InteractiveDie
                                             type={die.value}
                                             categoryId={cat.id}

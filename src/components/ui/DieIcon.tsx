@@ -35,7 +35,8 @@ export default function DieIcon({
     return (
         <div 
             className={cn(
-                "cursor-pointer select-none transition-transform duration-100 active:scale-90",
+                "select-none transition-transform duration-100",
+                isReadOnly ? "playable-trait rounded-full" : "cursor-pointer active:scale-90",
                 className
             )} 
             onClick={cycleDie}

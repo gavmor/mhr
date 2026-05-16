@@ -133,7 +133,7 @@ export default function HeaderSection({
                                     <span 
                                         className={cn(
                                             "font-comic-label text-xl font-bold ml-4 tracking-widest text-black",
-                                            isPlayMode && "cursor-pointer hover:bg-black/5 rounded px-1 transition-colors"
+                                            isPlayMode && "playable-trait rounded px-1"
                                         )}
                                         onClick={() => isPlayMode && handleAffClick(idx)}
                                     >
