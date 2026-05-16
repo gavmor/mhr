@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import HeaderSection from './components/character/HeaderSection';
 import PowerSetsSection from './components/character/PowerSetsSection';
 import SpecsSection from './components/character/SpecsSection';
@@ -121,22 +121,32 @@ function App() {
     const [toastMessage, setToastMessage] = useState('');
     const [toastAction, setToastAction] = useState<ToastAction | null>(null);
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
+    const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const triggerToast = (message: string, action?: ToastAction) => {
+        if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+        
         setToastMessage(message);
         setToastAction(action || null);
         setShowToast(true);
-        // If there's an action, we might want a longer timeout or manual close
-        const duration = action ? 5000 : 2000;
+
+        const duration = action ? 6000 : 3000;
         
-        // Clear previous timeout if any
-        if ((window as any).toastTimeout) clearTimeout((window as any).toastTimeout);
-        
-        (window as any).toastTimeout = setTimeout(() => {
+        toastTimeoutRef.current = setTimeout(() => {
             setShowToast(false);
-            setToastAction(null);
+            // Wait for transition to finish before clearing message/action
+            setTimeout(() => {
+                setToastAction(null);
+            }, 300);
         }, duration);
     };
+
+    // Clean up timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+        };
+    }, []);
 
     // Compute dynamic categories based on character power sets
     const categories: Category[] = [
