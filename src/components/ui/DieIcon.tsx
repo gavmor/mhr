@@ -7,9 +7,10 @@ interface DieIconProps {
     value: string;
     onChange?: (val: string) => void;
     className?: string;
+    size?: string;
 }
 
-export default function DieIcon({ value, onChange, className = '' }: DieIconProps) {
+export default function DieIcon({ value, onChange, className = '', size = "w-14 h-14" }: DieIconProps) {
     const cycleDie = () => {
         let currentIndex = diceTypes.indexOf(value);
         if (currentIndex === -1) currentIndex = 2; // Default to '8'
@@ -22,7 +23,7 @@ export default function DieIcon({ value, onChange, className = '' }: DieIconProp
             className={`cursor-pointer select-none transition-transform duration-100 active:scale-90 ${className}`} 
             onClick={cycleDie}
         >
-            <Die type={value} size="w-10 h-10" />
+            <Die type={value} size={size} />
         </div>
     );
 }
