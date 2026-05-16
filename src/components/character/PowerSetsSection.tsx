@@ -2,14 +2,21 @@ import React from 'react';
 import DieIcon from '../ui/DieIcon';
 import EditableTextarea from '../ui/EditableTextarea';
 import { PowerSet, Power, SFX } from '../../App';
+import { cn } from '@/lib/utils';
 
 interface PowerSetsSectionProps {
     powerSets: PowerSet[];
     onChange: (powerSets: PowerSet[]) => void;
     isPlayMode?: boolean;
+    onTraitClick?: (categoryId: string, value: number, label: string) => void;
 }
 
-export default function PowerSetsSection({ powerSets, onChange, isPlayMode = false }: PowerSetsSectionProps) {
+export default function PowerSetsSection({ 
+    powerSets, 
+    onChange, 
+    isPlayMode = false,
+    onTraitClick
+}: PowerSetsSectionProps) {
     const generateId = () => Math.random().toString(36).substr(2, 9);
 
     const updatePowerSet = (id: string, newSet: PowerSet) => {
@@ -27,6 +34,12 @@ export default function PowerSetsSection({ powerSets, onChange, isPlayMode = fal
 
     const removePowerSet = (id: string) => {
         onChange(powerSets.filter((ps: PowerSet) => ps.id !== id));
+    };
+
+    const handlePowerClick = (power: Power) => {
+        if (onTraitClick) {
+            onTraitClick('ps1', parseInt(power.die), power.name);
+        }
     };
 
     return (
@@ -61,6 +74,7 @@ export default function PowerSetsSection({ powerSets, onChange, isPlayMode = fal
                                         value={power.die} 
                                         onChange={(val: string) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, die: val } : p) })} 
                                         isReadOnly={isPlayMode}
+                                        onTraitClick={() => handlePowerClick(power)}
                                     />
                                     <EditableTextarea 
                                         className="font-comic-label text-lg font-bold text-black uppercase ml-2 w-32" 
@@ -68,6 +82,7 @@ export default function PowerSetsSection({ powerSets, onChange, isPlayMode = fal
                                         onChange={(val) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, name: val } : p) })}
                                         placeholder="Power Name" 
                                         isReadOnly={isPlayMode}
+                                        onTraitClick={() => handlePowerClick(power)}
                                     />
                                     {!isPlayMode && (
                                         <button 

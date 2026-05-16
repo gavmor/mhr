@@ -42,6 +42,12 @@ export interface Milestone {
     xp10: string;
 }
 
+export interface PoolDie {
+    id: string;
+    value: number;
+    label?: string;
+}
+
 export interface CharacterData {
     heroName: string;
     realName: string;
@@ -99,7 +105,21 @@ function App() {
     const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
     const [appMode, setAppMode] = useState<'edit' | 'play'>('edit');
     const [data, setData] = useState<CharacterData>(defaultState);
+    const [pool, setPool] = useState<Record<string, PoolDie[]>>({});
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
+
+    // Initialize pool keys on mount
+    useEffect(() => {
+        import('./components/assembler/constants').then(({ CATEGORIES }) => {
+            setPool(prev => {
+                const newPool = { ...prev };
+                CATEGORIES.forEach(cat => {
+                    if (!newPool[cat.id]) newPool[cat.id] = [];
+                });
+                return newPool;
+            });
+        });
+    }, []);
 
     // Load data and mode on mount
     useEffect(() => {
@@ -130,6 +150,14 @@ function App() {
     const handleReset = () => {
         clearCharacterData();
         setData(defaultState);
+    };
+
+    const addDieToPool = (categoryId: string, value: number, label?: string) => {
+        setPool(prev => ({
+            ...prev,
+            [categoryId]: [...(prev[categoryId] || []), { id: generateId(), value, label }]
+        }));
+        if (navigator.vibrate) navigator.vibrate(15);
     };
 
     const isPlayMode = appMode === 'play';
@@ -173,10 +201,25 @@ function App() {
                             isPlayMode={isPlayMode} 
                             appMode={appMode}
                             setAppMode={setAppMode}
+                            onTraitClick={addDieToPool}
                         />
-                        <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} isPlayMode={isPlayMode} />
-                        <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} isPlayMode={isPlayMode} />
-                        <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} isPlayMode={isPlayMode} />
+                        <PowerSetsSection 
+                            powerSets={data.powerSets} 
+                            onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} 
+                            isPlayMode={isPlayMode} 
+                            onTraitClick={addDieToPool}
+                        />
+                        <SpecsSection 
+                            specialties={data.specialties} 
+                            onChange={(sp: Specialty[]) => updateData({ specialties: sp })} 
+                            isPlayMode={isPlayMode} 
+                            onTraitClick={addDieToPool}
+                        />
+                        <MilestonesSection 
+                            milestones={data.milestones} 
+                            onChange={(m: Milestone[]) => updateData({ milestones: m })} 
+                            isPlayMode={isPlayMode} 
+                        />
 
                         <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
                             <button 
@@ -220,7 +263,7 @@ function App() {
                 </div>
                 
                 <div className={`w-full lg:w-[450px] lg:block lg:flex-shrink-0 ${activeTab === 'assembler' ? 'block' : 'hidden'}`}>
-                    <Assembler />
+                    <Assembler pool={pool} setPool={setPool} />
                 </div>
             </div>
         </div>

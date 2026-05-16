@@ -42,4 +42,15 @@ describe('DieIcon', () => {
         fireEvent.click(screen.getByText('d8').closest('div') as HTMLElement);
         expect(onChange).toHaveBeenCalledTimes(1);
     });
+
+    it('calls onTraitClick when clicked in read-only mode', () => {
+        const onTraitClick = vi.fn();
+        const onChange = vi.fn();
+        render(<DieIcon value="10" isReadOnly={true} onTraitClick={onTraitClick} onChange={onChange} />);
+
+        fireEvent.click(screen.getByText('d10').closest('div') as HTMLElement);
+        
+        expect(onTraitClick).toHaveBeenCalled();
+        expect(onChange).not.toHaveBeenCalled();
+    });
 });

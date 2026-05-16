@@ -1,6 +1,16 @@
+import React, { useState } from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Assembler } from './Assembler';
+import { PoolDie } from '../../App';
+
+const TestWrapper = () => {
+    const [pool, setPool] = useState<Record<string, PoolDie[]>>({
+        affil: [], dist: [], ps1: [], ps2: [], spec: [], 
+        stress: [], comp: [], asset: [], push: [], sfx: []
+    });
+    return <Assembler pool={pool} setPool={setPool} />;
+};
 
 describe('Assembler', () => {
     beforeEach(() => {
@@ -12,14 +22,14 @@ describe('Assembler', () => {
     });
 
     it('renders all categories', () => {
-        render(<Assembler />);
+        render(<TestWrapper />);
         expect(screen.getByText('AFFILIATION')).toBeInTheDocument();
         expect(screen.getByText('DISTINCTION')).toBeInTheDocument();
         expect(screen.getByText('POWER SET 1')).toBeInTheDocument();
     });
 
     it('adds a d6 when a category is clicked', () => {
-        render(<Assembler />);
+        render(<TestWrapper />);
         const categoryPanel = screen.getByText('AFFILIATION').closest('.comic-panel') as HTMLElement;
         
         // Ensure no dice initially
@@ -33,7 +43,7 @@ describe('Assembler', () => {
     });
 
     it('cycles a die when tapped', () => {
-        render(<Assembler />);
+        render(<TestWrapper />);
         const categoryPanel = screen.getByText('AFFILIATION').closest('.comic-panel') as HTMLElement;
         
         // Add die
@@ -51,7 +61,7 @@ describe('Assembler', () => {
     });
 
     it('removes a die when long pressed', () => {
-        render(<Assembler />);
+        render(<TestWrapper />);
         const categoryPanel = screen.getByText('AFFILIATION').closest('.comic-panel') as HTMLElement;
         
         // Add die
@@ -74,7 +84,7 @@ describe('Assembler', () => {
     });
 
     it('clears all dice when clear button is clicked', () => {
-        render(<Assembler />);
+        render(<TestWrapper />);
         const categoryPanel = screen.getByText('AFFILIATION').closest('.comic-panel') as HTMLElement;
         
         // Add die
@@ -86,5 +96,17 @@ describe('Assembler', () => {
 
         // Should be removed
         expect(screen.queryByText('d6')).not.toBeInTheDocument();
+    });
+
+    it('renders labeled dice correctly', () => {
+        const poolWithLabels = {
+            affil: [{ id: '1', value: 8, label: 'Buddy' }],
+            dist: [], ps1: [], ps2: [], spec: [], 
+            stress: [], comp: [], asset: [], push: [], sfx: []
+        };
+        const setPool = vi.fn();
+        render(<Assembler pool={poolWithLabels} setPool={setPool} />);
+        
+        expect(screen.getByText('Buddy')).toBeInTheDocument();
     });
 });

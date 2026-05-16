@@ -23,7 +23,7 @@
 - [x] Task: Implement the Global Toggle with Shadcn [5443a3b]
     - [x] Create a `ModeSelector` component using Shadcn Switch and Badges.
     - [x] Place it in the top-right of the datafile and hook up to global state.
-- [ ] Task: Enable Trait Clicking
+- [~] Task: Enable Trait Clicking
     - [ ] Write tests for trait clicking behavior in Play Mode.
     - [ ] Update `DieIcon` and trait name fields to trigger a new `onTraitClick` callback when in Play Mode.
 - [ ] Task: Conductor - User Manual Verification 'Play-Mode Interactions' (Protocol in workflow.md)

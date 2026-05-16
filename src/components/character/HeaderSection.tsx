@@ -12,9 +12,17 @@ interface HeaderSectionProps {
     isPlayMode?: boolean;
     appMode: 'edit' | 'play';
     setAppMode: (mode: 'edit' | 'play') => void;
+    onTraitClick?: (categoryId: string, value: number, label: string) => void;
 }
 
-export default function HeaderSection({ data, updateData, isPlayMode = false, appMode, setAppMode }: HeaderSectionProps) {
+export default function HeaderSection({ 
+    data, 
+    updateData, 
+    isPlayMode = false, 
+    appMode, 
+    setAppMode,
+    onTraitClick
+}: HeaderSectionProps) {
     const handlePortraitUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -38,6 +46,19 @@ export default function HeaderSection({ data, updateData, isPlayMode = false, ap
         const newDists = [...data.distinctions];
         newDists[index] = val;
         updateData({ distinctions: newDists });
+    };
+
+    const handleAffClick = (idx: number) => {
+        if (onTraitClick) {
+            const labels = ['SOLO', 'BUDDY', 'TEAM'];
+            onTraitClick('affil', parseInt(data.affiliations[idx]), labels[idx]);
+        }
+    };
+
+    const handleDistClick = (idx: number) => {
+        if (onTraitClick) {
+            onTraitClick('dist', 8, data.distinctions[idx]);
+        }
     };
 
     return (
@@ -107,8 +128,17 @@ export default function HeaderSection({ data, updateData, isPlayMode = false, ap
                                         value={data.affiliations[idx]} 
                                         onChange={(val) => updateAffiliation(idx, val)} 
                                         isReadOnly={isPlayMode}
+                                        onTraitClick={() => handleAffClick(idx)}
                                     />
-                                    <span className="font-comic-label text-xl font-bold ml-4 tracking-widest text-black">{label}</span>
+                                    <span 
+                                        className={cn(
+                                            "font-comic-label text-xl font-bold ml-4 tracking-widest text-black",
+                                            isPlayMode && "cursor-pointer hover:bg-black/5 rounded px-1 transition-colors"
+                                        )}
+                                        onClick={() => isPlayMode && handleAffClick(idx)}
+                                    >
+                                        {label}
+                                    </span>
                                 </div>
                             ))}
                         </div>
@@ -125,6 +155,7 @@ export default function HeaderSection({ data, updateData, isPlayMode = false, ap
                                     value={data.distinctions[idx]}
                                     onChange={(val) => updateDistinction(idx, val)}
                                     isReadOnly={isPlayMode}
+                                    onTraitClick={() => handleDistClick(idx)}
                                 />
                             ))}
                         </div>

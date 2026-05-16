@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 import { CATEGORIES, DIE_SEQUENCE } from './constants';
 import { InteractiveDie } from './InteractiveDie';
+import { PoolDie } from '../../App';
 
-export const Assembler: React.FC = () => {
-    // State: A dictionary holding an array of dice values (numbers) for each category ID
-    const [pool, setPool] = useState<Record<string, number[]>>(() => {
-        const initialPool: Record<string, number[]> = {};
-        CATEGORIES.forEach(cat => initialPool[cat.id] = []);
-        return initialPool;
-    });
+interface AssemblerProps {
+    pool: Record<string, PoolDie[]>;
+    setPool: React.Dispatch<React.SetStateAction<Record<string, PoolDie[]>>>;
+}
 
+const generateId = () => Math.random().toString(36).substr(2, 9);
+
+export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool }) => {
     const [showToast, setShowToast] = useState(false);
 
     // Handler: Add a d6 to the category
     const handleAddDie = (categoryId: string) => {
         setPool(prev => ({
             ...prev,
-            [categoryId]: [...prev[categoryId], 6]
+            [categoryId]: [...(prev[categoryId] || []), { id: generateId(), value: 6 }]
         }));
         // Haptic feedback if available
         if (navigator.vibrate) navigator.vibrate(15);
@@ -26,13 +27,14 @@ export const Assembler: React.FC = () => {
     const handleCycleDie = (categoryId: string, dieIndex: number) => {
         setPool(prev => {
             const newPool = { ...prev };
-            const currentVal = newPool[categoryId][dieIndex];
+            const currentDie = newPool[categoryId][dieIndex];
+            const currentVal = currentDie.value;
             const currentIndex = DIE_SEQUENCE.indexOf(currentVal);
             // Cycle logic: d6-d8-d10-d12-d4-d6
             const nextVal = DIE_SEQUENCE[(currentIndex + 1) % DIE_SEQUENCE.length];
 
             const newDiceArray = [...newPool[categoryId]];
-            newDiceArray[dieIndex] = nextVal;
+            newDiceArray[dieIndex] = { ...currentDie, value: nextVal };
             newPool[categoryId] = newDiceArray;
 
             return newPool;
@@ -58,14 +60,14 @@ export const Assembler: React.FC = () => {
 
     // Clear the entire pool
     const handleClearPool = () => {
-        const initialPool: Record<string, number[]> = {};
+        const initialPool: Record<string, PoolDie[]> = {};
         CATEGORIES.forEach(cat => initialPool[cat.id] = []);
         setPool(initialPool);
         if (navigator.vibrate) navigator.vibrate(50);
     };
 
     return (
-        <div className="assembler-wrapper bg-white font-sans h-full w-full relative comic-panel">
+        <div className="assembler-wrapper bg-white font-sans h-full w-full relative comic-panel overflow-hidden">
             <div className="mx-auto p-4 flex flex-col items-center">
                 {/* Header resembling the reference image */}
                 <div className="text-center mb-6 w-full flex flex-col items-center border-b-4 border-black pb-4">
@@ -96,15 +98,20 @@ export const Assembler: React.FC = () => {
 
                             {/* Dice Container - Right side (2 columns) with horizontal scrolling if needed */}
                             <div className="col-span-2 flex items-center gap-1 z-10 pl-2 overflow-x-auto overflow-y-visible pointer-events-none no-scrollbar flex-wrap">
-                                {pool[cat.id].map((dieType, index) => (
-                                    <div key={`${cat.id}-${index}-${dieType}`} className="pointer-events-auto flex-shrink-0">
+                                {(pool[cat.id] || []).map((die, index) => (
+                                    <div key={die.id} className="pointer-events-auto flex flex-col items-center justify-center min-w-[60px]">
                                         <InteractiveDie
-                                            type={dieType}
+                                            type={die.value}
                                             categoryId={cat.id}
                                             dieIndex={index}
                                             onCycle={handleCycleDie}
                                             onRemove={handleRemoveDie}
                                         />
+                                        {die.label && (
+                                            <span className="font-comic-label text-[0.5rem] leading-none text-black text-center mt-[-4px] bg-white/80 px-1 border border-black/20 rounded-sm truncate w-full max-w-[56px]">
+                                                {die.label}
+                                            </span>
+                                        )}
                                     </div>
                                 ))}
                             </div>
