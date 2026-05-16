@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderSection from './components/character/HeaderSection';
 import PowerSetsSection from './components/character/PowerSetsSection';
 import SpecsSection from './components/character/SpecsSection';
 import MilestonesSection from './components/character/MilestonesSection';
 import JsonModal from './components/JsonModal';
 import { Assembler } from './components/assembler/Assembler';
+import { loadCharacterData, saveCharacterData } from './lib/persistence';
 
 export interface Power {
     id: string;
@@ -57,7 +58,7 @@ export interface CharacterData {
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-const defaultState: CharacterData = {
+export const defaultState: CharacterData = {
     heroName: "HERO NAME",
     realName: "Real Name",
     identityStatus: "secret",
@@ -97,6 +98,22 @@ function App() {
     const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
     const [data, setData] = useState<CharacterData>(defaultState);
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
+
+    // Load data on mount
+    useEffect(() => {
+        const persistedData = loadCharacterData();
+        if (persistedData) {
+            setData(persistedData);
+        }
+    }, []);
+
+    // Save data on change (debounced)
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            saveCharacterData(data);
+        }, 1000); // 1s debounce
+        return () => clearTimeout(timeoutId);
+    }, [data]);
 
     const updateData = (updates: Partial<CharacterData>) => {
         setData(prev => ({ ...prev, ...updates }));
