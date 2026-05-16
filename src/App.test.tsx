@@ -86,3 +86,48 @@ describe('App persistence integration', () => {
         expect(screen.getByText('HERO NAME')).toBeInTheDocument();
     });
 });
+
+describe('App game interactions', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('increments XP and copies command when milestone is clicked in play mode', async () => {
+        // Setup mock character with a milestone
+        const mockData = {
+            ...defaultState,
+            heroName: "XP Hero",
+            xp: 10,
+            milestones: [{
+                id: 'm1',
+                name: 'Test Milestone',
+                xp1: 'trigger 1',
+                xp3: 'trigger 3',
+                xp10: 'trigger 10'
+            }]
+        };
+        (persistence.loadCharacterData as any).mockReturnValue(mockData);
+        (persistence.loadMode as any).mockReturnValue('play');
+
+        // Mock clipboard
+        const writeTextMock = vi.fn().mockResolvedValue(undefined);
+        Object.assign(navigator, {
+            clipboard: {
+                writeText: writeTextMock,
+            },
+        });
+
+        render(<App />);
+
+        // Find the 3 XP label
+        const xp3Trigger = screen.getByText('3 XP');
+        fireEvent.click(xp3Trigger);
+
+        // a) XP should increase from 10 to 13
+        // The XP input is an input field
+        expect(screen.getByDisplayValue('13')).toBeInTheDocument();
+
+        // b) Clipboard should contain the add xp command
+        expect(writeTextMock).toHaveBeenCalledWith('/xp add who:XP Hero number:3');
+    });
+});

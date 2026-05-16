@@ -2,14 +2,21 @@ import React from 'react';
 import EditableTextarea from '../ui/EditableTextarea';
 import { Milestone } from '../../App';
 import { ComicButton } from '../ui/ComicButton';
+import { cn } from '@/lib/utils';
 
 interface MilestonesSectionProps {
     milestones: Milestone[];
     onChange: (milestones: Milestone[]) => void;
     isPlayMode?: boolean;
+    onMilestoneClick?: (amount: number) => void;
 }
 
-export default function MilestonesSection({ milestones, onChange, isPlayMode = false }: MilestonesSectionProps) {
+export default function MilestonesSection({ 
+    milestones, 
+    onChange, 
+    isPlayMode = false,
+    onMilestoneClick
+}: MilestonesSectionProps) {
     const generateId = () => Math.random().toString(36).substr(2, 9);
 
     const addMilestone = () => {
@@ -28,6 +35,12 @@ export default function MilestonesSection({ milestones, onChange, isPlayMode = f
 
     const removeMilestone = (id: string) => {
         onChange(milestones.filter((m: Milestone) => m.id !== id));
+    };
+
+    const handleXPClick = (amount: number) => {
+        if (isPlayMode && onMilestoneClick) {
+            onMilestoneClick(amount);
+        }
     };
 
     return (
@@ -53,34 +66,55 @@ export default function MilestonesSection({ milestones, onChange, isPlayMode = f
                             />
                         </div>
                         <div className="space-y-4 pl-4">
-                            <div className="flex items-start">
-                                <span className="font-comic-label font-bold text-black text-xl w-16 flex-shrink-0">1 XP</span>
+                            <div className="flex items-start group/xp">
+                                <span 
+                                    className={cn(
+                                        "font-comic-label font-bold text-black text-xl w-16 flex-shrink-0 select-none",
+                                        isPlayMode && "playable-trait rounded px-1"
+                                    )}
+                                    onClick={() => handleXPClick(1)}
+                                >1 XP</span>
                                 <EditableTextarea 
                                     className="text-md text-black w-full" 
                                     placeholder="Trigger 1"
                                     value={m.xp1}
                                     onChange={(val: string) => updateMilestone(m.id, { xp1: val })}
                                     isReadOnly={isPlayMode}
+                                    onTraitClick={() => handleXPClick(1)}
                                 />
                             </div>
-                            <div className="flex items-start">
-                                <span className="font-comic-label font-bold text-black text-xl w-16 flex-shrink-0">3 XP</span>
+                            <div className="flex items-start group/xp">
+                                <span 
+                                    className={cn(
+                                        "font-comic-label font-bold text-black text-xl w-16 flex-shrink-0 select-none",
+                                        isPlayMode && "playable-trait rounded px-1"
+                                    )}
+                                    onClick={() => handleXPClick(3)}
+                                >3 XP</span>
                                 <EditableTextarea 
                                     className="text-md text-black w-full" 
                                     placeholder="Trigger 3"
                                     value={m.xp3}
                                     onChange={(val: string) => updateMilestone(m.id, { xp3: val })}
                                     isReadOnly={isPlayMode}
+                                    onTraitClick={() => handleXPClick(3)}
                                 />
                             </div>
-                            <div className="flex items-start">
-                                <span className="font-comic-label font-bold text-black text-xl w-16 flex-shrink-0">10 XP</span>
+                            <div className="flex items-start group/xp">
+                                <span 
+                                    className={cn(
+                                        "font-comic-label font-bold text-black text-xl w-16 flex-shrink-0 select-none",
+                                        isPlayMode && "playable-trait rounded px-1"
+                                    )}
+                                    onClick={() => handleXPClick(10)}
+                                >10 XP</span>
                                 <EditableTextarea 
                                     className="text-md text-black w-full" 
                                     placeholder="Trigger 10"
                                     value={m.xp10}
                                     onChange={(val: string) => updateMilestone(m.id, { xp10: val })}
                                     isReadOnly={isPlayMode}
+                                    onTraitClick={() => handleXPClick(10)}
                                 />
                             </div>
                         </div>

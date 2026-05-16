@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateRollCommand } from './cortexPal';
+import { generateRollCommand, generateXPCommand } from './cortexPal';
 import { PoolDie } from '../App';
 
 describe('cortexPal utility', () => {
@@ -36,5 +36,19 @@ describe('cortexPal utility', () => {
             affil: [{ id: '1', value: 8, label: '  Buddy  ' }]
         };
         expect(generateRollCommand(pool)).toBe('/roll dice:d8 Buddy');
+    });
+
+    describe('generateXPCommand', () => {
+        it('generates an empty string if hero name is missing', () => {
+            expect(generateXPCommand('', 1)).toBe('');
+        });
+
+        it('generates an empty string if amount is 0', () => {
+            expect(generateXPCommand('Hero', 0)).toBe('');
+        });
+
+        it('generates a correct /xp add command', () => {
+            expect(generateXPCommand('Spider-Man', 3)).toBe('/xp add who:Spider-Man number:3');
+        });
     });
 });

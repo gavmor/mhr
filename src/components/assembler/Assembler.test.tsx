@@ -11,12 +11,12 @@ const mockCategories = [
     ...TRAIT_CATEGORIES
 ];
 
-const TestWrapper = () => {
+const TestWrapper = ({ onToast }: { onToast?: (msg: string) => void }) => {
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({
         affil: [], dist: [], 'ps-0': [], spec: [], 
         stress: [], comp: [], asset: [], push: [], sfx: []
     });
-    return <Assembler pool={pool} setPool={setPool} categories={mockCategories} />;
+    return <Assembler pool={pool} setPool={setPool} categories={mockCategories} onToast={onToast} />;
 };
 
 describe('Assembler', () => {
@@ -68,7 +68,8 @@ describe('Assembler', () => {
     });
 
     it('removes a die when long pressed', () => {
-        render(<TestWrapper />);
+        const onToast = vi.fn();
+        render(<TestWrapper onToast={onToast} />);
         const categoryPanel = screen.getByText('AFFILIATION').closest('.comic-panel') as HTMLElement;
         
         // Add die
@@ -86,12 +87,13 @@ describe('Assembler', () => {
         // Should be removed
         expect(screen.queryByText('d6')).not.toBeInTheDocument();
         
-        // Toast should appear
-        expect(screen.getByText('Die removed')).toBeInTheDocument();
+        // Should trigger toast
+        expect(onToast).toHaveBeenCalledWith('Die removed');
     });
 
     it('clears all dice when clear button is clicked', () => {
-        render(<TestWrapper />);
+        const onToast = vi.fn();
+        render(<TestWrapper onToast={onToast} />);
         const categoryPanel = screen.getByText('AFFILIATION').closest('.comic-panel') as HTMLElement;
         
         // Add die
@@ -103,6 +105,7 @@ describe('Assembler', () => {
 
         // Should be removed
         expect(screen.queryByText('d6')).not.toBeInTheDocument();
+        expect(onToast).toHaveBeenCalledWith('Pool cleared');
     });
 
     it('renders labeled dice correctly', () => {
@@ -125,6 +128,7 @@ describe('Assembler', () => {
             stress: [], comp: [], asset: [], push: [], sfx: []
         };
         const setPool = vi.fn();
+        const onToast = vi.fn();
         
         // Mock clipboard
         const writeTextMock = vi.fn().mockResolvedValue(undefined);
@@ -134,15 +138,17 @@ describe('Assembler', () => {
             },
         });
 
-        render(<Assembler pool={pool} setPool={setPool} categories={mockCategories} />);
+        render(<Assembler pool={pool} setPool={setPool} categories={mockCategories} onToast={onToast} />);
         
         const copyButton = screen.getByText('COPY COMMAND');
-        fireEvent.click(copyButton);
+        await act(async () => {
+            fireEvent.click(copyButton);
+        });
 
         expect(writeTextMock).toHaveBeenCalledWith('/roll dice:d8 Solo');
         
-        // Should show success toast
-        expect(await screen.findByText('Command copied!')).toBeInTheDocument();
+        // Should trigger success toast
+        expect(onToast).toHaveBeenCalledWith('Command copied!');
         vi.useFakeTimers();
     });
 });

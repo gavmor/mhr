@@ -22,3 +22,14 @@ export function generateRollCommand(pool: Record<string, PoolDie[]>): string {
 
     return `/roll dice:${diceStrings.join(' ')}`;
 }
+
+/**
+ * Generates a CortexPal2000 /xp add command.
+ * @param who The name of the hero (usually data.heroName).
+ * @param amount The amount of XP to add.
+ * @returns A formatted /xp add command string.
+ */
+export function generateXPCommand(who: string, amount: number): string {
+    if (!who || !amount) return '';
+    return `/xp add who:${who} number:${amount}`;
+}

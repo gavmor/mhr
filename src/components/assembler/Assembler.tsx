@@ -9,18 +9,14 @@ interface AssemblerProps {
     pool: Record<string, PoolDie[]>;
     setPool: React.Dispatch<React.SetStateAction<Record<string, PoolDie[]>>>;
     categories: Category[];
+    onToast?: (message: string) => void;
 }
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool, categories }) => {
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-
+export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool, categories, onToast }) => {
     const triggerToast = (message: string) => {
-        setToastMessage(message);
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 1500);
+        if (onToast) onToast(message);
     };
 
     // Handler: Add a d6 to the category
@@ -156,11 +152,6 @@ export const Assembler: React.FC<AssemblerProps> = ({ pool, setPool, categories 
                     <i className="fas fa-sync-alt mr-1"></i> Tap a die to cycle its size.<br />
                     <i className="fas fa-compress-arrows-alt mr-1"></i> Press and hold a die to remove it.
                 </p>
-
-                {/* Toast Notification */}
-                <div className={`fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded-full font-bold transition-opacity duration-300 pointer-events-none z-50 ${showToast ? 'opacity-100' : 'opacity-0'}`}>
-                    {toastMessage}
-                </div>
 
                 {/* Clear Button fixed to bottom */}
                 <div className="sticky bottom-0 w-full p-4 bg-white/90 backdrop-blur border-t-4 border-black flex flex-wrap justify-center gap-4 z-40 mt-4">

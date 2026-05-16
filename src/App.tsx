@@ -9,6 +9,7 @@ import { BASE_CATEGORIES, TRAIT_CATEGORIES, Category } from './components/assemb
 import { loadCharacterData, saveCharacterData, clearCharacterData, loadMode, saveMode } from './lib/persistence';
 import { cn } from './lib/utils';
 import { ComicButton } from './components/ui/ComicButton';
+import { generateXPCommand } from './lib/cortexPal';
 
 export interface Power {
     id: string;
@@ -111,7 +112,15 @@ function App() {
         return persisted || defaultState;
     });
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({});
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
+
+    const triggerToast = (message: string) => {
+        setToastMessage(message);
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2000);
+    };
 
     // Compute dynamic categories based on character power sets
     const categories: Category[] = [
@@ -165,6 +174,22 @@ function App() {
             [categoryId]: [...(prev[categoryId] || []), { id: generateId(), value, label }]
         }));
         if (navigator.vibrate) navigator.vibrate(15);
+    };
+
+    const handleMilestoneClick = (amount: number) => {
+        // a) Increase XP field
+        updateData({ xp: data.xp + amount });
+
+        // b) Copy command to clipboard
+        const command = generateXPCommand(data.heroName, amount);
+        if (command) {
+            navigator.clipboard.writeText(command).then(() => {
+                triggerToast(`XP added! Command copied: ${command}`);
+            }).catch(err => {
+                console.error('Failed to copy XP command: ', err);
+                triggerToast('Failed to copy command');
+            });
+        }
     };
 
     const isPlayMode = appMode === 'play';
@@ -222,6 +247,7 @@ function App() {
                             milestones={data.milestones} 
                             onChange={(m: Milestone[]) => updateData({ milestones: m })} 
                             isPlayMode={isPlayMode} 
+                            onMilestoneClick={handleMilestoneClick}
                         />
 
                         <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
@@ -269,8 +295,13 @@ function App() {
                 </div>
                 
                 <div className={`w-full lg:w-[450px] lg:block lg:flex-shrink-0 ${activeTab === 'assembler' ? 'block' : 'hidden'}`}>
-                    <Assembler pool={pool} setPool={setPool} categories={categories} />
+                    <Assembler pool={pool} setPool={setPool} categories={categories} onToast={triggerToast} />
                 </div>
+            </div>
+
+            {/* Global Toast Notification */}
+            <div className={`fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full font-bold transition-all duration-300 pointer-events-none z-[100] shadow-2xl border-2 border-white/20 text-center min-w-[300px] ${showToast ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                {toastMessage}
             </div>
         </div>
     );
