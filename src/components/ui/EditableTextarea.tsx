@@ -5,6 +5,7 @@ interface EditableTextareaProps {
     value: string;
     onChange?: (val: string) => void;
     className?: string;
+    style?: React.CSSProperties;
     placeholder?: string;
     rows?: number;
     isReadOnly?: boolean;
@@ -15,6 +16,7 @@ export default function EditableTextarea({
     value, 
     onChange, 
     className = '', 
+    style,
     placeholder = '', 
     rows = 1,
     isReadOnly = false,
@@ -67,6 +69,7 @@ export default function EditableTextarea({
                     "playable-trait p-1 rounded",
                     className
                 )}
+                style={style}
                 onClick={onTraitClick}
             >
                 {value || placeholder}
@@ -82,6 +85,7 @@ export default function EditableTextarea({
                     "bg-transparent border-none border-b border-solid border-primary bg-black/5 outline-none w-full p-0 m-0 block resize-none overflow-hidden",
                     className
                 )}
+                style={style}
                 rows={rows}
                 value={tempValue}
                 onChange={(e) => {
@@ -100,6 +104,7 @@ export default function EditableTextarea({
                 "border-b border-dashed border-transparent hover:border-border-hover cursor-text transition-all duration-200 p-0 m-0",
                 className
             )}
+            style={style}
             onClick={() => setIsEditing(true)}
         >
             {value || <span className="text-muted-foreground italic">{placeholder}</span>}
