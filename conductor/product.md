@@ -13,6 +13,7 @@ To provide a seamless, visual, and highly interactive digital companion for play
 - **Interactive Datafile**: Real-time editing of hero traits, affiliations, distinctions, power sets, and specialties.
 - **Visual Dice Pool Assembler**: A dedicated tool to quickly build and modify dice pools for rolls.
 - **Dynamic Stress Tracking**: Incremental tracking for Physical, Mental, and Emotional stress using step-dice visuals.
+- **Local Persistence & Auto-save**: Automatically preserves character data in the browser's local storage with a dedicated "Reset Data" option.
 - **Data Portability**: Full JSON import/export capability for saving and sharing characters.
 - **Themed UI**: A responsive, comic-book inspired design with Bangers and Oswald typography and vibrant panel styling.
 - **Print/PDF Support**: High-quality layout optimization for physical printing.
