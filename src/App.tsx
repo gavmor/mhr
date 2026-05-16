@@ -5,7 +5,7 @@ import SpecsSection from './components/character/SpecsSection';
 import MilestonesSection from './components/character/MilestonesSection';
 import JsonModal from './components/JsonModal';
 import { Assembler } from './components/assembler/Assembler';
-import { loadCharacterData, saveCharacterData } from './lib/persistence';
+import { loadCharacterData, saveCharacterData, clearCharacterData } from './lib/persistence';
 
 export interface Power {
     id: string;
@@ -119,6 +119,11 @@ function App() {
         setData(prev => ({ ...prev, ...updates }));
     };
 
+    const handleReset = () => {
+        clearCharacterData();
+        setData(defaultState);
+    };
+
     return (
         <div className="min-h-screen pb-10 bg-white">
             {/* Titlebar */}
@@ -152,6 +157,10 @@ function App() {
                         <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} />
 
                         <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
+                            <button 
+                                className="px-6 py-2 bg-red-600 hover:bg-red-500 text-white border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
+                                onClick={handleReset}
+                            >RESET DATA</button>
                             <button 
                                 className="px-6 py-2 bg-comic-blue hover:bg-blue-300 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
                                 onClick={() => setIsJsonModalOpen(true)}

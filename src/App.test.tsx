@@ -1,6 +1,6 @@
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import App from './App';
+import App, { defaultState } from './App';
 import * as persistence from './lib/persistence';
 
 vi.mock('./lib/persistence', () => ({
@@ -57,5 +57,23 @@ describe('App persistence integration', () => {
         }));
         
         vi.useRealTimers();
+    });
+
+    it('resets data when RESET DATA button is clicked', async () => {
+        const modifiedState = {
+            ...defaultState,
+            heroName: "Modified Hero"
+        };
+        (persistence.loadCharacterData as any).mockReturnValue(modifiedState);
+        
+        render(<App />);
+        
+        // Find reset button - it doesn't exist yet, so this should fail
+        const resetButton = screen.getByText('RESET DATA');
+        
+        fireEvent.click(resetButton);
+        
+        expect(persistence.clearCharacterData).toHaveBeenCalled();
+        expect(screen.getByDisplayValue('HERO NAME')).toBeInTheDocument();
     });
 });
