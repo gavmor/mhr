@@ -37,9 +37,11 @@ export default function PowerSetsSection({
         onChange(powerSets.filter((ps: PowerSet) => ps.id !== id));
     };
 
-    const handlePowerClick = (power: Power) => {
+    const handlePowerClick = (power: Power, psIdx: number) => {
         if (onTraitClick) {
-            onTraitClick('ps1', parseInt(power.die), power.name);
+            // Determine category ID based on power set index (ps1 or ps2)
+            const categoryId = psIdx === 0 ? 'ps1' : 'ps2';
+            onTraitClick(categoryId, parseInt(power.die), power.name);
         }
     };
 
@@ -47,8 +49,8 @@ export default function PowerSetsSection({
         <div className="flex border-b-4 border-black">
             <div className="side-label bg-white border-r-4 border-black pt-10 px-2 w-10 flex-shrink-0 flex items-center justify-center">Power Sets</div>
             <div className="flex-grow bg-white p-4 space-y-6">
-                {powerSets.map((ps: PowerSet, idx: number) => (
-                    <div key={ps.id} className={`comic-panel p-4 relative group ${idx % 2 === 0 ? 'bg-comic-orange' : 'bg-comic-orange-light'}`}>
+                {powerSets.map((ps: PowerSet, psIdx: number) => (
+                    <div key={ps.id} className={`comic-panel p-4 relative group ${psIdx % 2 === 0 ? 'bg-comic-orange' : 'bg-comic-orange-light'}`}>
                         {!isPlayMode && (
                             <button 
                                 className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000]"
@@ -75,7 +77,7 @@ export default function PowerSetsSection({
                                         value={power.die} 
                                         onChange={(val: string) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, die: val } : p) })} 
                                         isReadOnly={isPlayMode}
-                                        onTraitClick={() => handlePowerClick(power)}
+                                        onTraitClick={() => handlePowerClick(power, psIdx)}
                                     />
                                     <EditableTextarea 
                                         className="font-comic-label text-lg font-bold text-black uppercase ml-2 w-32" 
@@ -83,7 +85,7 @@ export default function PowerSetsSection({
                                         onChange={(val) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, name: val } : p) })}
                                         placeholder="Power Name" 
                                         isReadOnly={isPlayMode}
-                                        onTraitClick={() => handlePowerClick(power)}
+                                        onTraitClick={() => handlePowerClick(power, psIdx)}
                                     />
                                     {!isPlayMode && (
                                         <button 
