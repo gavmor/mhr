@@ -104,7 +104,7 @@ function App() {
 
     return (
         <div className="min-h-screen pb-10 bg-white">
-            <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 max-w-[1000px] md:mx-auto">
+            <div className="p-4 border-4 border-black flex flex-wrap justify-center gap-4 mb-6 bg-comic-cyan comic-panel mx-4 mt-4 lg:hidden">
                 <button
                     className={`px-6 py-2 font-comic-title text-2xl tracking-widest border-4 border-black transition-all ${activeTab === 'character' ? 'bg-comic-red text-white shadow-comic-active translate-y-1 translate-x-1' : 'bg-white text-black shadow-comic hover:bg-gray-100'}`}
                     onClick={() => setActiveTab('character')}
@@ -119,51 +119,55 @@ function App() {
                 </button>
             </div>
 
-            {activeTab === 'character' ? (
-                <div className="datafile-container mx-auto mb-10">
-                    <HeaderSection data={data} updateData={updateData} />
-                    <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} />
-                    <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} />
-                    <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} />
+            <div className="flex flex-col lg:flex-row gap-8 items-start justify-center max-w-[1500px] mx-auto px-4 lg:mt-8">
+                <div className={`w-full lg:w-auto lg:flex-grow lg:block max-w-[1000px] ${activeTab === 'character' ? 'block' : 'hidden'}`}>
+                    <div className="datafile-container mx-auto mb-10 w-full max-w-full">
+                        <HeaderSection data={data} updateData={updateData} />
+                        <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} />
+                        <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} />
+                        <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} />
 
-                    <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
-                        <button 
-                            className="px-6 py-2 bg-comic-blue hover:bg-blue-300 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
-                            onClick={() => setIsJsonModalOpen(true)}
-                        >IMPORT / EXPORT</button>
-                        <button 
-                            className="px-6 py-2 bg-comic-green hover:bg-green-400 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
-                            onClick={() => window.print()}
-                        >PRINT PDF</button>
+                        <div className="bg-white p-4 border-t-4 border-black flex flex-wrap justify-end gap-4">
+                            <button 
+                                className="px-6 py-2 bg-comic-blue hover:bg-blue-300 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
+                                onClick={() => setIsJsonModalOpen(true)}
+                            >IMPORT / EXPORT</button>
+                            <button 
+                                className="px-6 py-2 bg-comic-green hover:bg-green-400 text-black border-4 border-black shadow-comic active:translate-y-1 active:translate-x-1 active:shadow-comic-active transition-all font-comic-title text-xl tracking-widest"
+                                onClick={() => window.print()}
+                            >PRINT PDF</button>
+                        </div>
+
+                        <JsonModal 
+                            isOpen={isJsonModalOpen} 
+                            onClose={() => setIsJsonModalOpen(false)} 
+                            data={data}
+                            onImport={(importedData: any) => {
+                                // Ensure IDs exist on imported data to prevent key errors
+                                const processedData = { ...defaultState, ...importedData };
+                                if (processedData.powerSets) {
+                                    processedData.powerSets.forEach((ps: PowerSet) => {
+                                        if (!ps.id) ps.id = generateId();
+                                        if (ps.powers) ps.powers.forEach((p: Power) => { if (!p.id) p.id = generateId(); });
+                                        if (ps.sfx) ps.sfx.forEach((s: SFX) => { if (!s.id) s.id = generateId(); });
+                                    });
+                                }
+                                if (processedData.specialties) {
+                                    processedData.specialties.forEach((sp: Specialty) => { if (!sp.id) sp.id = generateId(); });
+                                }
+                                if (processedData.milestones) {
+                                    processedData.milestones.forEach((m: Milestone) => { if (!m.id) m.id = generateId(); });
+                                }
+                                setData(processedData);
+                            }}
+                        />
                     </div>
-
-                    <JsonModal 
-                        isOpen={isJsonModalOpen} 
-                        onClose={() => setIsJsonModalOpen(false)} 
-                        data={data}
-                        onImport={(importedData: any) => {
-                            // Ensure IDs exist on imported data to prevent key errors
-                            const processedData = { ...defaultState, ...importedData };
-                            if (processedData.powerSets) {
-                                processedData.powerSets.forEach((ps: PowerSet) => {
-                                    if (!ps.id) ps.id = generateId();
-                                    if (ps.powers) ps.powers.forEach((p: Power) => { if (!p.id) p.id = generateId(); });
-                                    if (ps.sfx) ps.sfx.forEach((s: SFX) => { if (!s.id) s.id = generateId(); });
-                                });
-                            }
-                            if (processedData.specialties) {
-                                processedData.specialties.forEach((sp: Specialty) => { if (!sp.id) sp.id = generateId(); });
-                            }
-                            if (processedData.milestones) {
-                                processedData.milestones.forEach((m: Milestone) => { if (!m.id) m.id = generateId(); });
-                            }
-                            setData(processedData);
-                        }}
-                    />
                 </div>
-            ) : (
-                <Assembler />
-            )}
+                
+                <div className={`w-full lg:w-[450px] lg:block lg:flex-shrink-0 ${activeTab === 'assembler' ? 'block' : 'hidden'}`}>
+                    <Assembler />
+                </div>
+            </div>
         </div>
     );
 }

@@ -66,8 +66,8 @@ export const Assembler: React.FC = () => {
     };
 
     return (
-        <div className="assembler-wrapper bg-white min-h-screen pb-24 font-sans">
-            <div className="max-w-md mx-auto p-4 flex flex-col items-center">
+        <div className="assembler-wrapper bg-white font-sans h-full w-full relative">
+            <div className="mx-auto p-4 flex flex-col items-center">
                 {/* Header resembling the reference image */}
                 <div className="text-center mb-6 w-full flex flex-col items-center">
                     <div className="flex justify-center items-center gap-1 mb-1">
@@ -89,7 +89,7 @@ export const Assembler: React.FC = () => {
                     {CATEGORIES.map(cat => (
                         <div
                             key={cat.id}
-                            className="comic-panel w-full h-24 p-2 grid grid-cols-3 relative"
+                            className="comic-panel w-full min-h-24 p-2 grid grid-cols-3 relative"
                             style={{ backgroundColor: cat.bg }}
                             onClick={() => handleAddDie(cat.id)}
                         >
@@ -106,7 +106,7 @@ export const Assembler: React.FC = () => {
                             </div>
 
                             {/* Dice Container - Right side (2 columns) with horizontal scrolling if needed */}
-                            <div className="col-span-2 flex items-center gap-1 z-10 pl-2 overflow-x-auto overflow-y-visible pointer-events-none no-scrollbar">
+                            <div className="col-span-2 flex items-center gap-1 z-10 pl-2 overflow-x-auto overflow-y-visible pointer-events-none no-scrollbar flex-wrap">
                                 {pool[cat.id].map((dieType, index) => (
                                     <div key={`${cat.id}-${index}-${dieType}`} className="pointer-events-auto flex-shrink-0">
                                         <InteractiveDie
@@ -124,19 +124,19 @@ export const Assembler: React.FC = () => {
                 </div>
 
                 {/* Instructions Hint */}
-                <p className="mt-8 text-center text-gray-500 text-sm font-comic-label font-bold">
+                <p className="mt-4 text-center text-gray-500 text-sm font-comic-label font-bold">
                     <i className="fas fa-hand-pointer mr-1"></i> Tap empty space to add a d6.<br />
                     <i className="fas fa-sync-alt mr-1"></i> Tap a die to cycle its size.<br />
                     <i className="fas fa-compress-arrows-alt mr-1"></i> Press and hold a die to remove it.
                 </p>
 
                 {/* Toast Notification */}
-                <div className={`fixed bottom-24 bg-black text-white px-4 py-2 rounded-full font-bold transition-opacity duration-300 pointer-events-none ${showToast ? 'opacity-100' : 'opacity-0'}`}>
+                <div className={`fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded-full font-bold transition-opacity duration-300 pointer-events-none z-50 ${showToast ? 'opacity-100' : 'opacity-0'}`}>
                     Die removed
                 </div>
 
                 {/* Clear Button fixed to bottom */}
-                <div className="fixed bottom-0 left-0 w-full p-4 bg-white/90 backdrop-blur border-t-4 border-black flex justify-center z-50">
+                <div className="sticky bottom-0 w-full p-4 bg-white/90 backdrop-blur border-t-4 border-black flex justify-center z-40 mt-4">
                     <button
                         onClick={handleClearPool}
                         className="bg-red-500 hover:bg-red-600 text-white font-comic-title text-2xl py-2 px-8 rounded-sm border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] active:shadow-[2px_2px_0_0_rgba(0,0,0,1)] active:translate-y-1 transition-all"
