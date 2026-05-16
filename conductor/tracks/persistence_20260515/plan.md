@@ -8,9 +8,9 @@
 ## Phase 2: Implementation
 - [x] Task: Implement `localStorage` utility functions [86bb7e5]
     - [x] Create a dedicated hook or utility for getting/setting data.
-- [ ] Task: Integrate persistence into `App.tsx`
-    - [ ] Use `useEffect` to load data on mount.
-    - [ ] Use `useEffect` to save data on state changes (with debouncing).
+- [x] Task: Integrate persistence into `App.tsx` [7bcb6f9]
+    - [x] Use `useEffect` to load data on mount.
+    - [x] Use `useEffect` to save data on state changes (with debouncing).
 - [ ] Task: Add "Reset Data" functionality
     - [ ] Implement a button to clear storage and reset to `defaultState`.
 - [ ] Task: Conductor - User Manual Verification 'Implementation' (Protocol in workflow.md)
