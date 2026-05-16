@@ -11,8 +11,8 @@
 - [x] Task: Integrate persistence into `App.tsx` [7bcb6f9]
     - [x] Use `useEffect` to load data on mount.
     - [x] Use `useEffect` to save data on state changes (with debouncing).
-- [ ] Task: Add "Reset Data" functionality
-    - [ ] Implement a button to clear storage and reset to `defaultState`.
+- [x] Task: Add "Reset Data" functionality [6b06e66]
+    - [x] Implement a button to clear storage and reset to `defaultState`.
 - [ ] Task: Conductor - User Manual Verification 'Implementation' (Protocol in workflow.md)
 
 ## Phase 3: Testing and Validation
