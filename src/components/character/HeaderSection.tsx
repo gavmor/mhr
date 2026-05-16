@@ -170,11 +170,11 @@ export default function HeaderSection({
                                     />
                                     {isPlayMode && (
                                         <p 
-                                            className="font-comic-label text-[0.65rem] leading-tight mt-1 opacity-80 text-black cursor-pointer hover:underline uppercase font-bold flex items-center gap-1"
+                                            className="font-comic-label text-[0.65rem] leading-none mt-0.5 opacity-80 text-black cursor-pointer hover:underline uppercase font-bold flex items-center gap-0.5"
                                             onClick={() => handleHinderClick(idx)}
                                         >
-                                            <D4 size="w-3 h-3" showLabel={false} />
-                                            HINDER d4 (+1 PP)
+                                            <D4 size="w-3 h-3" showLabel={false} className="m-0" />
+                                            HINDER (+1 PP)
                                         </p>
                                     )}
                                 </div>
