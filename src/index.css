@@ -1,194 +1,168 @@
 @import "tailwindcss";
 
-body {
-    background-color: #0b0f19;
-    /* Very dark blue/black */
-    color: #e2e8f0;
+@theme {
+  --color-background: #0b0f19;
+  --color-foreground: #e2e8f0;
+
+  --color-card: #111827;
+  --color-card-foreground: #e2e8f0;
+
+  --color-border: #1e3a8a;
+  --color-border-hover: #4b5563;
+  --color-ring: #3b82f6;
+  
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #1f2937;
+  --color-secondary-foreground: #e2e8f0;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
+  --color-muted: #475569;
+  --color-muted-foreground: #9ca3af;
+
+  /* Specific Die Colors */
+  --color-die-d4: #dc2626;
+  --color-die-d6: #ea580c;
+  --color-die-d8: #ca8a04;
+  --color-die-d10: #16a34a;
+  --color-die-d12: #2563eb;
+  
+  --shadow-datafile: 0 0 15px rgba(30, 58, 138, 0.5);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased m-0 p-[10px];
     font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 10px;
-}
+  }
 
-h1,
-h2,
-h3,
-.oswald-font {
+  h1,
+  h2,
+  h3,
+  .oswald-font {
     font-family: 'Oswald', sans-serif;
+  }
 }
 
-.datafile-container {
-    margin: 0 auto;
-    background-color: #111827;
-    border: 2px solid #1e3a8a;
-    box-shadow: 0 0 15px rgba(30, 58, 138, 0.5);
-    max-width: 1000px;
-}
+@layer components {
+  .datafile-container {
+    @apply mx-auto bg-card border-2 border-border max-w-[1000px] shadow-datafile;
+  }
 
-.editable-input {
-    background: transparent;
-    border: none;
-    border-bottom: 1px dashed transparent;
-    color: inherit;
-    width: 100%;
-    transition: all 0.2s;
+  .editable-input {
+    @apply bg-transparent border-none border-b border-dashed border-transparent text-inherit w-full transition-all duration-200;
     font-family: inherit;
-}
+  }
 
-.editable-input:hover {
-    border-bottom: 1px dashed #4b5563;
-}
+  .editable-input:hover {
+    @apply border-b border-dashed border-border-hover;
+  }
 
-.editable-input:focus {
-    outline: none;
-    border-bottom: 1px solid #3b82f6;
-    background-color: rgba(59, 130, 246, 0.1);
-}
+  .editable-input:focus {
+    @apply outline-none border-b border-solid border-primary bg-primary/10;
+  }
 
-textarea.editable-input {
-    resize: none;
-    overflow: hidden;
-    display: block;
-    padding: 0;
-    margin: 0;
+  textarea.editable-input {
+    @apply resize-none overflow-hidden block p-0 m-0 min-h-[1.5em];
     line-height: inherit;
-    min-height: 1.5em;
-}
+  }
 
-.die-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.1s;
+  .die-icon {
+    @apply inline-flex items-center justify-center w-10 h-10 font-bold text-white cursor-pointer select-none transition-transform duration-100 relative bg-muted;
     font-family: 'Oswald', sans-serif;
     font-size: 1.1rem;
-    position: relative;
-    background-color: #475569;
-}
+  }
 
-.die-icon:active {
-    transform: scale(0.9);
-}
+  .die-icon:active {
+    @apply scale-90;
+  }
 
-.die-d4 {
+  .die-d4 {
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-    padding-top: 10px;
-    background-color: #dc2626;
-}
+    @apply pt-2.5 bg-die-d4;
+  }
 
-.die-d6 {
+  .die-d6 {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    background-color: #ea580c;
-}
+    @apply bg-die-d6;
+  }
 
-.die-d8 {
+  .die-d8 {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    background-color: #ca8a04;
-}
+    @apply bg-die-d8;
+  }
 
-.die-d10 {
+  .die-d10 {
     clip-path: polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%);
-    background-color: #16a34a;
-}
+    @apply bg-die-d10;
+  }
 
-.die-d12 {
+  .die-d12 {
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    background-color: #2563eb;
-}
+    @apply bg-die-d12;
+  }
 
-.side-label {
+  .side-label {
+    @apply text-center font-bold text-[0.9rem] text-muted-foreground px-[5px];
     writing-mode: vertical-rl;
     text-orientation: mixed;
     transform: rotate(180deg);
-    text-align: center;
     font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
     letter-spacing: 2px;
-    color: #9ca3af;
-    padding: 0 5px;
-}
+  }
 
-.section-header {
-    background: linear-gradient(90deg, #1e3a8a 0%, transparent 100%);
-    padding: 5px 15px;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+  .section-header {
+    @apply py-[5px] px-[15px] text-[1.5rem] font-bold text-white mb-[10px] flex justify-between items-center;
+    background: linear-gradient(90deg, var(--color-border) 0%, transparent 100%);
+  }
 
-.stress-box {
-    width: 25px;
-    height: 25px;
-    background-color: #1f2937;
-    border: 2px solid #4b5563;
-    display: inline-block;
-    cursor: pointer;
-    margin: 0 2px;
-    transition: background-color 0.2s;
-}
+  .stress-box {
+    @apply w-[25px] h-[25px] bg-secondary border-2 border-border-hover inline-block cursor-pointer mx-[2px] transition-colors duration-200;
+  }
 
-.stress-box.active {
-    background-color: #ef4444;
-    border-color: #ef4444;
-}
+  .stress-box.active {
+    @apply bg-destructive border-destructive;
+  }
 
-/* Specific shapes for stress track mimicking dice */
-.sb-d4 {
+  /* Specific shapes for stress track mimicking dice */
+  .sb-d4 {
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
+  }
 
-.sb-d6 {
+  .sb-d6 {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
+  }
 
-.sb-d8 {
+  .sb-d8 {
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
+  }
 
-.sb-d10 {
+  .sb-d10 {
     clip-path: polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%);
-}
+  }
 
-.sb-d12 {
+  .sb-d12 {
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    background-color: #1f2937;
-    border-radius: 50%;
-}
+    @apply bg-secondary rounded-full;
+  }
 
-.sb-d12.active {
-    background-color: #ef4444;
-}
+  .sb-d12.active {
+    @apply bg-destructive border-destructive;
+  }
 
-.image-upload-wrapper {
-    position: relative;
-    cursor: pointer;
-    height: 100%;
-    min-height: 200px;
-}
+  .image-upload-wrapper {
+    @apply relative cursor-pointer h-full min-h-[200px];
+  }
 
-.image-upload-wrapper:hover .upload-overlay {
-    opacity: 1;
-}
+  .image-upload-wrapper:hover .upload-overlay {
+    @apply opacity-100;
+  }
 
-.upload-overlay {
-    position: absolute;
-    inset: 0;
+  .upload-overlay {
+    @apply absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 text-white font-bold;
     background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s;
-    color: white;
-    font-weight: bold;
+  }
 }

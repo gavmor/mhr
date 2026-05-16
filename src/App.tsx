@@ -4,6 +4,7 @@ import PowerSetsSection from './components/character/PowerSetsSection';
 import SpecsSection from './components/character/SpecsSection';
 import MilestonesSection from './components/character/MilestonesSection';
 import JsonModal from './components/JsonModal';
+import { Assembler } from './components/assembler/Assembler';
 
 export interface Power {
     id: string;
@@ -93,6 +94,7 @@ const defaultState: CharacterData = {
 };
 
 function App() {
+    const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
     const [data, setData] = useState<CharacterData>(defaultState);
     const [isJsonModalOpen, setIsJsonModalOpen] = useState(false);
 
@@ -101,46 +103,67 @@ function App() {
     };
 
     return (
-        <div className="datafile-container mx-auto">
-            <HeaderSection data={data} updateData={updateData} />
-            <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} />
-            <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} />
-            <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} />
-
-            <div className="bg-gray-900 p-4 border-t border-gray-700 flex justify-end gap-4">
-                <button 
-                    className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded font-bold"
-                    onClick={() => setIsJsonModalOpen(true)}
-                >Import/Export JSON</button>
-                <button 
-                    className="px-4 py-2 bg-green-700 hover:bg-green-600 text-white rounded font-bold"
-                    onClick={() => window.print()}
-                >Print / Save PDF</button>
+        <div className="min-h-screen pb-10">
+            <div className="bg-gray-900 p-4 border-b border-gray-700 flex justify-center gap-4 mb-4">
+                <button
+                    className={`px-4 py-2 rounded font-bold transition-colors ${activeTab === 'character' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                    onClick={() => setActiveTab('character')}
+                >
+                    Character Sheet
+                </button>
+                <button
+                    className={`px-4 py-2 rounded font-bold transition-colors ${activeTab === 'assembler' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                    onClick={() => setActiveTab('assembler')}
+                >
+                    Dice Pool Assembler
+                </button>
             </div>
 
-            <JsonModal 
-                isOpen={isJsonModalOpen} 
-                onClose={() => setIsJsonModalOpen(false)} 
-                data={data}
-                onImport={(importedData: any) => {
-                    // Ensure IDs exist on imported data to prevent key errors
-                    const processedData = { ...defaultState, ...importedData };
-                    if (processedData.powerSets) {
-                        processedData.powerSets.forEach((ps: PowerSet) => {
-                            if (!ps.id) ps.id = generateId();
-                            if (ps.powers) ps.powers.forEach((p: Power) => { if (!p.id) p.id = generateId(); });
-                            if (ps.sfx) ps.sfx.forEach((s: SFX) => { if (!s.id) s.id = generateId(); });
-                        });
-                    }
-                    if (processedData.specialties) {
-                        processedData.specialties.forEach((sp: Specialty) => { if (!sp.id) sp.id = generateId(); });
-                    }
-                    if (processedData.milestones) {
-                        processedData.milestones.forEach((m: Milestone) => { if (!m.id) m.id = generateId(); });
-                    }
-                    setData(processedData);
-                }}
-            />
+            {activeTab === 'character' ? (
+                <div className="datafile-container mx-auto">
+                    <HeaderSection data={data} updateData={updateData} />
+                    <PowerSetsSection powerSets={data.powerSets} onChange={(ps: PowerSet[]) => updateData({ powerSets: ps })} />
+                    <SpecsSection specialties={data.specialties} onChange={(sp: Specialty[]) => updateData({ specialties: sp })} />
+                    <MilestonesSection milestones={data.milestones} onChange={(m: Milestone[]) => updateData({ milestones: m })} />
+
+                    <div className="bg-gray-900 p-4 border-t border-gray-700 flex justify-end gap-4">
+                        <button 
+                            className="px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded font-bold"
+                            onClick={() => setIsJsonModalOpen(true)}
+                        >Import/Export JSON</button>
+                        <button 
+                            className="px-4 py-2 bg-green-700 hover:bg-green-600 text-white rounded font-bold"
+                            onClick={() => window.print()}
+                        >Print / Save PDF</button>
+                    </div>
+
+                    <JsonModal 
+                        isOpen={isJsonModalOpen} 
+                        onClose={() => setIsJsonModalOpen(false)} 
+                        data={data}
+                        onImport={(importedData: any) => {
+                            // Ensure IDs exist on imported data to prevent key errors
+                            const processedData = { ...defaultState, ...importedData };
+                            if (processedData.powerSets) {
+                                processedData.powerSets.forEach((ps: PowerSet) => {
+                                    if (!ps.id) ps.id = generateId();
+                                    if (ps.powers) ps.powers.forEach((p: Power) => { if (!p.id) p.id = generateId(); });
+                                    if (ps.sfx) ps.sfx.forEach((s: SFX) => { if (!s.id) s.id = generateId(); });
+                                });
+                            }
+                            if (processedData.specialties) {
+                                processedData.specialties.forEach((sp: Specialty) => { if (!sp.id) sp.id = generateId(); });
+                            }
+                            if (processedData.milestones) {
+                                processedData.milestones.forEach((m: Milestone) => { if (!m.id) m.id = generateId(); });
+                            }
+                            setData(processedData);
+                        }}
+                    />
+                </div>
+            ) : (
+                <Assembler />
+            )}
         </div>
     );
 }
