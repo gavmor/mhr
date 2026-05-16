@@ -203,37 +203,40 @@ function App() {
     };
 
     const handleMilestoneClick = (amount: number) => {
+        // a) Increase XP field
+        updateData({ xp: data.xp + amount });
+
+        // b) Copy command to clipboard
         const command = generateXPCommand(data.heroName, amount);
-        triggerToast(`Earned ${amount} XP!`, {
-            label: "APPLY & COPY",
-            onClick: () => {
-                updateData({ xp: data.xp + amount });
-                if (command) {
-                    navigator.clipboard.writeText(command).catch(err => console.error(err));
-                    triggerToast(`XP applied and command copied!`);
-                }
-            }
-        });
+        if (command) {
+            navigator.clipboard.writeText(command).then(() => {
+                triggerToast(`XP added! Command copied: ${command}`);
+            }).catch(err => {
+                console.error('Failed to copy XP command: ', err);
+                triggerToast(`XP added! (Failed to copy command)`);
+            });
+        }
     };
 
     const handleHinderClick = (distIdx: number) => {
         const distName = data.distinctions[distIdx];
-        const command = generatePPCommand(data.heroName, 1);
         
-        triggerToast(`Hinder with ${distName}?`, {
-            label: "APPLY & COPY",
-            onClick: () => {
-                // Add d4 to pool
-                addDieToPool('dist', 4, `${distName} (Hinder)`);
-                // Add 1 PP
-                updateData({ pp: data.pp + 1 });
-                // Copy command
-                if (command) {
-                    navigator.clipboard.writeText(command).catch(err => console.error(err));
-                    triggerToast(`PP applied and command copied!`);
-                }
-            }
-        });
+        // a) Add d4 to pool
+        addDieToPool('dist', 4, `${distName} (Hinder)`);
+        
+        // b) Add 1 PP
+        updateData({ pp: data.pp + 1 });
+
+        // c) Copy command to clipboard
+        const command = generatePPCommand(data.heroName, 1);
+        if (command) {
+            navigator.clipboard.writeText(command).then(() => {
+                triggerToast(`PP added! Command copied: ${command}`);
+            }).catch(err => {
+                console.error('Failed to copy PP command: ', err);
+                triggerToast(`PP added! (Failed to copy command)`);
+            });
+        }
     };
 
     const isPlayMode = appMode === 'play';

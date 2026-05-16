@@ -79,8 +79,7 @@ describe('App game interactions', () => {
         vi.clearAllMocks();
     });
 
-    it('shows toast and only increments XP after clicking APPLY & COPY', async () => {
-        vi.useFakeTimers();
+    it('immediately increments XP and copies command when milestone is clicked in play mode', async () => {
         const mockData = {
             ...defaultState,
             heroName: "XP Hero",
@@ -107,29 +106,18 @@ describe('App game interactions', () => {
 
         // Click milestone trigger
         const xp3Trigger = screen.getByText('3 XP');
-        fireEvent.click(xp3Trigger);
-
-        // XP should NOT have increased yet
-        expect(screen.queryByDisplayValue('13')).not.toBeInTheDocument();
-        expect(screen.getByDisplayValue('10')).toBeInTheDocument();
-
-        // Toast should be visible with action button
-        const applyBtn = screen.getByText('APPLY & COPY');
-        
-        // Click apply
         await act(async () => {
-            fireEvent.click(applyBtn);
+            fireEvent.click(xp3Trigger);
         });
 
-        // XP should now be increased
+        // a) XP should now be increased
         expect(screen.getByDisplayValue('13')).toBeInTheDocument();
+
+        // b) Clipboard should contain the add xp command
         expect(writeTextMock).toHaveBeenCalledWith('/xp add who:XP Hero number:3');
-        
-        vi.useRealTimers();
     });
 
-    it('shows toast and only increments PP/adds die after hinder click and APPLY & COPY', async () => {
-        vi.useFakeTimers();
+    it('immediately increments PP and adds die after hinder click in play mode', async () => {
         const mockData = {
             ...defaultState,
             heroName: "Hinder Hero",
@@ -150,22 +138,12 @@ describe('App game interactions', () => {
 
         // Find hinder label
         const hinderTrigger = screen.getAllByText('HINDER (+1 PP)')[0];
-        fireEvent.click(hinderTrigger);
-
-        // PP should NOT have increased yet
-        expect(screen.getByDisplayValue('1')).toBeInTheDocument();
-
-        // Toast should be visible
-        const applyBtn = screen.getByText('APPLY & COPY');
-        
         await act(async () => {
-            fireEvent.click(applyBtn);
+            fireEvent.click(hinderTrigger);
         });
 
         // PP should now be increased
         expect(screen.getByDisplayValue('2')).toBeInTheDocument();
         expect(writeTextMock).toHaveBeenCalledWith('/pp add who:Hinder Hero number:1');
-        
-        vi.useRealTimers();
     });
 });
