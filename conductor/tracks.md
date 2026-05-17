@@ -12,4 +12,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: Toggle "edit" vs "play" mode. play mode prevents input focus; instead, clicks add labeled dice to the assembler.**
   *Link: [./tracks/mode_toggle_20260515/](./tracks/mode_toggle_20260515/)*
 
+---
 
+- [x] **Track: Introduce zod schema to validate JSON Import.**
+*Link: [./tracks/zod_validation_20260517/](./tracks/zod_validation_20260517/)*

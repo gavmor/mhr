@@ -11,59 +11,14 @@ import { cn } from './lib/utils';
 import { ComicButton } from './components/ui/ComicButton';
 import { generateXPCommand, generatePPCommand } from './lib/cortexPal';
 
-export interface Power {
-    id: string;
-    die: string;
-    name: string;
-}
+import { CharacterDataValidation as CharacterData, Power, SFX, PowerSet, Specialty, Milestone } from './lib/validation';
 
-export interface SFX {
-    id: string;
-    type: string;
-    name: string;
-    desc: string;
-}
-
-export interface PowerSet {
-    id: string;
-    name: string;
-    powers: Power[];
-    sfx: SFX[];
-}
-
-export interface Specialty {
-    id: string;
-    die: string;
-    name: string;
-}
-
-export interface Milestone {
-    id: string;
-    name: string;
-    xp1: string;
-    xp3: string;
-    xp10: string;
-}
+export type { Power, SFX, PowerSet, Specialty, Milestone, CharacterData };
 
 export interface PoolDie {
     id: string;
     value: number;
     label?: string;
-}
-
-export interface CharacterData {
-    heroName: string;
-    realName: string;
-    identityStatus: string;
-    portrait: string | null;
-    affiliations: string[];
-    distinctions: string[];
-    xp: number;
-    pp: number;
-    stress: { p: number; m: number; e: number };
-    powerSets: PowerSet[];
-    specialties: Specialty[];
-    milestones: Milestone[];
 }
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
