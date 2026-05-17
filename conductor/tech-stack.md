@@ -6,6 +6,7 @@
 - **Styling**: TailwindCSS v4 (Utility-first, CSS-first design system with custom theme tokens)
 - **UI Library**: Shadcn/ui (Radix UI primitives for accessible components)
 - **Component Utilities**: react-easy-edit (for seamless inline editing)
+- **Data Validation**: Zod (for runtime validation of JSON imports and strict typing)
 - **Icons**: Lucide React / Font Awesome (CDN)
 - **Typography**: Bangers & Oswald (Google Fonts)
 

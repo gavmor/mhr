@@ -56,6 +56,45 @@
   --radius-lg: 0.5rem;
   --radius-md: calc(var(--radius-lg) - 2px);
   --radius-sm: calc(var(--radius-lg) - 4px);
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-in: slide-in 0.3s ease-out;
+  --animate-pop: pop-in 0.2s ease-out forwards;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pop-in {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    80% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }
 
 @layer base {
@@ -154,41 +193,36 @@
     transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
   }
+.assembler-die-container:active {
+  @apply scale-90 -rotate-5;
+}
 
-  .assembler-die-container:active {
-    @apply scale-90 -rotate-5;
+.playable-trait {
+  @apply cursor-pointer transition-all duration-200;
+}
+
+.playable-trait:hover {
+  @apply bg-black/10 scale-[1.02];
+}
+
+/* Modal & Form Utilities */  .modal-overlay {
+    @apply fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4 animate-fade-in;
   }
 
-  /* Pop animation for new dice */
-  @keyframes popIn {
-    0% {
-      transform: scale(0);
-      opacity: 0;
-    }
-    80% {
-      transform: scale(1.1);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+  .modal-container {
+    @apply bg-white border-4 border-black shadow-comic p-6 max-w-2xl w-full flex flex-col max-h-[90vh] animate-slide-in transition-all duration-100;
   }
 
-  .animate-pop {
-    animation: popIn 0.2s ease-out forwards;
+  .comic-textarea {
+    @apply w-full flex-grow bg-white text-black p-4 font-mono text-sm border-4 border-black shadow-comic focus:outline-none focus:border-red-500 mb-6 overflow-y-auto resize-none min-h-[150px] transition-all;
   }
 
-  .playable-trait {
-    @apply cursor-pointer transition-all duration-200;
+  .comic-error-box {
+    @apply bg-comic-red border-4 border-black text-white p-4 mb-4 overflow-y-auto max-h-32 flex-shrink-0 shadow-comic animate-pop;
   }
 
-  .playable-trait:hover {
-    @apply bg-black/10 scale-[1.02];
-  }
-
-  .animate-pop {
-    animation: popIn 0.2s ease-out forwards;
+  .comic-link-subtle {
+    @apply text-[10px] font-comic-label font-bold text-black/40 hover:text-primary transition-colors cursor-pointer uppercase underline underline-offset-2;
   }
 
   @media print {
