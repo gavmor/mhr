@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "open-props/animations.min.css" layer(base);
+@import "open-props/easings.min.css" layer(base);
 
 @theme {
   --color-background: #ffffff;
@@ -57,29 +59,10 @@
   --radius-md: calc(var(--radius-lg) - 2px);
   --radius-sm: calc(var(--radius-lg) - 4px);
 
-  --animate-fade-in: fade-in 0.2s ease-out;
-  --animate-slide-in: slide-in 0.3s ease-out;
-  --animate-pop: pop-in 0.2s ease-out forwards;
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slide-in {
-    from {
-      transform: translateY(-10px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
+  --animate-fade-in: fade-in 0.2s var(--ease-3) forwards;
+  --animate-slide-in: slide-in-down 0.3s var(--ease-out-4) backwards;
+  --animate-pop: pop-in 0.25s var(--ease-squish-2) forwards;
+  --animate-crumple-out: crumple-out 0.35s var(--ease-in-3) forwards;
 
   @keyframes pop-in {
     0% {
@@ -93,6 +76,21 @@
     100% {
       transform: scale(1);
       opacity: 1;
+    }
+  }
+
+  @keyframes crumple-out {
+    0% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05) rotate(-3deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(0.3) rotate(-15deg);
+      opacity: 0;
     }
   }
 }
@@ -206,7 +204,7 @@
 }
 
 /* Modal & Form Utilities */  .modal-overlay {
-    @apply fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4 animate-fade-in;
+    @apply fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4 opacity-0 animate-fade-in;
   }
 
   .modal-container {

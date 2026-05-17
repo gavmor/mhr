@@ -17,6 +17,7 @@ export default function MilestonesSection({
     isPlayMode = false,
     onMilestoneClick
 }: MilestonesSectionProps) {
+    const [exitingIds, setExitingIds] = React.useState<Set<string>>(new Set());
     const generateId = () => Math.random().toString(36).substr(2, 9);
 
     const addMilestone = () => {
@@ -34,7 +35,11 @@ export default function MilestonesSection({
     };
 
     const removeMilestone = (id: string) => {
-        onChange(milestones.filter((m: Milestone) => m.id !== id));
+        setExitingIds(prev => new Set(prev).add(id));
+        setTimeout(() => {
+            setExitingIds(prev => { const next = new Set(prev); next.delete(id); return next; });
+            onChange(milestones.filter((m: Milestone) => m.id !== id));
+        }, 350);
     };
 
     const handleXPClick = (amount: number) => {
@@ -48,7 +53,7 @@ export default function MilestonesSection({
             <div className="side-label bg-white border-r-4 border-black pt-10 px-2 w-10 flex-shrink-0 flex items-center justify-center">Milestones</div>
             <div className="flex-grow bg-white p-6">
                 {milestones.map((m: Milestone) => (
-                    <div key={m.id} className="milestone mb-6 group relative comic-panel p-4 bg-white">
+                    <div key={m.id} className={cn("milestone mb-6 group relative comic-panel p-4 bg-white", exitingIds.has(m.id) ? "animate-crumple-out" : "animate-pop")}>
                         {!isPlayMode && (
                             <button 
                                 className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000] no-print"
