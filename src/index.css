@@ -224,12 +224,12 @@
     }
 
     .datafile-container {
-      border: 2px solid black !important;
+      border: none !important;
       box-shadow: none !important;
-      background-color: white !important;
-      width: 190mm !important; /* Standard A4 printable area width */
+      background-color: transparent !important;
+      width: 100% !important;
       max-width: none !important;
-      margin: 0 auto !important;
+      margin: 0 !important;
       padding: 0 !important;
     }
 
