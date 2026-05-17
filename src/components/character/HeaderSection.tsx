@@ -113,9 +113,9 @@ export default function HeaderSection({
                 </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 h-full">
+            <div className="flex flex-col md:flex-row print:flex-row gap-4 h-full">
                 {/* Portrait */}
-                <div className="w-full md:w-1/3 comic-panel bg-white relative overflow-hidden">
+                <div className="w-full md:w-1/3 print:w-1/3 comic-panel bg-white relative overflow-hidden">
                     <label className={cn("image-upload-wrapper block h-full min-h-[200px]", isPlayMode && "cursor-default")}>
                         {!isPlayMode && <input type="file" accept="image/*" className="hidden" onChange={handlePortraitUpload} />}
                         <img 
@@ -128,8 +128,8 @@ export default function HeaderSection({
                 </div>
 
                 {/* Affiliations & Distinctions */}
-                <div className="w-full md:w-2/3 flex flex-col sm:flex-row comic-panel p-0 border-4 border-black overflow-hidden bg-white">
-                    <div className="w-full sm:w-1/2 p-4 flex bg-comic-yellow">
+                <div className="w-full md:w-2/3 print:w-2/3 flex flex-col sm:flex-row print:flex-row comic-panel p-0 border-4 border-black overflow-hidden bg-white">
+                    <div className="w-full sm:w-1/2 print:w-1/2 p-4 flex bg-comic-yellow">
                         <div className="side-label border-r-2 border-black/10 pr-1">Affiliations</div>
                         <div className="flex flex-col justify-around w-full pl-4 space-y-2">
                             {['SOLO', 'BUDDY', 'TEAM'].map((label, idx) => (
@@ -154,7 +154,7 @@ export default function HeaderSection({
                         </div>
                     </div>
 
-                    <div className="w-full sm:w-1/2 p-4 flex sm:border-l-4 border-t-4 sm:border-t-0 border-black bg-comic-green">
+                    <div className="w-full sm:w-1/2 print:w-1/2 p-4 flex sm:border-l-4 border-t-4 sm:border-t-0 print:border-t-0 print:border-l-4 border-black bg-comic-green">
                         <div className="side-label border-r-2 border-black/10 pr-1">Distinctions</div>
                         <div className="flex flex-col justify-around w-full pl-2 space-y-4">
                             {[0, 1, 2].map((idx) => (
@@ -184,7 +184,7 @@ export default function HeaderSection({
             </div>
 
             {/* Stats Row */}
-            <div className="flex flex-wrap md:flex-nowrap justify-end items-center gap-6 mt-4">
+            <div className="flex flex-wrap md:flex-nowrap print:flex-nowrap justify-end items-center gap-6 mt-4">
                 <div className="flex items-center gap-2">
                     <span className="font-comic-label font-bold text-xl text-black">XP</span>
                     <input 
