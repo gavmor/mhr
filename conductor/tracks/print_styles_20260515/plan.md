@@ -8,7 +8,7 @@
     - [x] Ensure the main application container allows full-page printing without scrollbars.
 - [x] Task: Conductor - User Manual Verification 'Basic Print Infrastructure' (Protocol in workflow.md)
 
-## Phase 2: Datafile Print Formatting
+## Phase 2: Datafile Print Formatting [checkpoint: d4b992d]
 - [x] Task: Apply "Clean & Minimal" visual overrides [01c200e]
     - [x] Force `background-color: white` and `color: black` for all printed elements.
     - [x] Simplify borders (remove shadow-comic and excessive thickness).
@@ -17,7 +17,7 @@
     - [x] Center the Datafile using margin/padding adjustments.
     - [x] Set a fixed width optimized for A4/Letter (approx 800px).
     - [x] Implement `@page` rules for margin management.
-- [ ] Task: Conductor - User Manual Verification 'Datafile Print Formatting' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Datafile Print Formatting' (Protocol in workflow.md)
 
 ## Phase 3: Validation & Polish
 - [ ] Task: Final cross-browser print verification
