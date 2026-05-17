@@ -131,7 +131,7 @@ export default function HeaderSection({
                 <div className="w-full md:w-2/3 print:w-2/3 flex flex-col sm:flex-row print:flex-row comic-panel p-0 border-4 border-black overflow-hidden bg-white">
                     <div className="w-full sm:w-1/2 print:w-1/2 p-4 flex bg-comic-yellow">
                         <div className="side-label border-r-2 border-black/10 pr-1">Affiliations</div>
-                        <div className="flex flex-col justify-around w-full pl-4 space-y-2">
+                        <div className="flex flex-col justify-around w-full pl-2 space-y-2">
                             {['SOLO', 'BUDDY', 'TEAM'].map((label, idx) => (
                                 <div key={label} className="flex items-center">
                                     <DieIcon 
@@ -142,7 +142,7 @@ export default function HeaderSection({
                                     />
                                     <span 
                                         className={cn(
-                                            "font-comic-label text-xl font-bold ml-4 tracking-widest text-black",
+                                            "font-comic-label text-xl font-bold ml-2 tracking-widest text-black",
                                             isPlayMode && "playable-trait rounded px-1"
                                         )}
                                         onClick={() => isPlayMode && handleAffClick(idx)}
