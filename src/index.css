@@ -192,7 +192,7 @@
   }
 
   @media print {
-    .no-print {
+    .no-print, button, select, input[type="file"], .upload-overlay {
       display: none !important;
     }
 

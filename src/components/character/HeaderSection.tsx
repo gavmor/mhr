@@ -95,11 +95,12 @@ export default function HeaderSection({
                             isReadOnly={isPlayMode}
                         />
                         <span className="mx-2">[</span>
+                        <span className="hidden print:inline text-black uppercase">{data.identityStatus}</span>
                         {isPlayMode ? (
-                            <span className="text-black uppercase">{data.identityStatus}</span>
+                            <span className="text-black uppercase print:hidden">{data.identityStatus}</span>
                         ) : (
                             <select
-                                className="bg-transparent border-none outline-none text-black appearance-none cursor-pointer uppercase"
+                                className="bg-transparent border-none outline-none text-black appearance-none cursor-pointer uppercase no-print"
                                 value={data.identityStatus}
                                 onChange={(e) => updateData({ identityStatus: e.target.value })}
                             >

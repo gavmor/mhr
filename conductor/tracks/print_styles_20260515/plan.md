@@ -20,6 +20,6 @@
 - [x] Task: Conductor - User Manual Verification 'Datafile Print Formatting' (Protocol in workflow.md)
 
 ## Phase 3: Validation & Polish
-- [ ] Task: Final cross-browser print verification
+- [~] Task: Final cross-browser print verification
     - [ ] Test layout in Chrome/Edge and Safari print previews.
 - [ ] Task: Conductor - User Manual Verification 'Validation & Polish' (Protocol in workflow.md)
