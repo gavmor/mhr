@@ -9,14 +9,14 @@
 - [x] Task: Conductor - User Manual Verification 'Basic Print Infrastructure' (Protocol in workflow.md)
 
 ## Phase 2: Datafile Print Formatting
-- [~] Task: Apply "Clean & Minimal" visual overrides
-    - [ ] Force `background-color: white` and `color: black` for all printed elements.
-    - [ ] Simplify borders (remove shadow-comic and excessive thickness).
-    - [ ] Ensure `Bangers` and `Oswald` fonts are optimized for print legibility.
-- [ ] Task: Optimize page layout and alignment
-    - [ ] Center the Datafile using margin/padding adjustments.
-    - [ ] Set a fixed width optimized for A4/Letter (approx 800px).
-    - [ ] Implement `@page` rules for margin management.
+- [x] Task: Apply "Clean & Minimal" visual overrides [01c200e]
+    - [x] Force `background-color: white` and `color: black` for all printed elements.
+    - [x] Simplify borders (remove shadow-comic and excessive thickness).
+    - [x] Ensure `Bangers` and `Oswald` fonts are optimized for print legibility.
+- [x] Task: Optimize page layout and alignment [01c200e]
+    - [x] Center the Datafile using margin/padding adjustments.
+    - [x] Set a fixed width optimized for A4/Letter (approx 800px).
+    - [x] Implement `@page` rules for margin management.
 - [ ] Task: Conductor - User Manual Verification 'Datafile Print Formatting' (Protocol in workflow.md)
 
 ## Phase 3: Validation & Polish
