@@ -53,7 +53,7 @@ export default function PowerSetsSection({
                     <div key={ps.id} className={`comic-panel p-4 relative group ${psIdx % 2 === 0 ? 'bg-comic-orange' : 'bg-comic-orange-light'}`}>
                         {!isPlayMode && (
                             <button 
-                                className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000]"
+                                className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000] no-print"
                                 onClick={() => removePowerSet(ps.id)}
                                 title="Remove Power Set"
                             >✕</button>
@@ -89,7 +89,7 @@ export default function PowerSetsSection({
                                     />
                                     {!isPlayMode && (
                                         <button 
-                                            className="absolute -right-2 -top-2 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                                            className="absolute -right-2 -top-2 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-6 h-6 flex items-center justify-center text-xs no-print"
                                             onClick={() => updatePowerSet(ps.id, { ...ps, powers: ps.powers.filter((p: Power) => p.id !== power.id) })}
                                         >✕</button>
                                     )}
@@ -100,7 +100,7 @@ export default function PowerSetsSection({
                             <ComicButton 
                                 variant="white" 
                                 size="xs"
-                                className="mb-4"
+                                className="mb-4 no-print"
                                 onClick={() => updatePowerSet(ps.id, { ...ps, powers: [...ps.powers, { id: generateId(), die: '8', name: "NEW POWER" }] })}
                             >+ ADD POWER</ComicButton>
                         )}
@@ -137,7 +137,7 @@ export default function PowerSetsSection({
                                     />
                                     {!isPlayMode && (
                                         <button 
-                                            className="ml-2 text-red-600 opacity-0 group-hover:opacity-100 transition-opacity mt-1 pt-1 font-bold"
+                                            className="ml-2 text-red-600 opacity-0 group-hover:opacity-100 transition-opacity mt-1 pt-1 font-bold no-print"
                                             onClick={() => updatePowerSet(ps.id, { ...ps, sfx: ps.sfx.filter((s: SFX) => s.id !== sfx.id) })}
                                         >✕</button>
                                     )}
@@ -148,7 +148,7 @@ export default function PowerSetsSection({
                             <ComicButton 
                                 variant="white" 
                                 size="xs"
-                                className="mt-2"
+                                className="mt-2 no-print"
                                 onClick={() => updatePowerSet(ps.id, { ...ps, sfx: [...ps.sfx, { id: generateId(), type: 'SFX:', name: 'Name.', desc: 'Description of the effect.' }] })}
                             >+ ADD SFX/LIMIT</ComicButton>
                         )}
@@ -156,7 +156,7 @@ export default function PowerSetsSection({
                 ))}
 
                 {!isPlayMode && (
-                    <div className="text-center mt-6">
+                    <div className="text-center mt-6 no-print">
                         <ComicButton 
                             variant="white" 
                             size="md"

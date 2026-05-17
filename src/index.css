@@ -201,6 +201,8 @@
       color: black !important;
       padding: 0 !important;
       margin: 0 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
 
     .min-h-screen {
@@ -211,8 +213,62 @@
       padding-bottom: 0 !important;
     }
 
+    .bg-white, .bg-comic-yellow, .bg-comic-green, .bg-comic-orange, .bg-comic-orange-light, .bg-comic-blue, .bg-comic-cyan, .bg-comic-purple, .bg-comic-red, .bg-comic-gray {
+      background-color: white !important;
+    }
+
+    .comic-panel {
+      border: 2px solid black !important;
+      box-shadow: none !important;
+      background-color: white !important;
+    }
+
+    .datafile-container {
+      border: 2px solid black !important;
+      box-shadow: none !important;
+      background-color: white !important;
+      width: 190mm !important; /* Standard A4 printable area width */
+      max-width: none !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
+    }
+
+    .section-header {
+      color: black !important;
+      border-bottom: 2px solid black !important;
+      background: none !important;
+    }
+
+    .side-label {
+      border-right: 1px solid black !important;
+      color: black !important;
+    }
+
+    /* Force black text for everything except specifically allowed things */
+    * {
+      color: black !important;
+      text-shadow: none !important;
+    }
+
+    /* Keep hero name prominent but maybe allow red if printer supports it, 
+       but for minimal let's go black */
+    .font-comic-title {
+      color: black !important;
+    }
+
+    /* Fix DieIcon in print */
+    .die-icon {
+      filter: none !important;
+      border-color: black !important;
+    }
+
+    /* Hide the 'upload portrait' placeholder text if no image */
+    img[src*="placehold.co"] {
+      opacity: 0.1;
+    }
+
     @page {
-      size: auto;
+      size: portrait;
       margin: 10mm;
     }
   }

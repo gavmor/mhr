@@ -51,7 +51,7 @@ export default function MilestonesSection({
                     <div key={m.id} className="milestone mb-6 group relative comic-panel p-4 bg-white">
                         {!isPlayMode && (
                             <button 
-                                className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000]"
+                                className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000] no-print"
                                 onClick={() => removeMilestone(m.id)}
                                 title="Remove Milestone"
                             >✕</button>
@@ -122,7 +122,7 @@ export default function MilestonesSection({
                 ))}
 
                 {!isPlayMode && (
-                    <div className="text-center mt-6">
+                    <div className="text-center mt-6 no-print">
                         <ComicButton 
                             variant="white" 
                             size="md"

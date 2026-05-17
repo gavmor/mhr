@@ -9,7 +9,7 @@
 - [x] Task: Conductor - User Manual Verification 'Basic Print Infrastructure' (Protocol in workflow.md)
 
 ## Phase 2: Datafile Print Formatting
-- [ ] Task: Apply "Clean & Minimal" visual overrides
+- [~] Task: Apply "Clean & Minimal" visual overrides
     - [ ] Force `background-color: white` and `color: black` for all printed elements.
     - [ ] Simplify borders (remove shadow-comic and excessive thickness).
     - [ ] Ensure `Bangers` and `Oswald` fonts are optimized for print legibility.

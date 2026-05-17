@@ -122,7 +122,7 @@ export default function HeaderSection({
                             alt="Character Portrait" 
                             className="w-full h-full object-cover min-h-[200px]"
                         />
-                        {!isPlayMode && <div className="upload-overlay">Upload Portrait</div>}
+                        {!isPlayMode && <div className="upload-overlay no-print">Upload Portrait</div>}
                     </label>
                 </div>
 

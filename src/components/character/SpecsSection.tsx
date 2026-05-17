@@ -59,7 +59,7 @@ export default function SpecsSection({
                         />
                         {!isPlayMode && (
                             <button 
-                                className="absolute -right-4 top-1 text-red-600 opacity-0 group-hover:opacity-100 transition-opacity text-xl font-black"
+                                className="absolute -right-4 top-1 text-red-600 opacity-0 group-hover:opacity-100 transition-opacity text-xl font-black no-print"
                                 onClick={() => removeSpecialty(sp.id)}
                             >✕</button>
                         )}
@@ -70,7 +70,7 @@ export default function SpecsSection({
                     <ComicButton 
                         variant="white" 
                         size="xs"
-                        className="absolute right-4 top-4" 
+                        className="absolute right-4 top-4 no-print" 
                         onClick={addSpecialty}
                     >+ ADD SPEC</ComicButton>
                 )}
