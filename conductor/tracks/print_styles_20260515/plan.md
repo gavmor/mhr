@@ -19,7 +19,8 @@
     - [x] Implement `@page` rules for margin management.
 - [x] Task: Conductor - User Manual Verification 'Datafile Print Formatting' (Protocol in workflow.md)
 
-## Phase 3: Validation & Polish
+## Phase 3: Validation & Polish [checkpoint: 093529a]
 - [x] Task: Final cross-browser print verification [89cb1ae]
     - [x] Test layout in Chrome/Edge and Safari print previews.
-- [ ] Task: Conductor - User Manual Verification 'Validation & Polish' (Protocol in workflow.md)
+- [x] Task: Force horizontal layout for portrait and traits [093529a]
+- [x] Task: Conductor - User Manual Verification 'Validation & Polish' (Protocol in workflow.md)
