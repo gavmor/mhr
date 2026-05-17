@@ -63,6 +63,7 @@
   --animate-slide-in: slide-in-down 0.3s var(--ease-out-4) backwards;
   --animate-pop: pop-in 0.25s var(--ease-squish-2) forwards;
   --animate-crumple-out: crumple-out 0.35s var(--ease-in-3) forwards;
+  --animate-stress-fill: stress-fill 0.25s var(--ease-3) forwards;
 
   @keyframes pop-in {
     0% {
@@ -91,6 +92,21 @@
     100% {
       transform: scale(0.3) rotate(-15deg);
       opacity: 0;
+    }
+  }
+
+  @keyframes stress-fill {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.3;
+    }
+    60% {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
     }
   }
 }
