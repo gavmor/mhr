@@ -1,0 +1,20 @@
+# Lefthook configuration to prevent CI/CD failures
+# https://lefthook.dev/configuration/
+
+pre-push:
+  parallel: true
+  commands:
+    typecheck-src:
+      run: pnpm exec tsc --noEmit
+    typecheck-node:
+      run: pnpm exec tsc --project tsconfig.node.json --noEmit
+    tests:
+      run: pnpm exec vitest run
+    build:
+      run: pnpm run build
+
+pre-commit:
+  parallel: true
+  commands:
+    typecheck:
+      run: pnpm exec tsc --noEmit
