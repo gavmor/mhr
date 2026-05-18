@@ -18,7 +18,9 @@ export default function JsonModal({ isOpen, onClose, data, onImport }: JsonModal
 
   useEffect(() => {
     if (isOpen) {
-      setJsonText(JSON.stringify(data, null, 4));
+      // Omit portrait from export as it makes the JSON unreadable
+      const { portrait, ...exportData } = data;
+      setJsonText(JSON.stringify(exportData, null, 4));
       setErrors([]);
     }
   }, [isOpen, data]);
@@ -58,7 +60,7 @@ export default function JsonModal({ isOpen, onClose, data, onImport }: JsonModal
         
         <p className="text-black font-bold font-comic-label mb-4 text-sm flex-shrink-0 opacity-80">
           Copy this data to save your character, or paste a previously saved JSON file here to load it. 
-          (Portraits are saved as base64 strings!)
+          (Note: Portraits are not included in the JSON.)
         </p>
         
         <ValidationErrorBox errors={errors} />
