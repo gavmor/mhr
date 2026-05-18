@@ -4,6 +4,7 @@
 - **Framework**: React 19 (Component-based UI architecture)
 - **Language**: TypeScript (Static typing for robust state management)
 - **Styling**: TailwindCSS v4 (Utility-first, CSS-first design system with custom theme tokens)
+- **Animation Design Tokens**: Open Props (pre-built `@keyframes` and easing curves via CSS custom properties)
 - **UI Library**: Shadcn/ui (Radix UI primitives for accessible components)
 - **Component Utilities**: react-easy-edit (for seamless inline editing)
 - **Data Validation**: Zod (for runtime validation of JSON imports and strict typing)

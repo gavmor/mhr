@@ -1,8 +1,7 @@
 import React from 'react';
-import DieIcon from '../ui/DieIcon';
+import TraitItem from '../ui/TraitItem';
 import EditableTextarea from '../ui/EditableTextarea';
 import { PowerSet, Power, SFX } from '../../App';
-import { cn } from '@/lib/utils';
 import { ComicButton } from '../ui/ComicButton';
 
 interface PowerSetsSectionProps {
@@ -24,6 +23,8 @@ export default function PowerSetsSection({
         onChange(powerSets.map((ps: PowerSet) => ps.id === id ? newSet : ps));
     };
 
+    const [exitingIds, setExitingIds] = React.useState<Set<string>>(new Set());
+
     const addPowerSet = () => {
         onChange([...powerSets, {
             id: generateId(),
@@ -34,7 +35,11 @@ export default function PowerSetsSection({
     };
 
     const removePowerSet = (id: string) => {
-        onChange(powerSets.filter((ps: PowerSet) => ps.id !== id));
+        setExitingIds(prev => new Set(prev).add(id));
+        setTimeout(() => {
+            setExitingIds(prev => { const next = new Set(prev); next.delete(id); return next; });
+            onChange(powerSets.filter((ps: PowerSet) => ps.id !== id));
+        }, 350);
     };
 
     const handlePowerClick = (power: Power, psIdx: number) => {
@@ -50,7 +55,7 @@ export default function PowerSetsSection({
             <div className="side-label bg-white border-r-4 border-black pt-10 px-2 w-10 flex-shrink-0 flex items-center justify-center">Power Sets</div>
             <div className="flex-grow bg-white p-4 space-y-6">
                 {powerSets.map((ps: PowerSet, psIdx: number) => (
-                    <div key={ps.id} className={`comic-panel p-4 relative group ${psIdx % 2 === 0 ? 'bg-comic-orange' : 'bg-comic-orange-light'}`}>
+                    <div key={ps.id} className={`comic-panel p-4 relative group ${exitingIds.has(ps.id) ? 'animate-crumple-out' : 'animate-pop'} ${psIdx % 2 === 0 ? 'bg-comic-orange' : 'bg-comic-orange-light'}`}>
                         {!isPlayMode && (
                             <button 
                                 className="absolute -right-3 -top-3 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-[2px_2px_0_0_#000] no-print"
@@ -72,28 +77,17 @@ export default function PowerSetsSection({
                         {/* Powers List */}
                         <div className="powers-list flex flex-wrap gap-4 mb-4 mt-2">
                             {ps.powers.map((power: Power) => (
-                                <div key={power.id} className="flex items-center group relative p-1 pr-3">
-                                    <DieIcon 
-                                        value={power.die} 
-                                        onChange={(val: string) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, die: val } : p) })} 
-                                        isReadOnly={isPlayMode}
-                                        onTraitClick={() => handlePowerClick(power, psIdx)}
-                                    />
-                                    <EditableTextarea 
-                                        className="font-comic-label text-lg font-bold text-black uppercase ml-2 w-32" 
-                                        value={power.name} 
-                                        onChange={(val) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, name: val } : p) })}
-                                        placeholder="Power Name" 
-                                        isReadOnly={isPlayMode}
-                                        onTraitClick={() => handlePowerClick(power, psIdx)}
-                                    />
-                                    {!isPlayMode && (
-                                        <button 
-                                            className="absolute -right-2 -top-2 text-white opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 border-2 border-black rounded-full w-6 h-6 flex items-center justify-center text-xs no-print"
-                                            onClick={() => updatePowerSet(ps.id, { ...ps, powers: ps.powers.filter((p: Power) => p.id !== power.id) })}
-                                        >✕</button>
-                                    )}
-                                </div>
+                                <TraitItem
+                                    key={power.id}
+                                    die={power.die}
+                                    onDieChange={(val) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, die: val } : p) })}
+                                    name={power.name}
+                                    onNameChange={(val) => updatePowerSet(ps.id, { ...ps, powers: ps.powers.map((p: Power) => p.id === power.id ? { ...p, name: val } : p) })}
+                                    placeholder="Power Name"
+                                    isReadOnly={isPlayMode}
+                                    onTraitClick={() => handlePowerClick(power, psIdx)}
+                                    onRemove={() => updatePowerSet(ps.id, { ...ps, powers: ps.powers.filter((p: Power) => p.id !== power.id) })}
+                                />
                             ))}
                         </div>
                         {!isPlayMode && (
