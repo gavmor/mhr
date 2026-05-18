@@ -6,6 +6,7 @@ import StressTrack from './StressTrack';
 import ModeSelector from './ModeSelector';
 import { CharacterData } from '../../App';
 import { cn } from '@/lib/utils';
+import { StepDie } from '@/lib/validation';
 
 interface HeaderSectionProps {
     data: CharacterData;
@@ -39,7 +40,7 @@ export default function HeaderSection({
         }
     };
 
-    const updateAffiliation = (index: number, val: string) => {
+    const updateAffiliation = (index: number, val: StepDie) => {
         const newAffs = [...data.affiliations];
         newAffs[index] = val;
         updateData({ affiliations: newAffs });

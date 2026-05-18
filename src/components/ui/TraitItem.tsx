@@ -1,10 +1,11 @@
 import React from 'react';
 import DieIcon from './DieIcon';
 import EditableTextarea from './EditableTextarea';
+import { StepDie } from '@/lib/validation';
 
 interface TraitItemProps {
-    die: string;
-    onDieChange?: (val: string) => void;
+    die: StepDie;
+    onDieChange?: (val: StepDie) => void;
     name: string;
     onNameChange: (val: string) => void;
     placeholder: string;

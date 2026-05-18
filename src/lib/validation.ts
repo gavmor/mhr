@@ -56,6 +56,7 @@ export const characterSchema = z.object({
   milestones: z.array(milestoneSchema)
 }).strict();
 
+export type StepDie = z.infer<typeof stepDieSchema>;
 export type Power = z.infer<typeof powerSchema>;
 export type SFX = z.infer<typeof sfxSchema>;
 export type PowerSet = z.infer<typeof powerSetSchema>;

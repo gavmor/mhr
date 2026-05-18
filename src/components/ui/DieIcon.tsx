@@ -1,12 +1,13 @@
 import React from 'react';
 import { Die } from './Dice';
 import { cn } from '@/lib/utils';
+import { StepDie } from '@/lib/validation';
 
-const diceTypes = ['4', '6', '8', '10', '12'];
+const diceTypes: StepDie[] = ['4', '6', '8', '10', '12'];
 
 interface DieIconProps {
-    value: string;
-    onChange?: (val: string) => void;
+    value: StepDie | string;
+    onChange?: (val: StepDie) => void;
     className?: string;
     size?: string;
     isReadOnly?: boolean;
@@ -26,7 +27,7 @@ export default function DieIcon({
             if (onTraitClick) onTraitClick();
             return;
         }
-        let currentIndex = diceTypes.indexOf(value);
+        let currentIndex = diceTypes.indexOf(value as StepDie);
         if (currentIndex === -1) currentIndex = 2; // Default to '8'
         const nextIndex = (currentIndex + 1) % diceTypes.length;
         if (onChange) onChange(diceTypes[nextIndex]);
