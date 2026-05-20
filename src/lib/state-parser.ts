@@ -27,7 +27,14 @@ export function decodeBase32(input: string): Uint8Array {
     let bits = 0;
     let value = 0;
     let index = 0;
-    const output = new Uint8Array(((cleanedInput.length * 5) / 8) | 0);
+    
+    // We only want the actual valid length
+    let validChars = 0;
+    for (let i = 0; i < cleanedInput.length; i++) {
+        if (ALPHABET.indexOf(cleanedInput[i]) !== -1) validChars++;
+    }
+    
+    const output = new Uint8Array(((validChars * 5) / 8) | 0);
 
     for (let i = 0; i < cleanedInput.length; i++) {
         const val = ALPHABET.indexOf(cleanedInput[i]);
