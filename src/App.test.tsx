@@ -1,5 +1,6 @@
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing';
 import App, { defaultState } from './App';
 import * as persistence from './lib/persistence';
 
@@ -25,7 +26,7 @@ describe('App persistence integration', () => {
         };
         (persistence.loadCharacterData as any).mockReturnValue(mockData);
 
-        render(<App />);
+        render(<App />, { wrapper: NuqsTestingAdapter });
 
         expect(persistence.loadCharacterData).toHaveBeenCalled();
         expect(screen.getByText('Persisted Hero')).toBeInTheDocument();
@@ -34,7 +35,7 @@ describe('App persistence integration', () => {
     it('saves data to localStorage when data changes', async () => {
         vi.useFakeTimers();
         (persistence.loadCharacterData as any).mockReturnValue(null);
-        render(<App />);
+        render(<App />, { wrapper: NuqsTestingAdapter });
 
         const heroNameView = screen.getByText('HERO NAME');
         fireEvent.click(heroNameView);
@@ -64,7 +65,7 @@ describe('App persistence integration', () => {
         };
         (persistence.loadCharacterData as any).mockReturnValue(modifiedState);
         
-        render(<App />);
+        render(<App />, { wrapper: NuqsTestingAdapter });
         
         const resetButton = screen.getByText('RESET DATA');
         fireEvent.click(resetButton);
@@ -102,7 +103,7 @@ describe('App game interactions', () => {
             },
         });
 
-        render(<App />);
+        render(<App />, { wrapper: NuqsTestingAdapter });
 
         // Click milestone trigger
         const xp3Trigger = screen.getByText('3 XP');
@@ -134,7 +135,7 @@ describe('App game interactions', () => {
             },
         });
 
-        render(<App />);
+        render(<App />, { wrapper: NuqsTestingAdapter });
 
         // Find hinder label
         const hinderTrigger = screen.getAllByText('HINDER (+1 PP)')[0];
