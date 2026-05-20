@@ -49,7 +49,7 @@ export function QRCodeUrl() {
           {expanded && <span className="font-comic-label font-bold text-xs uppercase leading-tight">Data Too Large For QR</span>}
         </div>
       }>
-        <QRCodeSVG value={url.toUpperCase()} width="100%" height="100%" level="L" />
+        <QRCodeSVG value={url} width="100%" height="100%" level="L" />
       </ErrorBoundary>
     </div>
   );

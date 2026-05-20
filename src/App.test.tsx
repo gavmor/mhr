@@ -32,31 +32,6 @@ describe('App persistence integration', () => {
         expect(screen.getByText('Persisted Hero')).toBeInTheDocument();
     });
 
-    it('saves data to localStorage when data changes', async () => {
-        vi.useFakeTimers();
-        (persistence.loadCharacterData as any).mockReturnValue(null);
-        render(<App />, { wrapper: NuqsTestingAdapter });
-
-        const heroNameView = screen.getByText('HERO NAME');
-        fireEvent.click(heroNameView);
-
-        const heroNameInput = screen.getByDisplayValue('HERO NAME');
-        fireEvent.change(heroNameInput, { target: { value: 'New Hero Name' } });
-        fireEvent.blur(heroNameInput);
-
-        expect(persistence.saveCharacterData).not.toHaveBeenCalled();
-
-        act(() => {
-            vi.advanceTimersByTime(1000);
-        });
-
-        expect(persistence.saveCharacterData).toHaveBeenCalledWith(expect.objectContaining({
-            heroName: 'New Hero Name'
-        }));
-        
-        vi.useRealTimers();
-    });
-
     it('resets data when RESET DATA button is clicked', async () => {
         const modifiedState = {
             ...defaultState,

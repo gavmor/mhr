@@ -8,7 +8,7 @@ import MilestonesSection from './components/character/MilestonesSection';
 import JsonModal from './components/JsonModal';
 import { Assembler } from './components/assembler/Assembler';
 import { BASE_CATEGORIES, TRAIT_CATEGORIES, Category } from './components/assembler/constants';
-import { loadCharacterData, saveCharacterData, clearCharacterData, loadMode, saveMode } from './lib/persistence';
+import { loadCharacterData, clearCharacterData, loadMode, saveMode } from './lib/persistence';
 import { cn } from './lib/utils';
 import { ComicButton } from './components/ui/ComicButton';
 import { generateXPCommand, generatePPCommand } from './lib/cortexPal';
@@ -72,7 +72,7 @@ function App() {
     const [data, setData] = useQueryState<CharacterData>('DATAFILE', parseAsCompressedJson<CharacterData>((val) => {
         const result = characterSchema.safeParse(val);
         return result.success ? result.data : null;
-    }).withDefault(loadCharacterData() || defaultState).withOptions({ throttleMs: 300 }));
+    }).withDefault(defaultState).withOptions({ throttleMs: 300 }));
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({});
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
@@ -134,13 +134,17 @@ function App() {
         saveMode(appMode);
     }, [appMode]);
 
-    // Save data on change (debounced)
+    // Migrate legacy local storage data to URL on initial load
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            saveCharacterData(data);
-        }, 1000); // 1s debounce
-        return () => clearTimeout(timeoutId);
-    }, [data]);
+        const legacyData = loadCharacterData();
+        if (legacyData) {
+            const hasUrlData = window.location.search.includes('DATAFILE=');
+            if (!hasUrlData) {
+                setData(legacyData);
+            }
+            clearCharacterData();
+        }
+    }, [setData]);
 
     const updateData = (updates: Partial<CharacterData>) => {
         setData(prev => ({ ...prev, ...updates }));
