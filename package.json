@@ -40,6 +40,7 @@
     "nuqs": "^2.8.9",
     "open-props": "^1.7.23",
     "prop-types": "^15.8.1",
+    "qrcode.react": "^4.2.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-easy-edit": "^2.0.0",

@@ -4,6 +4,7 @@ import { ComicButton } from '../ui/ComicButton';
 import { ValidationErrorBox } from './ValidationErrorBox';
 import { SchemaCopyLink } from './SchemaCopyLink';
 import { CopyDataButton } from './CopyDataButton';
+import { QRCodeUrl } from './QRCodeUrl';
 
 interface JsonModalProps {
   isOpen: boolean;
@@ -67,6 +68,7 @@ export default function JsonModal({ isOpen, onClose, data, onImport }: JsonModal
 
         <div className="relative flex-grow flex flex-col mb-6 group">
           <CopyDataButton data={jsonText} />
+          <QRCodeUrl />
           <textarea
             className="comic-textarea mb-0"
             value={jsonText}
