@@ -41,7 +41,7 @@ export function QRCodeUrl() {
       onClick={() => setExpanded(!expanded)}
       title="Click to expand/contract QR code"
     >
-      <QRCodeSVG value={url} width="100%" height="100%" level="M" />
+      <QRCodeSVG value={url.toUpperCase()} width="100%" height="100%" level="L" />
     </div>
   );
 }

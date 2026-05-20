@@ -69,7 +69,7 @@ interface ToastAction {
 function App() {
     const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
     const [appMode, setAppMode] = useState<'edit' | 'play'>(() => loadMode());
-    const [data, setData] = useQueryState<CharacterData>('datafile', parseAsCompressedJson<CharacterData>((val) => {
+    const [data, setData] = useQueryState<CharacterData>('DATAFILE', parseAsCompressedJson<CharacterData>((val) => {
         const result = characterSchema.safeParse(val);
         return result.success ? result.data : null;
     }).withDefault(loadCharacterData() || defaultState).withOptions({ throttleMs: 300 }));
