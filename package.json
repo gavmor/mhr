@@ -36,6 +36,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.14.0",
+    "lz-string": "^1.5.0",
+    "nuqs": "^2.8.9",
     "open-props": "^1.7.23",
     "prop-types": "^15.8.1",
     "react": "^19.2.6",

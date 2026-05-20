@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useQueryState } from 'nuqs';
+import { parseAsCompressedJson } from './lib/state-parser';
 import HeaderSection from './components/character/HeaderSection';
 import PowerSetsSection from './components/character/PowerSetsSection';
 import SpecsSection from './components/character/SpecsSection';
@@ -11,7 +13,7 @@ import { cn } from './lib/utils';
 import { ComicButton } from './components/ui/ComicButton';
 import { generateXPCommand, generatePPCommand } from './lib/cortexPal';
 
-import { CharacterDataValidation as CharacterData, Power, SFX, PowerSet, Specialty, Milestone } from './lib/validation';
+import { characterSchema, CharacterDataValidation as CharacterData, Power, SFX, PowerSet, Specialty, Milestone } from './lib/validation';
 
 export type { Power, SFX, PowerSet, Specialty, Milestone, CharacterData };
 
@@ -67,10 +69,10 @@ interface ToastAction {
 function App() {
     const [activeTab, setActiveTab] = useState<'character' | 'assembler'>('character');
     const [appMode, setAppMode] = useState<'edit' | 'play'>(() => loadMode());
-    const [data, setData] = useState<CharacterData>(() => {
-        const persisted = loadCharacterData();
-        return persisted || defaultState;
-    });
+    const [data, setData] = useQueryState<CharacterData>('datafile', parseAsCompressedJson<CharacterData>((val) => {
+        const result = characterSchema.safeParse(val);
+        return result.success ? result.data : null;
+    }).withDefault(loadCharacterData() || defaultState).withOptions({ throttleMs: 300 }));
     const [pool, setPool] = useState<Record<string, PoolDie[]>>({});
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
