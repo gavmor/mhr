@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { cn } from '../../lib/utils';
+import { ErrorBoundary } from '../ui/ErrorBoundary';
+import { AlertCircle } from 'lucide-react';
 
 export function QRCodeUrl() {
   const [expanded, setExpanded] = useState(false);
@@ -35,13 +37,20 @@ export function QRCodeUrl() {
   return (
     <div 
       className={cn(
-        "absolute right-3 bg-white border-2 border-black p-1 shadow-[2px_2px_0_0_#000] cursor-pointer transition-all duration-300 z-10",
+        "absolute right-3 bg-white border-2 border-black p-1 shadow-[2px_2px_0_0_#000] cursor-pointer transition-all duration-300 z-10 flex items-center justify-center overflow-hidden",
         expanded ? "top-14 w-64 h-64 p-3 shadow-[8px_8px_0_0_#000]" : "top-14 w-8 h-8 hover:bg-gray-100"
       )}
       onClick={() => setExpanded(!expanded)}
       title="Click to expand/contract QR code"
     >
-      <QRCodeSVG value={url.toUpperCase()} width="100%" height="100%" level="L" />
+      <ErrorBoundary fallback={
+        <div className="flex flex-col items-center justify-center text-center text-red-500 p-2">
+          <AlertCircle className="mb-2 w-full h-full max-w-[48px] max-h-[48px]" />
+          {expanded && <span className="font-comic-label font-bold text-xs uppercase leading-tight">Data Too Large For QR</span>}
+        </div>
+      }>
+        <QRCodeSVG value={url.toUpperCase()} width="100%" height="100%" level="L" />
+      </ErrorBoundary>
     </div>
   );
 }
